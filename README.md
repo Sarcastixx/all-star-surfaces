@@ -8,44 +8,44 @@ This is a **static site** (HTML, CSS, JS). No build step.
 
 ## Pages
 
-- `index.html` — Home (scrollable)
+- `index.html` — Home (scrollable). Recent jobs come from `data/jobs.json`.
 - `flooring.html` — Materials
 - `services.html` — Process
-- `portfolio.html` — Work
+- `portfolio.html` — All jobs from `data/jobs.json`
+- `remnants.html` — Shop-style remnant listings from `data/remnants.json` (inquire only, no cart)
 - `about.html` — Studio
 - `contact.html` — Phone / email
-- `quote.html` — Quote form (name, phone, email, second email)
+- `quote.html` — Quote form
 
-## How to edit (no terminal)
+## Easy weekly updates (no code)
 
-1. Open this repo on GitHub.
-2. Click a file (for example `index.html`).
-3. Click the pencil (Edit).
-4. Change the words or image URLs.
-5. Click **Commit changes**.
-6. If this repo is connected to Cloudflare Pages, the site updates in a minute or two.
+You only touch two files after photos are in place:
 
-### Change a photo
+1. **Remnants shop** → [data/remnants.json](data/remnants.json)
+2. **Recent jobs** → [data/jobs.json](data/jobs.json)
 
-Find a line that looks like:
+On GitHub: open the file → pencil (Edit) → change text → **Commit changes**.
+If this repo is connected to Cloudflare Pages, the live site updates in a minute or two.
 
-```html
-<img src="https://images.unsplash.com/...." alt="Kitchen">
-```
+### Add a remnant
 
-Replace the `src="..."` with your own photo URL.
+1. Upload a photo to `images/remnants/` (Add file → Upload).
+2. Copy one existing block in `data/remnants.json` and change the fields.
 
-### Change phone or email
+`status` can be `available`, `hold`, `sold`, or `hidden`.
 
-Search the files for `(206) 799-9881` and `hello@all-star-flooring.com`.
+### Add a recent job
+
+1. Upload a photo to `images/jobs/`.
+2. Add a block in `data/jobs.json`.
+3. Set `"featured": true` on up to 3 jobs to show them on the homepage.
+
+Keep a comma between items. Do not put a comma after the last item.
 
 ## Cloudflare Pages
 
-1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
+1. Workers & Pages → Create → Pages → Connect to Git.
 2. Pick `Sarcastixx/all-star-surfaces`.
-3. Framework preset: **None**.
-4. Build command: leave empty.
-5. Output directory: `/` (root).
-6. Deploy, then attach `www.all-star-flooring.com` under **Custom domains**.
-
-Turn **off** Cloudflare Access on the domain so visitors do not see a login screen.
+3. Framework preset: **None**. Build command empty. Output directory `/`.
+4. Attach `www.all-star-flooring.com` under Custom domains.
+5. Turn **off** Cloudflare Access so visitors do not see a login screen.
