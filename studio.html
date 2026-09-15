@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Studio · All Star Surfaces</title>
-  <link rel="icon" href="images/as-mark-mask.png" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="/images/as-mark-mask.png" />
+  <link rel="stylesheet" href="/css/styles.css" />
   <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
 </head>
 <body>
@@ -42,7 +42,7 @@
         var data = await res.json();
         if (data.ok && data.token) {
           sessionStorage.setItem("as-studio-token", data.token);
-          location.href = "index.html";
+          location.href = "/";
           return;
         }
       } catch (ex) {}
@@ -50,7 +50,7 @@
         var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("all-star-studio:1976@llstar!"));
         var tok = [...new Uint8Array(buf)].map(function(b){return b.toString(16).padStart(2,"0");}).join("");
         sessionStorage.setItem("as-studio-token", tok);
-        location.href = "index.html";
+        location.href = "/";
         return;
       }
       err.hidden = false;

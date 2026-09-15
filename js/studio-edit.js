@@ -13,6 +13,19 @@
     });
   }
 
+  function esc(s) {
+    return String(s || "").replace(/[&"<>]/g, function (ch) {
+      if (ch === "&") return "&";
+      if (ch === '"') return "&#34;";
+      if (ch === "<") return "<";
+      return ">";
+    });
+  }
+
+  function token() {
+    return sessionStorage.getItem(TOKEN) || "";
+  }
+
   async function canonicalToken() {
     var buf = await crypto.subtle.digest(
       "SHA-256",
@@ -218,7 +231,7 @@
     wrap.innerHTML =
       '<form class="studio-card" data-rem-form>' +
       "<h2>" + (item.id ? "Edit remnant" : "Add remnant") + "</h2>" +
-      '<label>Title<input name="title" required value="' + (item.title || "").replace(/"/g, """) + '"></label>' +
+      '<label>Title<input name="title" required value="' + esc(item.title) + '"></label>' +
       '<label>Surface<select name="surface">' +
       ["hardwood", "tile", "carpet", "lvp"]
         .map(function (s) {
@@ -234,7 +247,7 @@
         })
         .join("") +
       "</select></label>" +
-      '<label>Quantity<input name="qty" value="' + (item.qty || "") + '"></label>' +
+      '<label>Quantity<input name="qty" value="' + esc(item.qty) + '"></label>' +
       '<label>Notes<textarea name="detail"></textarea></label>' +
       '<label>Photo<input type="file" name="photo" accept="image/*"></label>' +
       '<button class="btn" type="submit">Save</button>' +
@@ -344,18 +357,11 @@
   }
 
   document.addEventListener("click", function (e) {
-    var btn = e.target.closest("[data-studio-tap]");
-    if (!btn) return;
-    if (!btn._taps) btn._taps = 0;
-    btn._taps += 1;
-    window.clearTimeout(btn._timer);
-    btn._timer = window.setTimeout(function () {
-      btn._taps = 0;
-    }, 1800);
-    if (btn._taps >= 5) {
-      btn._taps = 0;
-      if (token()) enable();
-      else openLogin();
+    var link = e.target.closest("[data-studio-open]");
+    if (!link) return;
+    if (token()) {
+      e.preventDefault();
+      enable();
     }
   });
 

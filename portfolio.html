@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="images/as-mark-mask.png" />
+  <link rel="icon" href="/images/as-mark-mask.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Portfolio · All Star Surfaces</title>
   <meta name="description" content="Selected All Star Surfaces installs. Updated from data/jobs.json." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="/css/styles.css" />
   <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.setAttribute("data-theme-pref",p);}catch(e){}})();</script>
 
   <script>(function(){try{var t=localStorage.getItem("as-theme");var d=t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
@@ -18,45 +18,45 @@
 <body>
   <header class="site-header">
     <div class="wrap nav">
-            <a class="logo" href="index.html" aria-label="All Star Surfaces home">
-        <img class="as-mark-img" src="images/as-mark-mask.png" alt="" />
+            <a class="logo" href="/" aria-label="All Star Surfaces home">
+        <img class="as-mark-img" src="/images/as-mark-mask.png" alt="" />
         <span class="brand-word"><span class="brand-all">ALL STAR</span><span class="brand-sub">Surfaces</span></span>
       </a>
       <ul class="nav-links">
-        <li><a class="nav-item" href="index.html">Home</a></li>
+        <li><a class="nav-item" href="/">Home</a></li>
         <li>
           <div class="svc" data-svc>
             <button class="nav-item is-on" type="button" data-svc-btn aria-haspopup="true" aria-expanded="false">Services ▾</button>
             <div class="svc-menu"><div class="svc-panel">
-              <a href="services.html">Services</a>
-              <a href="vendors.html">Vendors</a>
-              <a href="portfolio.html" class="is-active">Portfolio</a>
-              <a href="remnants.html">Remnants</a>
+              <a href="/services">Services</a>
+              <a href="/vendors">Vendors</a>
+              <a href="/portfolio" class="is-active">Portfolio</a>
+              <a href="/remnants">Remnants</a>
             </div></div>
           </div>
         </li>
-        <li><a class="nav-item" href="about.html">About Us</a></li>
-        <li><a class="nav-item" href="contact.html">Contact</a></li>
+        <li><a class="nav-item" href="/about">About Us</a></li>
+        <li><a class="nav-item" href="/contact">Contact</a></li>
       </ul>
       <div class="nav-end">
         <button class="icon-btn menu" data-menu type="button" aria-label="Open menu" aria-expanded="false">☰</button>
       </div>
     </div>
         <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
-      <a href="index.html">Home</a>
+      <a href="/">Home</a>
       <button type="button" class="icon-btn" data-mobile-svc style="width:100%;justify-content:space-between;border:0;border-radius:0;min-height:48px;background:transparent">Services <span>▾</span></button>
       <div class="mobile-svc" data-mobile-svc-panel>
-        <a href="services.html">Services</a>
-        <a href="vendors.html">Vendors</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="remnants.html">Remnants</a>
+        <a href="/services">Services</a>
+        <a href="/vendors">Vendors</a>
+        <a href="/portfolio">Portfolio</a>
+        <a href="/remnants">Remnants</a>
       </div>
-      <a href="about.html">About Us</a>
-      <a href="contact.html">Contact</a>
+      <a href="/about">About Us</a>
+      <a href="/contact">Contact</a>
     </nav>
   </header>
 
-  <a class="quote-fab" href="quote.html" data-quote-go aria-label="Get a quote"><span class="quote-fab-label">Get a quote</span></a>
+  <a class="quote-fab" href="/quote" data-quote-go aria-label="Get a quote"><span class="quote-fab-label">Get a quote</span></a>
   
 
   <main>
@@ -106,9 +106,10 @@
         <a href="mailto:Allstarseattle@gmail.com">Allstarseattle@gmail.com</a>
       </div>
       <div>
-        <a href="quote.html">Request a quote</a>
-        <a href="portfolio.html">See the work</a>
-        <button type="button" class="kicker" data-studio-tap style="background:none;border:0;padding:12px 0;text-align:left">© 2026 All Star</button>
+        <a href="/quote">Request a quote</a>
+        <a href="/portfolio">See the work</a>
+        <p class="kicker" style="margin:0">© 2026 All Star</p>
+        <a class="kicker" href="/studio" data-studio-open>Staff sign in</a>
       </div>
     </div>
     <div class="wrap" style="display:flex;justify-content:flex-end;padding:8px 0 16px">
@@ -119,9 +120,9 @@
     </div>
   </div>
   </footer>
-    <script src="js/theme.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/studio-edit.js"></script>
-  <script src="js/catalog.js"></script>
+    <script src="/js/theme.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/studio-edit.js"></script>
+  <script src="/js/catalog.js"></script>
 </body>
 </html>

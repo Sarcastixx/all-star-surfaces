@@ -30,7 +30,7 @@
     body.appendChild(el("h2", null, item.title || ""));
     if (item.detail || item.blurb) body.appendChild(el("p", { class: "lede" }, item.detail || item.blurb));
     var row = el("div", { class: "shop-row" });
-    var href = "quote.html?remnant=" + encodeURIComponent(item.id);
+    var href = "/quote?remnant=" + encodeURIComponent(item.id);
     row.appendChild(el("a", { class: "btn ghost", href: href }, "Inquire"));
     body.appendChild(row);
     card.appendChild(body);
@@ -41,7 +41,7 @@
     var caption = item.caption || item.title || "";
     var tag = asLink ? "a" : "article";
     var card = el(tag, { class: "shop-card job-card" });
-    if (asLink) card.setAttribute("href", "portfolio.html");
+    if (asLink) card.setAttribute("href", "/portfolio");
     var media = el("div", { class: "shop-media" });
     if (item.photo) media.appendChild(el("img", { src: item.photo, alt: caption }));
     card.appendChild(media);
