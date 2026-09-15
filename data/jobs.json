@@ -1,0 +1,66 @@
+{
+  "updated": "2026-09-15",
+  "note": "Edit this file to change Recent jobs / Portfolio. Set featured to true to show on the homepage (up to 3). Put photos in images/jobs/ then set photo to that path.",
+  "items": [
+    {
+      "id": "medina-oak",
+      "title": "Medina residence",
+      "material": "7\" white oak",
+      "location": "Medina",
+      "year": "2026",
+      "featured": true,
+      "photo": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
+      "blurb": "Wide plank throughout the main floor."
+    },
+    {
+      "id": "capitol-rift",
+      "title": "Capitol Hill remodel",
+      "material": "Rift oak",
+      "location": "Seattle",
+      "year": "2026",
+      "featured": true,
+      "photo": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
+      "blurb": "Kitchen and hall, dust-controlled install."
+    },
+    {
+      "id": "bothell-lime",
+      "title": "Bothell studio",
+      "material": "Honed limestone",
+      "location": "Bothell",
+      "year": "2025",
+      "featured": false,
+      "photo": "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=900&q=80",
+      "blurb": "Studio floor and hearth surround."
+    },
+    {
+      "id": "queen-anne-bath",
+      "title": "Queen Anne bath",
+      "material": "Porcelain",
+      "location": "Seattle",
+      "year": "2026",
+      "featured": true,
+      "photo": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80",
+      "blurb": "Large-format tile, heated floor."
+    },
+    {
+      "id": "kirkland-smoked",
+      "title": "Kirkland primary",
+      "material": "Smoked oak",
+      "location": "Kirkland",
+      "year": "2025",
+      "featured": false,
+      "photo": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80",
+      "blurb": "Bedroom and closet run."
+    },
+    {
+      "id": "georgetown-mineral",
+      "title": "Georgetown loft",
+      "material": "Mineral overlay",
+      "location": "Seattle",
+      "year": "2025",
+      "featured": false,
+      "photo": "https://images.unsplash.com/photo-1598300042247-d088f8ab3a25?auto=format&fit=crop&w=900&q=80",
+      "blurb": "Thin overlay over existing slab."
+    }
+  ]
+}

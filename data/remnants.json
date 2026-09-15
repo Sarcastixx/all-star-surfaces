@@ -1,0 +1,39 @@
+{
+  "updated": "2026-09-15",
+  "note": "Edit this file to change the Remnants shop. Set available to false to hide a piece. Put photos in images/remnants/ then set photo to that path.",
+  "items": [
+    {
+      "id": "oak-7-white",
+      "title": "7\" White Oak \u2014 short lot",
+      "material": "Hardwood",
+      "size": "~180 sq ft",
+      "finish": "Matte oil",
+      "price": "Ask",
+      "status": "available",
+      "photo": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&w=900&q=80",
+      "blurb": "Same mill as a recent Kirkland install. Enough for a powder room or hallway."
+    },
+    {
+      "id": "limestone-honed",
+      "title": "Honed limestone offcut",
+      "material": "Stone",
+      "size": "62\" \u00d7 28\" slab",
+      "finish": "Honed",
+      "price": "Ask",
+      "status": "available",
+      "photo": "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=900&q=80",
+      "blurb": "Large enough for a bath floor or a small island top."
+    },
+    {
+      "id": "porcelain-qa",
+      "title": "Large-format porcelain",
+      "material": "Tile",
+      "size": "~90 sq ft",
+      "finish": "Matte",
+      "price": "Ask",
+      "status": "hold",
+      "photo": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80",
+      "blurb": "Held 48 hours. Message if you want on the wait list."
+    }
+  ]
+}
