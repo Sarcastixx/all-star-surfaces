@@ -1,6 +1,8 @@
 name = "all-star-flooring"
 compatibility_date = "2026-09-15"
-pages_build_output_dir = "."
+
+[assets]
+directory = "."
 
 [observability]
 enabled = false
