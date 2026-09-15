@@ -1,4 +1,4 @@
-const PIN = "allstar";
+const PIN = "1976@llstar!";
 
 async function tokenFor(pin) {
   const buf = await crypto.subtle.digest(
@@ -69,6 +69,7 @@ export class CatalogDO {
     if (!Array.isArray(current.remnants)) current.remnants = [];
     if (!Array.isArray(current.jobs)) current.jobs = [];
     if (!current.photos) current.photos = {};
+    if (!current.copy) current.copy = {};
     if (path === "/api/remnant") {
       const item = body.item || {};
       if (!item.title) return json({ error: "Add a title" }, 400);
@@ -102,6 +103,16 @@ export class CatalogDO {
     if (path === "/api/photo") {
       if (!body.slot || !body.photo) return json({ error: "Add a photo" }, 400);
       current.photos[body.slot] = body.photo;
+      this.write(current);
+      return json({ ok: true });
+    }
+    if (path === "/api/photo/delete") {
+      delete current.photos[body.slot];
+      this.write(current);
+      return json({ ok: true });
+    }
+    if (path === "/api/copy") {
+      current.copy = body.copy || {};
       this.write(current);
       return json({ ok: true });
     }

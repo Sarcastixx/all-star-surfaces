@@ -37,13 +37,15 @@
     <div data-desk hidden>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin:24px 0;align-items:center;justify-content:space-between">
         <div style="display:flex;flex-wrap:wrap;gap:8px">
-          <button type="button" class="nav-item is-on" data-tab="remnants">Remnants</button>
+          <button type="button" class="nav-item is-on" data-tab="copy">Page text</button>
+          <button type="button" class="nav-item" data-tab="photos">Photos</button>
+          <button type="button" class="nav-item" data-tab="remnants">Remnants</button>
           <button type="button" class="nav-item" data-tab="jobs">Recent jobs</button>
-          <button type="button" class="nav-item" data-tab="photos">Homepage photos</button>
         </div>
         <button type="button" class="btn ghost" data-out>Sign out</button>
       </div>
-      <section data-pane="remnants"></section>
+      <section data-pane="copy"></section>
+      <section data-pane="remnants" hidden></section>
       <section data-pane="jobs" hidden></section>
       <section data-pane="photos" hidden></section>
     </div>

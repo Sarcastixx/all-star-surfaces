@@ -47,7 +47,7 @@
     var fileInput = form.querySelector('input[type=file]');
     var files = fileInput && fileInput.files ? Array.prototype.map.call(fileInput.files, function (f) { return f.name; }).join(", ") : "";
     var body = ["Name: " + name, "Phone: " + phone, "Email: " + email, alt ? "Second email: " + alt : "", "Project: " + type, lot ? "Remnant ID: " + lot : "", rooms ? "Rooms: " + rooms : "", timing ? "Timing: " + timing : "", sqft ? "Square footage: " + sqft : "", files ? "Attachments: " + files : "", "", notes].filter(Boolean).join("\n");
-    window.location.href = "mailto:hello@all-star-flooring.com?subject=" + encodeURIComponent("Quote request from " + name) + "&body=" + encodeURIComponent(body);
+    window.location.href = "mailto:Allstarseattle@gmail.com?subject=" + encodeURIComponent("Quote request from " + name) + "&body=" + encodeURIComponent(body);
     form.hidden = true;
     thanks.hidden = false;
     var who = thanks.querySelector("[data-who]");

@@ -98,8 +98,14 @@
 
   loadCatalog().then(function (data) {
     Object.keys(data.photos || {}).forEach(function (slot) {
+      if (slot === "hero") return;
       document.querySelectorAll('[data-slot="' + slot + '"]').forEach(function (img) {
         if (data.photos[slot]) img.setAttribute("src", data.photos[slot]);
+      });
+    });
+    Object.keys(data.copy || {}).forEach(function (k) {
+      document.querySelectorAll('[data-copy="' + k + '"]').forEach(function (el) {
+        if (data.copy[k]) el.textContent = data.copy[k];
       });
     });
 

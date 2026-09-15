@@ -7,11 +7,10 @@
     ["lvp", "LVP"]
   ];
   var SLOTS = [
-    ["hero", "Homepage hero"],
-    ["stone", "Homepage — stone tile"],
-    ["hardwood", "Homepage — hardwood tile"],
-    ["mineral", "Homepage — mineral tile"],
-    ["rooms", "Homepage — rooms tile"]
+    ["stone", "Stone tile on the home page — a room photo, not the logo"],
+    ["hardwood", "Hardwood tile on the home page"],
+    ["mineral", "Mineral tile on the home page"],
+    ["rooms", "Rooms tile on the home page"]
   ];
 
   function $(sel, root) { return (root || document).querySelector(sel); }
@@ -102,6 +101,7 @@
     var remnants = data.remnants || [];
     var jobs = data.jobs || [];
     var photos = data.photos || {};
+    var copy = data.copy || {};
 
     $("[data-pane=remnants]").innerHTML =
       '<div class="split">' +
@@ -155,12 +155,29 @@
         }).join("") + "</div></div>";
 
     $("[data-pane=photos]").innerHTML =
+      '<p class="lede">These four photos are the home tiles and also rotate in the banner. Do not upload the company logo here.</p>' +
       '<div class="cards cards-3">' + SLOTS.map(function (s) {
         var src = photos[s[0]] || "";
         return '<article class="card"><h3>' + s[1] + "</h3>" +
           (src ? '<img src="' + src + '" alt="" style="height:140px;width:100%;object-fit:cover;border-radius:18px;margin:8px 0">' : "") +
-          '<label>Replace photo<input type="file" accept="image/*" data-slot="' + s[0] + '"></label></article>';
+          '<label>Replace photo<input type="file" accept="image/*" data-slot="' + s[0] + '"></label>' +
+          '<button type="button" class="btn ghost" data-clear-slot="' + s[0] + '">Use default</button></article>';
       }).join("") + "</div>";
+
+    var paneCopy = $("[data-pane=copy]");
+    if (paneCopy) {
+      paneCopy.innerHTML =
+        '<form data-copy-form class="card form" style="padding:24px;max-width:40rem">' +
+          "<h2>Page text</h2>" +
+          "<p class='lede'>Change headlines without editing code.</p>" +
+          field("Home headline", '<input name="homeHeadline" value="' + (copy.homeHeadline || "").replace(/"/g, """) + '">') +
+          field("Home intro", '<textarea name="homeLede">' + (copy.homeLede || "") + "</textarea>") +
+          field("About title", '<input name="aboutTitle" value="' + (copy.aboutTitle || "").replace(/"/g, """) + '">') +
+          field("About intro", '<textarea name="aboutLede">' + (copy.aboutLede || "") + "</textarea>") +
+          field("Contact intro", '<textarea name="contactLede">' + (copy.contactLede || "") + "</textarea>") +
+          '<p data-copy-msg class="lede" hidden></p>' +
+          '<button class="btn" type="submit">Save text</button></form>';
+    }
 
     wire(data);
   }
@@ -266,6 +283,31 @@
         await render();
       });
     });
+    $$("[data-clear-slot]").forEach(function (btn) {
+      btn.addEventListener("click", async function () {
+        await api("/api/photo/delete", { token: token, slot: btn.getAttribute("data-clear-slot") });
+        await render();
+      });
+    });
+    var copyForm = $("[data-copy-form]");
+    if (copyForm) {
+      copyForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        await api("/api/copy", {
+          token: token,
+          copy: {
+            homeHeadline: copyForm.homeHeadline.value,
+            homeLede: copyForm.homeLede.value,
+            aboutTitle: copyForm.aboutTitle.value,
+            aboutLede: copyForm.aboutLede.value,
+            contactLede: copyForm.contactLede.value
+          }
+        });
+        var msg = $("[data-copy-msg]");
+        msg.hidden = false;
+        msg.textContent = "Saved.";
+      });
+    }
   }
 
   if (token) showDesk();
