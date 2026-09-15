@@ -81,3 +81,17 @@
     }
   });
 })();
+
+(function () {
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest("[data-quote-go]");
+    if (!a) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    e.preventDefault();
+    var burst = document.createElement("span");
+    burst.className = "quote-burst";
+    burst.setAttribute("aria-hidden", "true");
+    document.body.appendChild(burst);
+    window.setTimeout(function () { window.location.href = a.getAttribute("href"); }, 520);
+  });
+})();

@@ -2,20 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" href="images/as-mark.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Services · All Star Flooring</title>
-  <meta name="description" content="How All Star Flooring works from visit to install." />
+  <title>Services · All Star Surfaces</title>
+  <meta name="description" content="How All Star Surfaces works from visit to install." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <script>(function(){try{var t=localStorage.getItem("as-theme");var d=t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
+
 </head>
 <body>
   <header class="site-header">
     <div class="wrap nav">
-      <a class="logo nav-item" href="index.html" aria-label="All Star Flooring home">
-        <span class="mark">LS</span>
-        <span class="logo-word">All Star</span>
+      <a class="logo" href="index.html" aria-label="All Star Surfaces home">
+        <img class="brand-mark" src="images/as-mark.png" alt="" />
+        <span class="brand-word"><span class="brand-all">ALL STAR</span><span class="brand-sub">Surfaces</span></span>
       </a>
       <ul class="nav-links">
         <li><a class="nav-item" href="index.html">Home</a></li>
@@ -48,7 +51,8 @@
     </nav>
   </header>
 
-  <a class="quote-fab" href="quote.html" aria-label="Get a quote"><span class="quote-fab-short">Quote</span><span class="quote-fab-full">Get a quote →</span></a>
+  <a class="quote-fab" href="quote.html" data-quote-go aria-label="Get a quote"><span class="quote-fab-label">Get a quote</span></a>
+  <button type="button" class="theme-switch" data-theme-toggle>Dark</button>
 
   <main>
     <header class="wrap page-hero">
@@ -67,7 +71,7 @@
   <footer>
     <div class="wrap foot">
       <div>
-        <p style="font-family:var(--serif);font-size:24px;margin:0">All Star Flooring</p>
+        <p style="font-family:var(--serif);font-size:24px;margin:0">All Star Surfaces</p>
         <p style="color:var(--ink-soft);font-size:14px">Bothell · Lynnwood · greater Seattle</p>
       </div>
       <div>
@@ -81,6 +85,7 @@
       </div>
     </div>
   </footer>
+    <script src="js/theme.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
