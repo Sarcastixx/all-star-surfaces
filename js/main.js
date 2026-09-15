@@ -41,7 +41,12 @@
     var type = String(data.get("projectType") || "").trim();
     var lot = String(data.get("remnant") || "").trim();
     var notes = String(data.get("notes") || "").trim();
-    var body = ["Name: " + name, "Phone: " + phone, "Email: " + email, alt ? "Second email: " + alt : "", "Project: " + type, lot ? "Remnant ID: " + lot : "", "", notes].filter(Boolean).join("\n");
+    var rooms = String(data.get("rooms") || "").trim();
+    var timing = String(data.get("timing") || "").trim();
+    var sqft = String(data.get("sqft") || "").trim();
+    var fileInput = form.querySelector('input[type=file]');
+    var files = fileInput && fileInput.files ? Array.prototype.map.call(fileInput.files, function (f) { return f.name; }).join(", ") : "";
+    var body = ["Name: " + name, "Phone: " + phone, "Email: " + email, alt ? "Second email: " + alt : "", "Project: " + type, lot ? "Remnant ID: " + lot : "", rooms ? "Rooms: " + rooms : "", timing ? "Timing: " + timing : "", sqft ? "Square footage: " + sqft : "", files ? "Attachments: " + files : "", "", notes].filter(Boolean).join("\n");
     window.location.href = "mailto:hello@all-star-flooring.com?subject=" + encodeURIComponent("Quote request from " + name) + "&body=" + encodeURIComponent(body);
     form.hidden = true;
     thanks.hidden = false;

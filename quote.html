@@ -72,7 +72,13 @@
         </select>
       </label>
       <label>Remnant ID (if any)<input name="remnant" placeholder="from remnants page"></label>
-      <label>Rooms, timing, square footage<textarea name="notes"></textarea></label>
+      <label>Rooms<input name="rooms" placeholder="Kitchen, hall, primary bath…"></label>
+      <div style="display:grid;gap:14px;grid-template-columns:1fr 1fr">
+        <label>Timing<input name="timing" placeholder="This month, spring…"></label>
+        <label>Square footage<input name="sqft" placeholder="e.g. 850"></label>
+      </div>
+      <label>Additional information<textarea name="notes" placeholder="Pets, stairs, existing floor, access…"></textarea></label>
+      <label>Photos or plans<input type="file" name="files" accept="image/*,.pdf" multiple></label>
       <button class="btn" type="submit">Send request</button>
     </form>
     <div class="wrap thanks" data-thanks hidden>
