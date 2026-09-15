@@ -52,9 +52,16 @@
 
   <main>
     <section class="wrap" style="padding-top:16px">
-      <div class="hero-frame">
-        <img data-slot="hero" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80" alt="Sunlit room with newly installed oak floors" />
-        <aside class="quote-card">
+      <div class="hero-frame reveal">
+        <div class="hero-rotator" data-hero>
+          <img class="hero-slide is-active" data-slot="hero" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80" alt="Sunlit room with newly installed oak floors" />
+          <img class="hero-slide" data-slot="stone" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1800&q=80" alt="Stone floors" />
+          <img class="hero-slide" data-slot="hardwood" src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&w=1800&q=80" alt="Hardwood floors" />
+          <img class="hero-slide" data-slot="mineral" src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a25?auto=format&fit=crop&w=1800&q=80" alt="Mineral floors" />
+          <img class="hero-slide" data-slot="rooms" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=1800&q=80" alt="Finished rooms" />
+          <div class="hero-dots" data-hero-dots></div>
+        </div>
+        <aside class="quote-card float-card">
           <h1>ALL<br>STAR</h1>
           <a class="btn ghost" href="quote.html">Get a quote →</a>
         </aside>
@@ -124,6 +131,7 @@
     </div>
   </footer>
   <script src="js/main.js"></script>
+  <script src="js/hero.js"></script>
   <script src="js/catalog.js"></script>
 </body>
 </html>
