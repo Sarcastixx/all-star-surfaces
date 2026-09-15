@@ -49,3 +49,19 @@
     if (who) who.textContent = name.split(" ")[0] || "";
   });
 })();
+
+(function () {
+  var bar = document.querySelector("[data-filters]");
+  if (!bar) return;
+  bar.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-filter]");
+    if (!btn) return;
+    var id = btn.getAttribute("data-filter");
+    bar.querySelectorAll("[data-filter]").forEach(function (b) {
+      b.classList.toggle("is-on", b === btn);
+    });
+    document.querySelectorAll("[data-group]").forEach(function (g) {
+      g.style.display = id === "all" || g.getAttribute("data-group") === id ? "" : "none";
+    });
+  });
+})();
