@@ -13,31 +13,38 @@
 <body>
   <header class="site-header">
     <div class="wrap nav">
-      <a class="logo" href="index.html" aria-label="All Star Flooring home">
+      <a class="logo nav-item" href="index.html" aria-label="All Star Flooring home">
         <span class="mark">LS</span>
         <span class="logo-word">All Star</span>
       </a>
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="flooring.html">Flooring</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="portfolio.html">Portfolio</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html" class="is-active">Contact</a></li>
+        <li><a class="nav-item" href="index.html">Home</a></li>
+        <li>
+          <div class="svc" data-svc>
+            <button class="nav-item" type="button" data-svc-btn aria-haspopup="true" aria-expanded="false">Services ▾</button>
+            <div class="svc-menu"><div class="svc-panel">
+              <a href="services.html">Services</a>
+              <a href="vendors.html">Vendors</a>
+              <a href="portfolio.html">Portfolio</a>
+              <a href="remnants.html">Remnants</a>
+            </div></div>
+          </div>
+        </li>
+        <li><a class="nav-item" href="about.html">About Us</a></li>
+        <li><a class="nav-item" href="contact.html">Contact</a></li>
       </ul>
       <div class="nav-end">
-        <a class="btn" href="quote.html">Get a quote</a>
         <button class="icon-btn menu" data-menu type="button" aria-label="Open menu" aria-expanded="false">☰</button>
       </div>
     </div>
     <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
       <a href="index.html">Home</a>
-      <a href="flooring.html">Flooring</a>
       <a href="services.html">Services</a>
+      <a href="vendors.html">Vendors</a>
       <a href="portfolio.html">Portfolio</a>
-      <a href="about.html">About</a>
+      <a href="remnants.html">Remnants</a>
+      <a href="about.html">About Us</a>
       <a href="contact.html">Contact</a>
-      <a class="btn" href="quote.html">Get a quote</a>
     </nav>
   </header>
 
