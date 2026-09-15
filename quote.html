@@ -52,7 +52,7 @@
     <header class="wrap page-hero">
       <p class="kicker">Quote</p>
       <h1>Tell us about the rooms.</h1>
-      <p class="lede">Name, phone, and email are enough. Second email is optional.</p>
+      <p class="lede">Name, phone, and email are enough. Coming from remnants? The lot ID is filled in for you.</p>
     </header>
     <form class="wrap form" data-quote-form>
       <label>Full name *<input name="name" required autocomplete="name"></label>
@@ -64,9 +64,11 @@
           <option>Hardwood install</option>
           <option>Stone or tile</option>
           <option>Refinish</option>
+          <option>Remnant inquiry</option>
           <option>Not sure yet</option>
         </select>
       </label>
+      <label>Remnant ID (if any)<input name="remnant" placeholder="from remnants page"></label>
       <label>Rooms, timing, square footage<textarea name="notes"></textarea></label>
       <button class="btn" type="submit">Send request</button>
     </form>
