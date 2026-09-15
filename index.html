@@ -2,22 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="images/as-mark.png" />
+  <link rel="icon" href="images/as-mark-mask.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home · All Star Surfaces</title>
   <meta name="description" content="Hardwood, stone, and tile installed across the greater Seattle area." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.setAttribute("data-theme-pref",p);}catch(e){}})();</script>
+
   <script>(function(){try{var t=localStorage.getItem("as-theme");var d=t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
 
 </head>
 <body>
   <header class="site-header">
     <div class="wrap nav">
-      <a class="logo" href="index.html" aria-label="All Star Surfaces home">
-        <img class="brand-mark" src="images/as-mark.png" alt="" />
+            <a class="logo" href="index.html" aria-label="All Star Surfaces home">
+        <img class="as-mark-img" src="images/as-mark-mask.png" alt="" />
         <span class="brand-word"><span class="brand-all">ALL STAR</span><span class="brand-sub">Surfaces</span></span>
       </a>
       <ul class="nav-links">
@@ -40,23 +42,26 @@
         <button class="icon-btn menu" data-menu type="button" aria-label="Open menu" aria-expanded="false">☰</button>
       </div>
     </div>
-    <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
+        <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
       <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="vendors.html">Vendors</a>
-      <a href="portfolio.html">Portfolio</a>
-      <a href="remnants.html">Remnants</a>
+      <button type="button" class="icon-btn" data-mobile-svc style="width:100%;justify-content:space-between;border:0;border-radius:0;min-height:48px;background:transparent">Services <span>▾</span></button>
+      <div class="mobile-svc" data-mobile-svc-panel>
+        <a href="services.html">Services</a>
+        <a href="vendors.html">Vendors</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="remnants.html">Remnants</a>
+      </div>
       <a href="about.html">About Us</a>
       <a href="contact.html">Contact</a>
     </nav>
   </header>
 
   <a class="quote-fab" href="quote.html" data-quote-go aria-label="Get a quote"><span class="quote-fab-label">Get a quote</span></a>
-  <button type="button" class="theme-switch" data-theme-toggle>Dark</button>
+  
 
   <main>
     <section class="wrap" style="padding-top:16px">
-      <div class="hero-frame reveal">
+      <div class="hero-shell reveal"><div class="hero-frame">
         <div class="hero-rotator" data-hero>
           <img class="hero-slide is-active" data-slot="hero" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80" alt="Sunlit room with newly installed oak floors" />
           <img class="hero-slide" data-slot="stone" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1800&q=80" alt="Stone floors" />
@@ -64,12 +69,13 @@
           <img class="hero-slide" data-slot="mineral" src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a25?auto=format&fit=crop&w=1800&q=80" alt="Mineral floors" />
           <img class="hero-slide" data-slot="rooms" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=1800&q=80" alt="Finished rooms" />
           <div class="hero-dots" data-hero-dots></div>
+          <span class="star-dust" aria-hidden="true"></span>
         </div>
-        <aside class="quote-card float-card">
+        <aside class="quote-card">
           <h1>ALL STAR<br><span style="display:block;font-size:11px;letter-spacing:0.32em;margin-top:6px">SURFACES</span></h1>
-          <a class="btn ghost" href="quote.html">Get a quote →</a>
+          <a class="quote-card-btn" href="quote.html" data-quote-go>Get a quote <span aria-hidden="true">→</span></a>
         </aside>
-      </div>
+      </div></div>
     </section>
     <section class="wrap grid-4">
       <a class="tile" href="flooring.html"><img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80" data-slot="stone" alt="Stone"><span>Stone</span></a>
@@ -124,8 +130,19 @@
         <p style="color:var(--ink-soft);font-size:14px">Bothell · Lynnwood · greater Seattle</p>
       </div>
       <div>
+        <a href="https://maps.google.com/?q=18000+Hwy+99+Lynnwood+WA+98037" target="_blank" rel="noreferrer">18000 Hwy 99, Lynnwood, WA 98037</a>
         <a href="tel:+12067999881">(206) 799-9881</a>
         <a href="mailto:hello@all-star-flooring.com">hello@all-star-flooring.com</a>
+      </div>
+      <div class="foot-nav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="vendors.html">Vendors</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="remnants.html">Remnants</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="quote.html">Quote</a>
       </div>
       <div>
         <a href="quote.html">Request a quote</a>
@@ -133,6 +150,13 @@
         <button type="button" class="kicker" data-studio-tap style="background:none;border:0;padding:12px 0;text-align:left">© 2026 All Star</button>
       </div>
     </div>
+    <div class="wrap" style="display:flex;justify-content:flex-end;padding:8px 0 16px">
+    <div class="theme-bar" role="group" aria-label="Color mode">
+      <button type="button" data-theme-pref="auto">Auto</button>
+      <button type="button" data-theme-pref="light">Light</button>
+      <button type="button" data-theme-pref="dark">Dark</button>
+    </div>
+  </div>
   </footer>
     <script src="js/theme.js"></script>
   <script src="js/main.js"></script>

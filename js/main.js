@@ -93,10 +93,17 @@
     if (!a) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     e.preventDefault();
-    var burst = document.createElement("span");
-    burst.className = "quote-burst";
-    burst.setAttribute("aria-hidden", "true");
-    document.body.appendChild(burst);
-    window.setTimeout(function () { window.location.href = a.getAttribute("href"); }, 520);
+    document.documentElement.classList.add("quote-covering");
+    sessionStorage.setItem("as-quote-veil", "1");
+    window.setTimeout(function () { window.location.href = a.getAttribute("href"); }, 380);
+  });
+})();
+
+(function () {
+  var btn = document.querySelector("[data-mobile-svc]");
+  var panel = document.querySelector("[data-mobile-svc-panel]");
+  if (!btn || !panel) return;
+  btn.addEventListener("click", function () {
+    panel.classList.toggle("open");
   });
 })();
