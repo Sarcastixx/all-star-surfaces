@@ -278,3 +278,5 @@ h1,h2,h3 { font-family: var(--serif); }
 .quote-water.is-out .quote-water-drop { transform: scale(var(--quote-scale)); animation: waterFade 460ms ease forwards; }
 @keyframes waterFill { from { transform:scale(1); } to { transform:scale(var(--quote-scale)); } }
 @keyframes waterFade { to { opacity:0; } }
+
+.quote-veil { position:fixed; inset:0; z-index:90; background:var(--ink); animation: waterFade 460ms ease forwards; pointer-events:none; }
