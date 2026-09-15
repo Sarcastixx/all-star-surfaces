@@ -1,4 +1,10 @@
 const PIN = "1976@llstar!";
+const PINS = ["1976@llstar!", "1976@llstar", "allstar"];
+
+function pinOk(pin) {
+  const p = String(pin || "").trim().replace(/\s+/g, "");
+  return PINS.some((x) => x.toLowerCase() === p.toLowerCase());
+}
 
 async function tokenFor(pin) {
   const buf = await crypto.subtle.digest(
@@ -66,7 +72,7 @@ export class CatalogDO {
       return json({ error: "Bad request" }, 400);
     }
     if (path === "/api/login") {
-      const ok = (await tokenFor(body.pin)) === (await tokenFor(PIN));
+      const ok = pinOk(body.pin);
       if (!ok) return json({ ok: false }, 401);
       return json({ ok: true, token: await tokenFor(PIN) });
     }
@@ -175,7 +181,7 @@ export class CatalogDO {
       return json({ ok: true });
     }
     if (path === "/api/copy") {
-      current.copy = body.copy || {};
+      current.copy = Object.assign({}, current.copy || {}, body.copy || {});
       this.write(current);
       return json({ ok: true });
     }

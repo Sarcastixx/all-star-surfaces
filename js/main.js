@@ -82,21 +82,6 @@
   });
 })();
 
-(function () {
-  var taps = 0;
-  var timer = 0;
-  document.addEventListener("click", function (e) {
-    var btn = e.target.closest("[data-studio-tap]");
-    if (!btn) return;
-    taps += 1;
-    window.clearTimeout(timer);
-    timer = window.setTimeout(function () { taps = 0; }, 1800);
-    if (taps >= 5) {
-      taps = 0;
-      window.location.href = "studio.html";
-    }
-  });
-})();
 
 (function () {
   document.addEventListener("click", function (e) {

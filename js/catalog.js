@@ -140,5 +140,6 @@
       if (featuredOnly) jobs = jobs.filter(function (i) { return i.featured !== false; }).slice(0, 3);
       mount("[data-jobs]", jobs.map(function (i) { return jobCard(i, featuredOnly); }));
     }
+    document.dispatchEvent(new Event("as-catalog-ready"));
   });
 })();
