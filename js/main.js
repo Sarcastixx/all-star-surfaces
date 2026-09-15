@@ -93,9 +93,32 @@
     if (!a) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     e.preventDefault();
-    document.documentElement.classList.add("quote-covering");
+    var r = a.getBoundingClientRect();
+    var x = r.left + r.width / 2;
+    var y = r.top + r.height / 2;
+    var size = Math.max(r.width, r.height);
+    var reach = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    var scale = (reach / (size / 2)) * 1.2;
+    var wrap = document.createElement("div");
+    wrap.className = "quote-water is-in";
+    wrap.setAttribute("aria-hidden", "true");
+    function drop(extra) {
+      var s = document.createElement("span");
+      s.className = "quote-water-drop" + (extra || "");
+      s.style.left = x + "px";
+      s.style.top = y + "px";
+      s.style.width = size + "px";
+      s.style.height = size + "px";
+      s.style.marginLeft = -size / 2 + "px";
+      s.style.marginTop = -size / 2 + "px";
+      s.style.setProperty("--quote-scale", String(scale));
+      wrap.appendChild(s);
+    }
+    drop(" quote-water-drop-2");
+    drop("");
+    document.body.appendChild(wrap);
     sessionStorage.setItem("as-quote-veil", "1");
-    window.setTimeout(function () { window.location.href = a.getAttribute("href"); }, 380);
+    window.setTimeout(function () { window.location.href = a.getAttribute("href"); }, 640);
   });
 })();
 

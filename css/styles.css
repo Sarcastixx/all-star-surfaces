@@ -270,3 +270,11 @@ h1,h2,h3 { font-family: var(--serif); }
 .mobile-svc { display:none; }
 .mobile-svc.open { display:block; }
 .star-dust { position:absolute; inset:0; z-index:2; pointer-events:none; background-image: radial-gradient(1.4px 1.4px at 12% 18%, rgb(246 241 232 / .7) 40%, transparent 41%), radial-gradient(1.2px 1.2px at 80% 24%, rgb(246 241 232 / .4) 40%, transparent 41%); }
+
+.quote-water { position:fixed; inset:0; z-index:90; pointer-events:none; }
+.quote-water-drop { position:fixed; border-radius:50%; background:var(--ink); transform:scale(1); will-change:transform,opacity; }
+.quote-water.is-in .quote-water-drop { animation: waterFill 720ms cubic-bezier(.22,1,.36,1) forwards; }
+.quote-water.is-in .quote-water-drop-2 { background: color-mix(in srgb, var(--ink) 70%, var(--bg)); animation-delay:70ms; animation-duration:780ms; }
+.quote-water.is-out .quote-water-drop { transform: scale(var(--quote-scale)); animation: waterFade 460ms ease forwards; }
+@keyframes waterFill { from { transform:scale(1); } to { transform:scale(var(--quote-scale)); } }
+@keyframes waterFade { to { opacity:0; } }
