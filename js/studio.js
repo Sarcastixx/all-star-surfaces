@@ -175,6 +175,7 @@
           field("About title", '<input name="aboutTitle" value="' + (copy.aboutTitle || "").replace(/"/g, """) + '">') +
           field("About intro", '<textarea name="aboutLede">' + (copy.aboutLede || "") + "</textarea>") +
           field("Contact intro", '<textarea name="contactLede">' + (copy.contactLede || "") + "</textarea>") +
+          field("Google Sheet webhook (optional)", '<input name="sheetWebhook" placeholder="https://script.google.com/macros/s/…/exec" value="' + (copy.sheetWebhook || "").replace(/"/g, """) + '">') +
           '<p data-copy-msg class="lede" hidden></p>' +
           '<button class="btn" type="submit">Save text</button></form>';
     }
@@ -300,7 +301,8 @@
             homeLede: copyForm.homeLede.value,
             aboutTitle: copyForm.aboutTitle.value,
             aboutLede: copyForm.aboutLede.value,
-            contactLede: copyForm.contactLede.value
+            contactLede: copyForm.contactLede.value,
+            sheetWebhook: copyForm.sheetWebhook.value
           }
         });
         var msg = $("[data-copy-msg]");

@@ -66,29 +66,45 @@
       <label>Full name *<input name="name" required autocomplete="name"></label>
       <label>Phone number *<input name="phone" type="tel" required autocomplete="tel"></label>
       <label>Email *<input name="email" type="email" required autocomplete="email"></label>
-      <label>Second email (optional)<input name="altEmail" type="email" autocomplete="email"></label>
       <label>Project type
         <select name="projectType">
           <option>Hardwood install</option>
           <option>Stone or tile</option>
+          <option>LVP / vinyl</option>
+          <option>Carpet</option>
           <option>Refinish</option>
           <option>Remnant inquiry</option>
           <option>Not sure yet</option>
         </select>
       </label>
       <label>Remnant ID (if any)<input name="remnant" placeholder="from remnants page"></label>
-      <label>Rooms<input name="rooms" placeholder="Kitchen, hall, primary bath…"></label>
+      <label>Rooms
+        <select name="rooms">
+          <option value="">Select…</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8</option>
+          <option>9+</option>
+          <option>Full house</option>
+          <option>Not sure yet</option>
+        </select>
+      </label>
       <div style="display:grid;gap:14px;grid-template-columns:1fr 1fr">
-        <label>Timing<input name="timing" placeholder="This month, spring…"></label>
-        <label>Square footage<input name="sqft" placeholder="e.g. 850"></label>
+        <label>Timing (optional)<input name="timing" placeholder="This month, spring…"></label>
+        <label>Square footage (optional)<input name="sqft" placeholder="e.g. 850"></label>
       </div>
       <label>Additional information<textarea name="notes" placeholder="Pets, stairs, existing floor, access…"></textarea></label>
-      <label>Photos or plans<input type="file" name="files" accept="image/*,.pdf" multiple></label>
+      <label>Photos or plans (optional)<input type="file" name="files" accept="image/*,.pdf" multiple></label>
       <button class="btn" type="submit">Send request</button>
     </form>
     <div class="wrap thanks" data-thanks hidden>
       <h2>We have your request.</h2>
-      <p class="lede">Thanks <span data-who></span>. Your email app will open so you can send the details.</p>
+      <p class="lede">Thanks <span data-who></span>. We’ll email you back from Allstarseattle@gmail.com.</p>
     </div>
   </main>
 

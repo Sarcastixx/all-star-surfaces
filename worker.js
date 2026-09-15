@@ -48,8 +48,15 @@ export class CatalogDO {
     const url = new URL(request.url);
     const path = url.pathname;
     if (request.method === "GET" && path === "/api/catalog") {
-      const stored = this.read();
-      return json(stored || { remnants: [], jobs: [], photos: {} });
+      const stored = this.read() || { remnants: [], jobs: [], photos: {}, copy: {} };
+      const copy = Object.assign({}, stored.copy || {});
+      delete copy.sheetWebhook;
+      return json({
+        remnants: stored.remnants || [],
+        jobs: stored.jobs || [],
+        photos: stored.photos || {},
+        copy: copy,
+      });
     }
     if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
     let body = {};
@@ -63,6 +70,61 @@ export class CatalogDO {
       if (!ok) return json({ ok: false }, 401);
       return json({ ok: true, token: await tokenFor(PIN) });
     }
+    if (path === "/api/quote") {
+      const current = this.read() || { remnants: [], jobs: [], photos: {}, copy: {}, quotes: [] };
+      if (!Array.isArray(current.quotes)) current.quotes = [];
+      if (!current.copy) current.copy = {};
+      const item = {
+        at: new Date().toISOString(),
+        name: String(body.name || "").trim(),
+        phone: String(body.phone || "").trim(),
+        email: String(body.email || "").trim(),
+        projectType: String(body.projectType || "").trim(),
+        rooms: String(body.rooms || "").trim(),
+        timing: String(body.timing || "").trim(),
+        sqft: String(body.sqft || "").trim(),
+        notes: String(body.notes || "").trim(),
+        remnant: String(body.remnant || "").trim(),
+      };
+      if (!item.name || !item.phone || !item.email) {
+        return json({ error: "Name, phone, and email are required" }, 400);
+      }
+      current.quotes.unshift(item);
+      current.quotes = current.quotes.slice(0, 200);
+      this.write(current);
+      const sheet = current.copy && current.copy.sheetWebhook;
+      const jobs = [
+        fetch("https://formsubmit.co/ajax/Allstarseattle@gmail.com", {
+          method: "POST",
+          headers: { "content-type": "application/json", accept: "application/json" },
+          body: JSON.stringify({
+            _subject: "Quote request from " + item.name,
+            _template: "table",
+            _captcha: "false",
+            Name: item.name,
+            Phone: item.phone,
+            Email: item.email,
+            Project: item.projectType,
+            Rooms: item.rooms,
+            Timing: item.timing,
+            "Square footage": item.sqft,
+            Remnant: item.remnant,
+            Notes: item.notes,
+          }),
+        }).catch(() => null),
+      ];
+      if (sheet) {
+        jobs.push(
+          fetch(sheet, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(item),
+          }).catch(() => null),
+        );
+      }
+      await Promise.all(jobs);
+      return json({ ok: true });
+    }
     const expected = await tokenFor(PIN);
     if (body.token !== expected) return json({ error: "Studio login required" }, 401);
     const current = this.read() || { remnants: [], jobs: [], photos: {} };
@@ -70,6 +132,7 @@ export class CatalogDO {
     if (!Array.isArray(current.jobs)) current.jobs = [];
     if (!current.photos) current.photos = {};
     if (!current.copy) current.copy = {};
+    if (!Array.isArray(current.quotes)) current.quotes = [];
     if (path === "/api/remnant") {
       const item = body.item || {};
       if (!item.title) return json({ error: "Add a title" }, 400);

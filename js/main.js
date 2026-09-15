@@ -34,24 +34,35 @@
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var data = new FormData(form);
-    var name = String(data.get("name") || "").trim();
-    var phone = String(data.get("phone") || "").trim();
-    var email = String(data.get("email") || "").trim();
-    var alt = String(data.get("altEmail") || "").trim();
-    var type = String(data.get("projectType") || "").trim();
-    var lot = String(data.get("remnant") || "").trim();
-    var notes = String(data.get("notes") || "").trim();
-    var rooms = String(data.get("rooms") || "").trim();
-    var timing = String(data.get("timing") || "").trim();
-    var sqft = String(data.get("sqft") || "").trim();
-    var fileInput = form.querySelector('input[type=file]');
-    var files = fileInput && fileInput.files ? Array.prototype.map.call(fileInput.files, function (f) { return f.name; }).join(", ") : "";
-    var body = ["Name: " + name, "Phone: " + phone, "Email: " + email, alt ? "Second email: " + alt : "", "Project: " + type, lot ? "Remnant ID: " + lot : "", rooms ? "Rooms: " + rooms : "", timing ? "Timing: " + timing : "", sqft ? "Square footage: " + sqft : "", files ? "Attachments: " + files : "", "", notes].filter(Boolean).join("\n");
-    window.location.href = "mailto:Allstarseattle@gmail.com?subject=" + encodeURIComponent("Quote request from " + name) + "&body=" + encodeURIComponent(body);
-    form.hidden = true;
-    thanks.hidden = false;
-    var who = thanks.querySelector("[data-who]");
-    if (who) who.textContent = name.split(" ")[0] || "";
+    var payload = {
+      name: String(data.get("name") || "").trim(),
+      phone: String(data.get("phone") || "").trim(),
+      email: String(data.get("email") || "").trim(),
+      projectType: String(data.get("projectType") || "").trim(),
+      remnant: String(data.get("remnant") || "").trim(),
+      rooms: String(data.get("rooms") || "").trim(),
+      timing: String(data.get("timing") || "").trim(),
+      sqft: String(data.get("sqft") || "").trim(),
+      notes: String(data.get("notes") || "").trim()
+    };
+    var btn = form.querySelector("button[type=submit]");
+    if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+    fetch("/api/quote", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      if (!res.ok) throw new Error("send");
+      form.hidden = true;
+      thanks.hidden = false;
+      var who = thanks.querySelector("[data-who]");
+      if (who) who.textContent = payload.name.split(" ")[0] || "";
+    }).catch(function () {
+      var body = ["Name: " + payload.name, "Phone: " + payload.phone, "Email: " + payload.email, "Project: " + payload.projectType, payload.rooms ? "Rooms: " + payload.rooms : "", payload.timing ? "Timing: " + payload.timing : "", payload.sqft ? "Square footage: " + payload.sqft : "", "", payload.notes].filter(Boolean).join("\n");
+      window.location.href = "mailto:Allstarseattle@gmail.com?subject=" + encodeURIComponent("Quote request from " + payload.name) + "&body=" + encodeURIComponent(body);
+      form.hidden = true;
+      thanks.hidden = false;
+    });
   });
 })();
 
