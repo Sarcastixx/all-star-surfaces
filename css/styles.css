@@ -324,3 +324,17 @@ h1,h2,h3 { font-family: var(--serif); }
 .coverage-blob { fill: color-mix(in srgb, var(--ink) 10%, var(--cream)); stroke: var(--line); }
 .coverage-dot { fill: var(--ink); }
 .coverage-label { font-size:11px; fill: var(--ink); }
+
+.coverage-panel { position: relative; overflow: hidden; }
+.wa-land { fill: color-mix(in srgb, var(--ink) 12%, var(--cream)); stroke: var(--line); stroke-width: 1.2; }
+.wa-water { fill: var(--bg); }
+.wa-service { fill: color-mix(in srgb, var(--ink) 18%, transparent); stroke: color-mix(in srgb, var(--ink) 35%, transparent); }
+.wa-title { fill: var(--muted); font-size: 13px; letter-spacing: 0.28em; }
+.vendor-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; margin-top:20px; }
+@media (min-width:700px){ .vendor-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+@media (min-width:1000px){ .vendor-grid { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+.vendor-card { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; min-height:128px; padding:16px 12px; border-radius:20px; background:var(--cream); border:1px solid var(--line); text-align:center; }
+.vendor-card img { width:48px; height:48px; object-fit:contain; }
+.vendor-card span { font-size:13px; }
+.vendor-card.is-hide { display:none; }
+.vendor-search { max-width:28rem; margin: 0 auto 8px; }

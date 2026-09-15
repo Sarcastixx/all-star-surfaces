@@ -141,3 +141,21 @@
     panel.classList.toggle("open");
   });
 })();
+
+(function () {
+  var input = document.querySelector("[data-vendor-q]");
+  var grid = document.querySelector("[data-vendor-grid]");
+  var empty = document.querySelector("[data-vendor-empty]");
+  if (!input || !grid) return;
+  var cards = grid.querySelectorAll("[data-vendor]");
+  input.addEventListener("input", function () {
+    var q = input.value.trim().toLowerCase();
+    var n = 0;
+    cards.forEach(function (c) {
+      var show = !q || (c.getAttribute("data-vendor") || "").indexOf(q) >= 0;
+      c.classList.toggle("is-hide", !show);
+      if (show) n += 1;
+    });
+    if (empty) empty.hidden = n > 0;
+  });
+})();
