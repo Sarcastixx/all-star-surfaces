@@ -54,8 +54,15 @@
     <header class="wrap page-hero">
       <p class="kicker">Services · Remnants</p>
       <h1>On the rack this week.</h1>
-      <p class="lede">Leftover planks and slabs from recent jobs. Looks like a shop — you inquire, we hold the lot. No cart, no checkout.</p>
+      <p class="lede">Filter by Hardwood, Tile, Carpet, or LVP. Inquire to hold a lot — no cart, no checkout.</p>
     </header>
+    <div class="wrap" data-filters style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+      <button type="button" class="nav-item is-on" data-filter="all">All</button>
+      <button type="button" class="nav-item" data-filter="hardwood">Hardwood</button>
+      <button type="button" class="nav-item" data-filter="tile">Tile</button>
+      <button type="button" class="nav-item" data-filter="carpet">Carpet</button>
+      <button type="button" class="nav-item" data-filter="lvp">LVP</button>
+    </div>
     <section class="wrap shop-grid section" data-remnants>
       <p class="lede">Loading listings…</p>
     </section>
@@ -74,6 +81,7 @@
       <div>
         <a href="quote.html">Request a quote</a>
         <a href="portfolio.html">See the work</a>
+        <button type="button" class="kicker" data-studio-tap style="background:none;border:0;padding:12px 0;text-align:left">© 2026 All Star</button>
       </div>
     </div>
   </footer>

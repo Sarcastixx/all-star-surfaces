@@ -49,3 +49,13 @@ Keep a comma between items. Do not put a comma after the last item.
 3. Framework preset: **None**. Build command empty. Output directory `/`.
 4. Attach `www.all-star-flooring.com` under Custom domains.
 5. Turn **off** Cloudflare Access so visitors do not see a login screen.
+
+## Studio (hidden staff login)
+
+Same cream look as the public site. Not linked in the header.
+
+1. Tap **© 2026 All Star** in the footer five times, or open `studio.html`.
+2. Password: `allstar`
+3. Edit remnants (Hardwood / Tile / Carpet / LVP), recent jobs, and homepage photos.
+
+Saves on Cloudflare after this repo deploys with `worker.js`. Visitors see the updates immediately.

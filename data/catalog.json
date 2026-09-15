@@ -1,0 +1,76 @@
+{
+  "remnants": [
+    {
+      "id": "oak-7-white",
+      "surface": "hardwood",
+      "title": "7\" White Oak — short lot",
+      "qty": "~180 sq ft",
+      "detail": "Same mill as a recent Kirkland install. Enough for a powder room or hallway.",
+      "photo": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&w=900&q=80",
+      "status": "available"
+    },
+    {
+      "id": "limestone-honed",
+      "surface": "tile",
+      "title": "Honed limestone offcut",
+      "qty": "62\" × 28\" slab",
+      "detail": "Large enough for a bath floor or a small island top.",
+      "photo": "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=900&q=80",
+      "status": "available"
+    },
+    {
+      "id": "porcelain-qa",
+      "surface": "tile",
+      "title": "Large-format porcelain",
+      "qty": "~90 sq ft",
+      "detail": "Held 48 hours. Message if you want on the wait list.",
+      "photo": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80",
+      "status": "hold"
+    },
+    {
+      "id": "wool-runner",
+      "surface": "carpet",
+      "title": "Low-pile wool leftover",
+      "qty": "~40 sq yd",
+      "detail": "Soft underfoot. Stair runner or closet.",
+      "photo": "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=900&q=80",
+      "status": "available"
+    },
+    {
+      "id": "lvp-gray",
+      "surface": "lvp",
+      "title": "Warm gray plank",
+      "qty": "~90 sq ft",
+      "detail": "Waterproof wear layer. Powder room or laundry.",
+      "photo": "https://images.unsplash.com/photo-1598300042247-d088f8ab3a25?auto=format&fit=crop&w=900&q=80",
+      "status": "available"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "capitol-rift",
+      "caption": "Capitol Hill — rift oak",
+      "photo": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
+      "featured": true
+    },
+    {
+      "id": "queen-anne-bath",
+      "caption": "Queen Anne bath — porcelain",
+      "photo": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80",
+      "featured": true
+    },
+    {
+      "id": "kirkland-smoked",
+      "caption": "Kirkland — smoked oak",
+      "photo": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80",
+      "featured": true
+    }
+  ],
+  "photos": {
+    "hero": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80",
+    "stone": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
+    "hardwood": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&w=800&q=80",
+    "mineral": "https://images.unsplash.com/photo-1598300042247-d088f8ab3a25?auto=format&fit=crop&w=800&q=80",
+    "rooms": "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=800&q=80"
+  }
+}

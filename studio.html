@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Studio · All Star Flooring</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="logo nav-item" href="index.html" aria-label="All Star Flooring home">
+        <span class="mark">LS</span>
+        <span class="logo-word">All Star</span>
+      </a>
+      <p class="kicker" style="margin:0">Staff only</p>
+    </div>
+  </header>
+  <main class="wrap" style="padding:48px 0 80px" data-studio>
+    <p class="kicker">Staff only</p>
+    <h1 style="font-size:clamp(36px,7vw,56px);margin:8px 0 12px">Studio</h1>
+    <p class="lede">Update remnants, recent jobs, and homepage photos. This page is not linked in the public menu.</p>
+    <form data-login class="form" style="padding-top:24px">
+      <label>Password<input type="password" name="pin" required autocomplete="current-password"></label>
+      <p data-login-error class="lede" hidden></p>
+      <button class="btn" type="submit">Enter</button>
+    </form>
+    <div data-desk hidden>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin:24px 0;align-items:center;justify-content:space-between">
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <button type="button" class="nav-item is-on" data-tab="remnants">Remnants</button>
+          <button type="button" class="nav-item" data-tab="jobs">Recent jobs</button>
+          <button type="button" class="nav-item" data-tab="photos">Homepage photos</button>
+        </div>
+        <button type="button" class="btn ghost" data-out>Sign out</button>
+      </div>
+      <section data-pane="remnants"></section>
+      <section data-pane="jobs" hidden></section>
+      <section data-pane="photos" hidden></section>
+    </div>
+  </main>
+  <script src="js/studio.js"></script>
+</body>
+</html>

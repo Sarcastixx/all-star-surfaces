@@ -53,7 +53,7 @@
   <main>
     <section class="wrap" style="padding-top:16px">
       <div class="hero-frame">
-        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80" alt="Sunlit room with newly installed oak floors" />
+        <img data-slot="hero" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80" alt="Sunlit room with newly installed oak floors" />
         <aside class="quote-card">
           <h1>ALL<br>STAR</h1>
           <a class="btn ghost" href="quote.html">Get a quote →</a>
@@ -61,10 +61,10 @@
       </div>
     </section>
     <section class="wrap grid-4">
-      <a class="tile" href="flooring.html"><img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80" alt="Stone"><span>Stone</span></a>
-      <a class="tile" href="flooring.html"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&w=800&q=80" alt="Hardwood"><span>Hardwood</span></a>
-      <a class="tile" href="flooring.html"><img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a25?auto=format&fit=crop&w=800&q=80" alt="Mineral"><span>Mineral</span></a>
-      <a class="tile" href="portfolio.html"><img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=800&q=80" alt="Rooms"><span>Rooms</span></a>
+      <a class="tile" href="flooring.html"><img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80" data-slot="stone" alt="Stone"><span>Stone</span></a>
+      <a class="tile" href="flooring.html"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&w=800&q=80" data-slot="hardwood" alt="Hardwood"><span>Hardwood</span></a>
+      <a class="tile" href="flooring.html"><img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a25?auto=format&fit=crop&w=800&q=80" data-slot="mineral" alt="Mineral"><span>Mineral</span></a>
+      <a class="tile" href="portfolio.html"><img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=800&q=80" data-slot="rooms" alt="Rooms"><span>Rooms</span></a>
     </section>
     <section class="wrap section split">
       <div>
@@ -119,6 +119,7 @@
       <div>
         <a href="quote.html">Request a quote</a>
         <a href="portfolio.html">See the work</a>
+        <button type="button" class="kicker" data-studio-tap style="background:none;border:0;padding:12px 0;text-align:left">© 2026 All Star</button>
       </div>
     </div>
   </footer>
