@@ -47,43 +47,39 @@
     };
     var btn = form.querySelector("button[type=submit]");
     if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
-    var lead = {
-      _subject: "Quote request from " + payload.name,
-      _template: "table",
-      _captcha: "false",
-      _replyto: payload.email,
-      Name: payload.name,
-      Phone: payload.phone,
-      Email: payload.email,
-      Project: payload.projectType,
-      Rooms: payload.rooms,
-      Timing: payload.timing,
-      "Square footage": payload.sqft,
-      Remnant: payload.remnant,
-      Notes: payload.notes
-    };
-    var emailSend = fetch("https://formsubmit.co/ajax/Allstarseattle@gmail.com", {
-      method: "POST",
-      headers: { "content-type": "application/json", accept: "application/json" },
-      body: JSON.stringify(lead)
-    }).catch(function () { return null; });
-    var siteSend = fetch("/api/quote", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    Promise.all([siteSend, emailSend]).then(function (results) {
-      var res = results[0];
-      if (!res.ok) throw new Error("send");
+    var shown = false;
+    function done() {
+      if (shown) return;
+      shown = true;
+      if (btn) btn.textContent = "Sent";
       form.hidden = true;
       thanks.hidden = false;
       var who = thanks.querySelector("[data-who]");
       if (who) who.textContent = payload.name.split(" ")[0] || "";
+    }
+    var sheet = window.AS_SHEET_WEBHOOK;
+    if (sheet) {
+      fetch(sheet, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify(payload)
+      }).catch(function () {});
+    }
+    var timer = setTimeout(done, 7000);
+    fetch("/api/quote", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      if (!res.ok) throw new Error("send");
+      clearTimeout(timer);
+      done();
     }).catch(function () {
+      clearTimeout(timer);
+      if (sheet) { done(); return; }
       var body = ["Name: " + payload.name, "Phone: " + payload.phone, "Email: " + payload.email, "Project: " + payload.projectType, payload.rooms ? "Rooms: " + payload.rooms : "", payload.timing ? "Timing: " + payload.timing : "", payload.sqft ? "Square footage: " + payload.sqft : "", "", payload.notes].filter(Boolean).join("\n");
       window.location.href = "mailto:Allstarseattle@gmail.com?subject=" + encodeURIComponent("Quote request from " + payload.name) + "&body=" + encodeURIComponent(body);
-      form.hidden = true;
-      thanks.hidden = false;
+      done();
     });
   });
 })();

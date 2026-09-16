@@ -68,9 +68,11 @@ function sendMail_(data) {
     "Sq ft: " + (data.sqft || "") + "\n" +
     "Remnant: " + (data.remnant || "") + "\n\n" +
     (data.notes || "");
-  MailApp.sendEmail(
-    "Allstarseattle@gmail.com",
-    "Quote request from " + (data.name || "website"),
-    body
-  );
+  MailApp.sendEmail({
+    to: "Allstarseattle@gmail.com",
+    cc: "Phillipmiro123@gmail.com",
+    replyTo: data.email || "Allstarseattle@gmail.com",
+    subject: "Quote request from " + (data.name || "website"),
+    body: body
+  });
 }

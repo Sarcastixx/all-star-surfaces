@@ -109,6 +109,9 @@
         if (data.copy[k]) el.textContent = data.copy[k];
       });
     });
+    if (data.copy && data.copy.sheetWebhook) {
+      window.AS_SHEET_WEBHOOK = data.copy.sheetWebhook;
+    }
 
     var remnantsRoot = document.querySelector("[data-remnants]");
     if (remnantsRoot) {

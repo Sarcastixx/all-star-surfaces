@@ -119,36 +119,16 @@ export class CatalogDO {
         (this.env && this.env.SHEET_WEBHOOK) ||
         (current.copy && current.copy.sheetWebhook) ||
         "";
-      const jobs = [
-        fetch("https://formsubmit.co/ajax/Allstarseattle@gmail.com", {
-          method: "POST",
-          headers: { "content-type": "application/json", accept: "application/json" },
-          body: JSON.stringify({
-            _subject: "Quote request from " + item.name,
-            _template: "table",
-            _captcha: "false",
-            Name: item.name,
-            Phone: item.phone,
-            Email: item.email,
-            Project: item.projectType,
-            Rooms: item.rooms,
-            Timing: item.timing,
-            "Square footage": item.sqft,
-            Remnant: item.remnant,
-            Notes: item.notes,
-          }),
-        }).catch(() => null),
-      ];
       if (sheet) {
-        jobs.push(
-          fetch(sheet, {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify(item),
-          }).catch(() => null),
-        );
+        const job = fetch(sheet, {
+          method: "POST",
+          headers: { "content-type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(item),
+          redirect: "follow",
+        }).catch(() => null);
+        if (this.ctx && this.ctx.waitUntil) this.ctx.waitUntil(job);
+        else await job;
       }
-      await Promise.all(jobs);
       return json({ ok: true });
     }
     const role = await roleFromToken(body.token);

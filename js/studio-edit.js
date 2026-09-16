@@ -310,7 +310,11 @@
     el.innerHTML =
       "<span>" + label + "</span>" +
       '<span data-studio-toast hidden></span>' +
-      (isFull() ? '<a class="btn ghost" href="/remnants">Remnants</a><a class="btn ghost" href="/portfolio">Jobs</a>' : '<a class="btn ghost" href="/remnants">Remnants</a><a class="btn ghost" href="/portfolio">Jobs</a>') +
+      (isFull()
+        ? '<input data-sheet-url placeholder="Paste Google Web app URL" style="flex:1;min-width:180px;max-width:360px;min-height:40px;border-radius:999px;border:0;padding:0 14px">' +
+          '<button type="button" class="btn ghost" data-sheet-save>Save leads</button>'
+        : "") +
+      '<a class="btn ghost" href="/remnants">Remnants</a><a class="btn ghost" href="/portfolio">Jobs</a>' +
       '<button type="button" class="btn ghost" data-studio-out>Done</button>';
     document.body.appendChild(el);
     el.querySelector("[data-studio-out]").addEventListener("click", function () {
@@ -319,6 +323,22 @@
       sessionStorage.removeItem(ON);
       window.location.reload();
     });
+    var sheetInput = el.querySelector("[data-sheet-url]");
+    var sheetSave = el.querySelector("[data-sheet-save]");
+    if (sheetInput) {
+      fetch("/api/catalog").then(function (r) { return r.json(); }).then(function (d) {
+        if (d && d.copy && d.copy.sheetWebhook) sheetInput.value = d.copy.sheetWebhook;
+      }).catch(function () {});
+    }
+    if (sheetSave && sheetInput) {
+      sheetSave.addEventListener("click", function () {
+        var url = sheetInput.value.trim();
+        saveOne("sheetWebhook", url).then(function () {
+          window.AS_SHEET_WEBHOOK = url;
+          toast("Leads sheet saved");
+        }).catch(function (err) { toast(err.message || "Could not save"); });
+      });
+    }
   }
 
   function enable() {
