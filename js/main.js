@@ -47,11 +47,33 @@
     };
     var btn = form.querySelector("button[type=submit]");
     if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
-    fetch("/api/quote", {
+    var lead = {
+      _subject: "Quote request from " + payload.name,
+      _template: "table",
+      _captcha: "false",
+      _replyto: payload.email,
+      Name: payload.name,
+      Phone: payload.phone,
+      Email: payload.email,
+      Project: payload.projectType,
+      Rooms: payload.rooms,
+      Timing: payload.timing,
+      "Square footage": payload.sqft,
+      Remnant: payload.remnant,
+      Notes: payload.notes
+    };
+    var emailSend = fetch("https://formsubmit.co/ajax/Allstarseattle@gmail.com", {
+      method: "POST",
+      headers: { "content-type": "application/json", accept: "application/json" },
+      body: JSON.stringify(lead)
+    }).catch(function () { return null; });
+    var siteSend = fetch("/api/quote", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(payload)
-    }).then(function (res) {
+    });
+    Promise.all([siteSend, emailSend]).then(function (results) {
+      var res = results[0];
       if (!res.ok) throw new Error("send");
       form.hidden = true;
       thanks.hidden = false;

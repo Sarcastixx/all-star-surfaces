@@ -115,7 +115,10 @@ export class CatalogDO {
       current.quotes.unshift(item);
       current.quotes = current.quotes.slice(0, 200);
       this.write(current);
-      const sheet = current.copy && current.copy.sheetWebhook;
+      const sheet =
+        (this.env && this.env.SHEET_WEBHOOK) ||
+        (current.copy && current.copy.sheetWebhook) ||
+        "";
       const jobs = [
         fetch("https://formsubmit.co/ajax/Allstarseattle@gmail.com", {
           method: "POST",

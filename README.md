@@ -58,3 +58,16 @@ Footer: **Staff sign in**.
 - Update remnants and recent jobs: `Allstar.update!`
 
 Saves on Cloudflare after this repo deploys with `worker.js`.
+
+## Quote leads (email + Google Sheet)
+
+Quotes email **Allstarseattle@gmail.com** through FormSubmit. The first time, that inbox gets a **Confirm form** email — click it once.
+
+To also save every lead in a Google Sheet:
+
+1. Open Google Drive → New → Google Sheet. Name it **All Star Leads**.
+2. Extensions → Apps Script. Delete the sample code. Paste `data/leads.gs`.
+3. Save, then Deploy → New deployment → Web app.
+4. Execute as: **Me**. Who has access: **Anyone**.
+5. Deploy, copy the URL, and send it so it can be saved as `SHEET_WEBHOOK`.
+
