@@ -122,6 +122,17 @@
   var btn = document.querySelector("[data-mobile-svc]");
   var panel = document.querySelector("[data-mobile-svc-panel]");
   if (!btn || !panel) return;
+  var path = (location.pathname.replace(/\/$/, "") || "/");
+  var inSvc = ["/services", "/vendors", "/portfolio", "/remnants"].indexOf(path) >= 0;
+  if (inSvc) {
+    panel.classList.add("open");
+    btn.classList.add("is-open");
+    btn.setAttribute("aria-expanded", "true");
+  }
+  document.querySelectorAll(".svc-panel a, .mobile-svc a").forEach(function (a) {
+    var href = (a.getAttribute("href") || "").replace(/\/$/, "") || "/";
+    if (href === path) a.classList.add("is-on");
+  });
   btn.addEventListener("click", function () {
     var open = panel.classList.toggle("open");
     btn.classList.toggle("is-open", open);
