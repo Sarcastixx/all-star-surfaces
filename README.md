@@ -67,7 +67,10 @@ To also save every lead in a Google Sheet:
 
 1. Open Google Drive → New → Google Sheet. Name it **All Star Leads**.
 2. Extensions → Apps Script. Delete the sample code. Paste `data/leads.gs`.
-3. Save, then Deploy → New deployment → Web app.
-4. Execute as: **Me**. Who has access: **Anyone**.
-5. Deploy, copy the URL, and send it so it can be saved as `SHEET_WEBHOOK`.
+3. Save. In the function list pick **testLead**, click **Run**, and allow permissions.
+4. Deploy → New deployment → Web app.
+5. Execute as: **Me**. Who has access: **Anyone**.
+6. Deploy, copy the URL, and send it so it can be saved as `SHEET_WEBHOOK`.
+
+Do not click Run on **doPost**. That function is only for live website quotes.
 

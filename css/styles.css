@@ -429,21 +429,40 @@ h1,h2,h3 { font-family: var(--serif); }
   box-shadow: 0 18px 40px rgb(47 42 36 / 0.08);
 }
 .range-map {
-  margin: 12px 0;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  background: var(--cream-2);
+  margin: 8px auto 0;
+  max-width: 420px;
+  background: transparent;
+  border: 0;
+  overflow: visible;
 }
-.range-map img {
+.range-map svg {
   display: block;
   width: 100%;
   height: auto;
-  pointer-events: none;
-  user-select: none;
+  color: var(--ink);
 }
-[data-theme="dark"] .range-map img {
-  filter: invert(1) hue-rotate(180deg) brightness(0.88) contrast(1.05);
+.range-map .range {
+  fill: color-mix(in srgb, var(--ink) 6%, transparent);
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  stroke-dasharray: 5 9;
+  opacity: 0.7;
+}
+.range-map .dot { fill: var(--ink); opacity: 0.55; }
+.range-map .pin circle:last-child { fill: var(--ink); }
+.range-map .pin circle:first-child {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.2;
+  opacity: 0.35;
+}
+.range-map .labels text {
+  fill: var(--ink);
+  font-size: 14px;
+  font-family: inherit;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.72;
 }
 .about-hero .studio-photo {
   position: relative;
