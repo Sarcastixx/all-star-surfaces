@@ -4,57 +4,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Studio · All Star Surfaces</title>
+  <title>Sign in</title>
   <link rel="icon" href="/images/as-mark-mask.png" />
   <link rel="stylesheet" href="/css/styles.css" />
   <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
 </head>
 <body>
-  <main class="wrap" style="padding:80px 0">
-    <p class="kicker">Studio</p>
-    <h1>Edit the live site</h1>
-    <p class="lede">Same pages. Click text and photos to change them.</p>
-    <form class="form" data-gate style="max-width:24rem;padding-top:24px">
+  <main class="wrap" style="padding:96px 0;max-width:22rem">
+    <form class="form" data-gate>
       <label>Password<input type="password" name="pin" required autocomplete="current-password"></label>
       <p class="lede" data-err hidden></p>
       <button class="btn" type="submit">Enter</button>
     </form>
   </main>
   <script>
-  (function(){
-    var PINS = ["1976@llstar!","1976@llstar","allstar"];
-    function pinOk(pin){
-      var p = String(pin||"").trim().replace(/\s+/g,"");
-      return PINS.some(function(x){ return x.toLowerCase()===p.toLowerCase(); });
+  (function () {
+    function roleFromPin(pin) {
+      var p = String(pin || "").trim().replace(/\s+/g, "");
+      if (p === "1976@llstar!") return "full";
+      if (p.toLowerCase() === "allstar.update!") return "update";
+      return null;
     }
     var form = document.querySelector("[data-gate]");
-    form.addEventListener("submit", async function(e){
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
       var err = document.querySelector("[data-err]");
       err.hidden = true;
       var pin = form.pin.value;
+      var role = null;
+      var token = "";
       try {
         var res = await fetch("/api/login", {
           method: "POST",
-          headers: {"content-type":"application/json"},
+          headers: { "content-type": "application/json" },
           body: JSON.stringify({ pin: pin })
         });
         var data = await res.json();
         if (data.ok && data.token) {
-          sessionStorage.setItem("as-studio-token", data.token);
-          location.href = "/";
-          return;
+          token = data.token;
+          role = data.role || roleFromPin(pin);
         }
       } catch (ex) {}
-      if (pinOk(pin)) {
-        var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("all-star-studio:1976@llstar!"));
-        var tok = [...new Uint8Array(buf)].map(function(b){return b.toString(16).padStart(2,"0");}).join("");
-        sessionStorage.setItem("as-studio-token", tok);
-        location.href = "/";
+      if (!role) role = roleFromPin(pin);
+      if (!role) {
+        err.hidden = false;
+        err.textContent = "That password did not match.";
         return;
       }
-      err.hidden = false;
-      err.textContent = "That password did not match.";
+      if (!token) {
+        var canon = role === "update" ? "Allstar.update!" : "1976@llstar!";
+        var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("all-star-studio:" + canon));
+        token = [...new Uint8Array(buf)].map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+      }
+      sessionStorage.setItem("as-studio-token", token);
+      sessionStorage.setItem("as-studio-role", role);
+      sessionStorage.setItem("as-studio-on", "1");
+      location.href = role === "update" ? "/remnants" : "/";
     });
   })();
   </script>

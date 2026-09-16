@@ -52,10 +52,9 @@ Keep a comma between items. Do not put a comma after the last item.
 
 ## Studio (hidden staff login)
 
-Same cream look as the public site. Not linked in the header.
+Footer: **Staff sign in**.
 
-1. Tap **© 2026 All Star** in the footer five times, or open `studio.html`.
-2. Password: `allstar`
-3. Edit remnants (Hardwood / Tile / Carpet / LVP), recent jobs, and homepage photos.
+- Full edit (all text + photos): `1976@llstar!`
+- Update remnants and recent jobs: `Allstar.update!`
 
-Saves on Cloudflare after this repo deploys with `worker.js`. Visitors see the updates immediately.
+Saves on Cloudflare after this repo deploys with `worker.js`.

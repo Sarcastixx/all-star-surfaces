@@ -61,50 +61,32 @@
 
   <main>
     <header class="wrap page-hero">
-      <p class="kicker">Contact</p>
-      <h1>Come by or send the rooms.</h1>
-      <p class="lede">By appointment in the Bothell / Lynnwood shop.</p>
+      <p class="kicker" data-copy="contactKicker">Contact</p>
+      <h1 data-copy="contactTitle">Come by or send the rooms.</h1>
+      <p class="lede" data-copy="contactLede">By appointment in the Bothell / Lynnwood shop.</p>
     </header>
     <section class="wrap section">
       <div class="split">
         <div class="card">
-          <h2>Studio</h2>
-          <p class="lede">Bothell · Lynnwood · greater Seattle</p>
+          <h2 data-copy="contactStudioTitle">Studio</h2>
+          <p class="lede" data-copy="contactStudioBody">Bothell · Lynnwood · greater Seattle</p>
           <a href="tel:+12067999881">(206) 799-9881</a>
           <a href="mailto:Allstarseattle@gmail.com">Allstarseattle@gmail.com</a>
         </div>
         <div class="card">
-          <h2>Request a visit</h2>
-          <p class="lede">Name, phone, email, and an optional second email.</p>
+          <h2 data-copy="contactVisitTitle">Request a visit</h2>
+          <p class="lede" data-copy="contactVisitBody">Name, phone, and email is enough to start.</p>
           <p><a class="btn" href="/quote">Open the quote form</a></p>
         </div>
       </div>
     </section>
   
-    <section class="wrap section">
-      <iframe title="Map" src="https://maps.google.com/maps?q=18000%20Hwy%2099%20Lynnwood%20WA%2098037&z=15&output=embed" style="width:100%;height:280px;border:0;border-radius:24px;filter:grayscale(1)" loading="lazy"></iframe>
+    <section class="wrap section coverage-panel">
+      <h2 data-copy="contactMapTitle">Where we work</h2>
+      <div class="sea-map" data-sea-map></div>
+      <p class="lede" data-copy="contactMapBody">Greater Seattle: Tacoma to Arlington, east to Maple Valley, and the islands. Pin is the Lynnwood shop.</p>
       <p><a href="https://maps.google.com/?q=18000+Hwy+99+Lynnwood+WA+98037" target="_blank" rel="noreferrer">18000 Hwy 99, Lynnwood, WA 98037 — Open in Maps</a></p>
     </section>
-  
-    <section class="wrap section coverage-panel"><h2>Where we work</h2>
-      <figure class="coverage">
-        <svg viewBox="0 0 420 320" class="coverage-svg" role="img" aria-label="Washington state coverage">
-          <path class="wa-land" d="M92 36h318l4 168c-6 22-28 44-58 52l-132 10-148-2-20-18-24-52-28-48-8-38 16-36 32-18 48-10z"/>
-          <path class="wa-water" d="M128 78c-12 28-8 58 0 84 6 18-4 36 10 48 16-8 10-28 8-48-2-32 8-56 0-80-8-10-16-10-18-4z"/>
-          <ellipse class="wa-service" cx="188" cy="158" rx="78" ry="96"/>
-          <text class="wa-title" x="248" y="70">WASHINGTON</text>
-          <circle cx="198" cy="92" r="4" class="coverage-dot"/><text x="206" y="96" class="coverage-label">Arlington</text>
-          <circle cx="248" cy="132" r="4" class="coverage-dot"/><text x="256" y="136" class="coverage-label">Monroe</text>
-          <circle cx="186" cy="142" r="4" class="coverage-dot"/><text x="194" y="146" class="coverage-label">Lynnwood</text>
-          <circle cx="248" cy="198" r="4" class="coverage-dot"/><text x="256" y="202" class="coverage-label">Maple Valley</text>
-          <circle cx="172" cy="232" r="4" class="coverage-dot"/><text x="180" y="236" class="coverage-label">Tacoma</text>
-          <circle cx="132" cy="156" r="4" class="coverage-dot"/><text x="140" y="160" class="coverage-label">Bainbridge</text>
-          <circle cx="128" cy="202" r="4" class="coverage-dot"/><text x="136" y="206" class="coverage-label">Vashon</text>
-          <circle cx="148" cy="96" r="4" class="coverage-dot"/><text x="156" y="100" class="coverage-label">Whidbey</text>
-        </svg>
-        <figcaption class="lede">Greater Seattle: Tacoma to Arlington, east to Maple Valley, and the islands.</figcaption>
-      </figure>
-</section>
   </main>
 
   <footer>
@@ -146,5 +128,9 @@
     <script src="/js/theme.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/studio-edit.js"></script>
+  <script src="/js/catalog.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="/js/map.js"></script>
 </body>
 </html>

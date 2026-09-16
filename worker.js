@@ -1,9 +1,19 @@
-const PIN = "1976@llstar!";
-const PINS = ["1976@llstar!", "1976@llstar", "allstar"];
+const FULL_PIN = "1976@llstar!";
+const UPDATE_PIN = "Allstar.update!";
 
-function pinOk(pin) {
-  const p = String(pin || "").trim().replace(/\s+/g, "");
-  return PINS.some((x) => x.toLowerCase() === p.toLowerCase());
+function normPin(pin) {
+  return String(pin || "").trim().replace(/\s+/g, "");
+}
+
+function roleFromPin(pin) {
+  const p = normPin(pin);
+  if (p === FULL_PIN) return "full";
+  if (p.toLowerCase() === UPDATE_PIN.toLowerCase()) return "update";
+  return null;
+}
+
+function pinForRole(role) {
+  return role === "update" ? UPDATE_PIN : FULL_PIN;
 }
 
 async function tokenFor(pin) {
@@ -12,6 +22,13 @@ async function tokenFor(pin) {
     new TextEncoder().encode("all-star-studio:" + String(pin || "").trim()),
   );
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function roleFromToken(token) {
+  if (!token) return null;
+  if (token === (await tokenFor(FULL_PIN))) return "full";
+  if (token === (await tokenFor(UPDATE_PIN))) return "update";
+  return null;
 }
 
 function json(data, status) {
@@ -72,9 +89,9 @@ export class CatalogDO {
       return json({ error: "Bad request" }, 400);
     }
     if (path === "/api/login") {
-      const ok = pinOk(body.pin);
-      if (!ok) return json({ ok: false }, 401);
-      return json({ ok: true, token: await tokenFor(PIN) });
+      const role = roleFromPin(body.pin);
+      if (!role) return json({ ok: false }, 401);
+      return json({ ok: true, token: await tokenFor(pinForRole(role)), role });
     }
     if (path === "/api/quote") {
       const current = this.read() || { remnants: [], jobs: [], photos: {}, copy: {}, quotes: [] };
@@ -131,8 +148,11 @@ export class CatalogDO {
       await Promise.all(jobs);
       return json({ ok: true });
     }
-    const expected = await tokenFor(PIN);
-    if (body.token !== expected) return json({ error: "Studio login required" }, 401);
+    const role = await roleFromToken(body.token);
+    if (!role) return json({ error: "Studio login required" }, 401);
+    if ((path === "/api/copy" || path === "/api/photo" || path === "/api/photo/delete") && role !== "full") {
+      return json({ error: "Full edit login required" }, 403);
+    }
     const current = this.read() || { remnants: [], jobs: [], photos: {} };
     if (!Array.isArray(current.remnants)) current.remnants = [];
     if (!Array.isArray(current.jobs)) current.jobs = [];

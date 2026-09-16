@@ -40,7 +40,7 @@
   function jobCard(item, asLink) {
     var caption = item.caption || item.title || "";
     var tag = asLink ? "a" : "article";
-    var card = el(tag, { class: "shop-card job-card" });
+    var card = el(tag, { class: "shop-card job-card", "data-id": item.id || "" });
     if (asLink) card.setAttribute("href", "/portfolio");
     var media = el("div", { class: "shop-media" });
     if (item.photo) media.appendChild(el("img", { src: item.photo, alt: caption }));
@@ -71,7 +71,8 @@
       jobs: (api.jobs || []).map(function (j) {
         return { id: j.id, caption: j.caption || j.title, photo: j.photo, featured: j.featured };
       }),
-      photos: api.photos || {}
+      photos: api.photos || {},
+      copy: api.copy || {}
     };
   }
 
