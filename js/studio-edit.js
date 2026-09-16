@@ -66,6 +66,11 @@
     await api("/api/copy", { token: token(), copy: (function () {
       var o = {}; o[key] = value; return o;
     })() });
+    try {
+      var copy = JSON.parse(localStorage.getItem("as-copy") || "{}");
+      copy[key] = value;
+      localStorage.setItem("as-copy", JSON.stringify(copy));
+    } catch (err) {}
   }
 
   function copyTargets() {
@@ -125,16 +130,40 @@
       var input = document.createElement("input");
       input.type = "file";
       input.accept = "image/*";
+      input.setAttribute("capture", "environment");
       input.hidden = true;
-      wrap.appendChild(input);
-      btn.addEventListener("click", function () { input.click(); });
+      document.body.appendChild(input);
+      function stop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      wrap.addEventListener("click", function (e) {
+        stop(e);
+        input.click();
+      }, true);
+      btn.addEventListener("click", function (e) {
+        stop(e);
+        input.click();
+      }, true);
+      var link = wrap.closest("a");
+      if (link) {
+        link.setAttribute("data-studio-locked", "");
+        link.addEventListener("click", function (e) {
+          stop(e);
+        }, true);
+      }
       input.addEventListener("change", async function () {
         var file = input.files && input.files[0];
+        input.value = "";
         if (!file) return;
         try {
           var photo = await readPhoto(file);
-          img.setAttribute("src", photo);
-          await api("/api/photo", { token: token(), slot: img.getAttribute("data-slot"), photo: photo });
+          var slot = img.getAttribute("data-slot");
+          document.querySelectorAll('[data-slot="' + slot + '"]').forEach(function (node) {
+            node.setAttribute("src", photo);
+          });
+          try { localStorage.setItem("as-photo-" + slot, photo); } catch (err) {}
+          await api("/api/photo", { token: token(), slot: slot, photo: photo });
           toast("Photo saved");
         } catch (ex) {
           toast(ex.message || "Could not save photo");
@@ -350,6 +379,12 @@
     if (isFull()) markEditable();
     remnantTools();
     jobTools();
+    document.addEventListener("click", function (e) {
+      if (e.target.closest("[data-photo-edit], .studio-photo-btn")) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
   }
 
   document.addEventListener("as-catalog-ready", function () {

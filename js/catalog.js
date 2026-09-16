@@ -97,21 +97,72 @@
     });
   }
 
-  loadCatalog().then(function (data) {
+  function apply(data) {
     Object.keys(data.photos || {}).forEach(function (slot) {
       if (slot === "hero") return;
+      if (!data.photos[slot]) return;
       document.querySelectorAll('[data-slot="' + slot + '"]').forEach(function (img) {
-        if (data.photos[slot]) img.setAttribute("src", data.photos[slot]);
+        if (img.getAttribute("src") !== data.photos[slot]) img.setAttribute("src", data.photos[slot]);
       });
     });
     Object.keys(data.copy || {}).forEach(function (k) {
+      if (k === "sheetWebhook") {
+        window.AS_SHEET_WEBHOOK = data.copy[k];
+        return;
+      }
       document.querySelectorAll('[data-copy="' + k + '"]').forEach(function (el) {
+        if (el === document.activeElement) return;
         if (data.copy[k]) el.textContent = data.copy[k];
       });
     });
-    if (data.copy && data.copy.sheetWebhook) {
-      window.AS_SHEET_WEBHOOK = data.copy.sheetWebhook;
-    }
+    if (data.copy && data.copy.sheetWebhook) window.AS_SHEET_WEBHOOK = data.copy.sheetWebhook;
+  }
+
+  function cacheRead() {
+    var copy = {};
+    var photos = {};
+    try { copy = JSON.parse(localStorage.getItem("as-copy") || "{}"); } catch (e) {}
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        if (key && key.indexOf("as-photo-") === 0) {
+          var val = localStorage.getItem(key);
+          if (val) photos[key.slice(9)] = val;
+        }
+      }
+    } catch (e) {}
+    return { copy: copy, photos: photos };
+  }
+
+  function cacheSave(data) {
+    try { localStorage.setItem("as-copy", JSON.stringify(data.copy || {})); } catch (e) {}
+    Object.keys(data.photos || {}).forEach(function (k) {
+      try { localStorage.setItem("as-photo-" + k, data.photos[k]); } catch (e) {}
+    });
+  }
+
+  function markReady() {
+    document.documentElement.classList.add("as-ready");
+  }
+
+  var cached = cacheRead();
+  apply(cached);
+  var slots = document.querySelectorAll("img[data-slot]");
+  var cachedPhotos = true;
+  slots.forEach(function (img) {
+    var k = img.getAttribute("data-slot");
+    if (!k || k === "hero") return;
+    if (!cached.photos[k]) cachedPhotos = false;
+  });
+  var hasCopyCache = false;
+  try { hasCopyCache = !!localStorage.getItem("as-copy"); } catch (e) {}
+  if ((!slots.length || cachedPhotos) && (hasCopyCache || !document.querySelector("[data-copy]"))) markReady();
+  window.setTimeout(markReady, 1400);
+
+  loadCatalog().then(function (data) {
+    apply(data);
+    cacheSave(data);
+    markReady();
 
     var remnantsRoot = document.querySelector("[data-remnants]");
     if (remnantsRoot) {
