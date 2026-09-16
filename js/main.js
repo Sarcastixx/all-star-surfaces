@@ -123,7 +123,9 @@
   var panel = document.querySelector("[data-mobile-svc-panel]");
   if (!btn || !panel) return;
   btn.addEventListener("click", function () {
-    panel.classList.toggle("open");
+    var open = panel.classList.toggle("open");
+    btn.classList.toggle("is-open", open);
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
   });
 })();
 
