@@ -175,6 +175,20 @@
   var KEY = "as-cookie-consent";
   var banner = null;
 
+  // Inject styles so the banner works even if styles.css is large
+  var style = document.createElement("style");
+  style.textContent = "
+.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:1000;background:var(--cream,#efe8dc);border-top:1px solid var(--line,#d9d0c3);padding:16px 20px;box-shadow:0 -8px 32px rgb(47 42 36 / .12);transform:translateY(100%);transition:transform .35s cubic-bezier(.2,0,0,1);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.cookie-banner.is-visible{transform:translateY(0)}
+.cookie-banner p{margin:0;flex:1 1 280px;font-size:14px;color:var(--ink-soft,#5a5248);line-height:1.4}
+.cookie-banner-actions{display:flex;gap:8px;flex-shrink:0}
+.cookie-banner .btn{min-height:40px;padding:0 16px;font-size:13px}
+.cookie-settings-link{color:var(--muted,#8a8175);font-size:12px;text-decoration:underline;cursor:pointer;background:none;border:0;padding:0;font-family:inherit}
+.cookie-settings-link:hover{color:var(--ink,#2f2a24)}
+@media(max-width:600px){.cookie-banner{padding:14px 16px;flex-direction:column;align-items:stretch}.cookie-banner-actions{justify-content:flex-end}}
+";
+  document.head.appendChild(style);
+
   function createBanner() {
     if (banner) return banner;
     banner = document.createElement("div");
