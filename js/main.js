@@ -169,3 +169,86 @@
     if (empty) empty.hidden = n > 0;
   });
 })();
+
+/* Cookie consent */
+(function () {
+  var KEY = "as-cookie-consent";
+  var banner = null;
+
+  function createBanner() {
+    if (banner) return banner;
+    banner = document.createElement("div");
+    banner.className = "cookie-banner";
+    banner.setAttribute("role", "dialog");
+    banner.setAttribute("aria-label", "Cookie consent");
+    banner.innerHTML =
+      '<p>We use cookies to improve your experience and analyze site traffic. By continuing, you agree to our use of cookies. <button type="button" class="cookie-settings-link" data-cookie-more>Learn more</button></p>' +
+      '<div class="cookie-banner-actions">' +
+        '<button type="button" class="btn ghost" data-cookie-decline>Decline</button>' +
+        '<button type="button" class="btn" data-cookie-accept>Accept</button>' +
+      '</div>';
+    document.body.appendChild(banner);
+
+    banner.querySelector("[data-cookie-accept]").addEventListener("click", function () {
+      localStorage.setItem(KEY, "accepted");
+      hideBanner();
+    });
+    banner.querySelector("[data-cookie-decline]").addEventListener("click", function () {
+      localStorage.setItem(KEY, "declined");
+      hideBanner();
+    });
+    banner.querySelector("[data-cookie-more]").addEventListener("click", function () {
+      alert("Allstar Surfaces uses essential cookies for site function and optional analytics cookies. You can change your preference anytime via the Cookie settings link in the footer.");
+    });
+    return banner;
+  }
+
+  function showBanner() {
+    var b = createBanner();
+    requestAnimationFrame(function () { b.classList.add("is-visible"); });
+  }
+
+  function hideBanner() {
+    if (!banner) return;
+    banner.classList.remove("is-visible");
+    setTimeout(function () {
+      if (banner && banner.parentNode) banner.parentNode.removeChild(banner);
+      banner = null;
+    }, 400);
+  }
+
+  function addFooterLink() {
+    var footBottom = document.querySelector(".foot-bottom");
+    if (!footBottom || footBottom.querySelector("[data-cookie-settings]")) return;
+    var link = document.createElement("button");
+    link.type = "button";
+    link.className = "cookie-settings-link";
+    link.setAttribute("data-cookie-settings", "");
+    link.textContent = "Cookie settings";
+    link.style.marginLeft = "12px";
+    link.addEventListener("click", function () {
+      localStorage.removeItem(KEY);
+      showBanner();
+    });
+    var end = footBottom.querySelector(".foot-bottom-end") || footBottom;
+    end.appendChild(link);
+  }
+
+  if (!localStorage.getItem(KEY)) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", function () {
+        showBanner();
+        addFooterLink();
+      });
+    } else {
+      showBanner();
+      addFooterLink();
+    }
+  } else {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", addFooterLink);
+    } else {
+      addFooterLink();
+    }
+  }
+})();
