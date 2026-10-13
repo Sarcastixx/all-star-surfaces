@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/images/as-mark-mask.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book a showroom visit · Allstar Surfaces</title>
+  <meta name="description" content="Schedule a flexible showroom appointment at Allstar Surfaces in Lynnwood. After hours and Saturdays available." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.setAttribute("data-theme-pref",p);}catch(e){}})();</script>
+
+  <script>(function(){try{var t=localStorage.getItem("as-theme");var d=t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
+
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+            <a class="logo" href="/" aria-label="Allstar Surfaces home">
+        <img class="as-mark-img" src="/images/as-mark-mask.png" alt="" />
+        <span class="brand-word"><span class="brand-all">ALLSTAR</span><span class="brand-sub">Surfaces</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a class="nav-item" href="/">Home</a></li>
+        <li>
+          <div class="svc" data-svc>
+            <button class="nav-item" type="button" data-svc-btn aria-haspopup="true" aria-expanded="false">Services ▾</button>
+            <div class="svc-menu"><div class="svc-panel">
+              <a href="/services">Process</a>
+              <a href="/vendors">Vendors</a>
+              <a href="/portfolio">Portfolio</a>
+              <a href="/remnants">Remnants</a>
+            </div></div>
+          </div>
+        </li>
+        <li><a class="nav-item" href="/about">About Us</a></li>
+        <li><a class="nav-item" href="/contact">Contact</a></li>
+      </ul>
+      <div class="nav-end">
+        <button class="icon-btn menu" data-menu type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+        <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
+      <a href="/">Home</a>
+      <button type="button" class="mobile-link" data-mobile-svc aria-expanded="false">Services <span class="chev" aria-hidden="true">›</span></button>
+      <div class="mobile-svc" data-mobile-svc-panel>
+        <a href="/services">Process</a>
+        <a href="/vendors">Vendors</a>
+        <a href="/portfolio">Portfolio</a>
+        <a href="/remnants">Remnants</a>
+      </div>
+      <a href="/about">About Us</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <header class="wrap page-hero">
+      <p class="kicker">Showroom</p>
+      <h1>Book a showroom visit.</h1>
+      <p class="lede">See samples in person at our Lynnwood shop. We offer flexible scheduling, after-hours appointments, and Saturdays by request — just tell us what works for you.</p>
+    </header>
+    <form class="wrap form" data-quote-form>
+      <label>Full name *<input name="name" required autocomplete="name"></label>
+      <label>Phone number *<input name="phone" type="tel" required autocomplete="tel"></label>
+      <label>Email *<input name="email" type="email" required autocomplete="email"></label>
+      <label>Preferred date<input name="preferredDate" type="date"></label>
+      <label>Preferred time window
+        <select name="timeWindow">
+          <option value="">Select…</option>
+          <option>Morning (9–12)</option>
+          <option>Afternoon (12–5)</option>
+          <option>After hours (5–8)</option>
+          <option>Saturday</option>
+          <option>Flexible / any time</option>
+        </select>
+      </label>
+      <label>What would you like to see? (optional)<textarea name="notes" placeholder="Hardwood samples, tile, LVP, specific project ideas…"></textarea></label>
+      <input type="hidden" name="projectType" value="Showroom appointment">
+      <button class="btn" type="submit">Request appointment</button>
+    </form>
+    <div class="wrap thanks" data-thanks hidden>
+      <h2>Appointment request received.</h2>
+      <p class="lede">Thanks <span data-who></span>. We’ll confirm your showroom visit from Allstarseattle@gmail.com. Looking forward to seeing you!</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div>
+        <p class="foot-brand">Allstar Surfaces</p>
+        <p class="foot-place">Located in Lynnwood. Founded in 2007.</p>
+      </div>
+      <div>
+        <p class="kicker">Visit</p>
+        <a href="https://maps.google.com/?q=18000+Hwy+99+Lynnwood+WA+98037" target="_blank" rel="noreferrer">18000 Hwy 99, Lynnwood, WA 98037</a>
+        <a href="tel:+12067999881">(206) 799-9881</a>
+        <a href="mailto:Allstarseattle@gmail.com">Allstarseattle@gmail.com</a>
+      </div>
+      <div>
+        <p class="kicker">Hours</p>
+        <div class="hours">
+          <div><span>Mon–Fri</span><span>9 AM–5 PM</span></div>
+          <div><span>After hours</span><span>Available</span></div>
+          <div><span>Saturday</span><span>By appointment</span></div>
+          <div><span>Sunday</span><span>Closed</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="kicker">Pages</p>
+        <div class="foot-nav">
+          <a href="/">Home</a>
+          <a href="/about">About Us</a>
+          <a href="/services">Process</a>
+          <a href="/contact">Contact</a>
+          <a href="/vendors">Vendors</a>
+          <a href="/quote">Quote</a>
+          <a href="/appointment">Showroom</a>
+          <a href="/portfolio">Portfolio</a>
+          <a href="/remnants">Remnants</a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap foot-bottom">
+      <p>© 2026 Allstar Surfaces</p>
+      <div class="socials" aria-label="Social">
+        <a class="social" href="https://www.instagram.com/allstar_waflooringcenter" target="_blank" rel="noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3.2A4.8 4.8 0 1 1 7.2 12 4.8 4.8 0 0 1 12 7.2zm0 2A2.8 2.8 0 1 0 14.8 12 2.8 2.8 0 0 0 12 9.2zM17.6 6a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
+        </a>
+        <a class="social" href="https://www.yelp.com/biz/all-star-flooring-and-remodel-lynnwood" target="_blank" rel="noreferrer" aria-label="Yelp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.2 2.1 14 8.4l6.5.3-5.1 4.2 1.7 6.3-5.4-3.7-5.6 3.5 2-6.3L3 8.4l6.6-.2z"/></svg>
+        </a>
+        <a class="social" href="https://www.google.com/maps/search/?api=1&query=All+Star+Flooring+18000+Hwy+99+Lynnwood+WA" target="_blank" rel="noreferrer" aria-label="Google">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h5.3a4.5 4.5 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.6z"/><path fill="currentColor" d="M12 22c2.7 0 5-1 6.6-2.6l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z"/><path fill="currentColor" d="M6.4 13.8A6 6 0 0 1 6 12c0-.6.1-1.2.3-1.8V7.6H3.1A10 10 0 0 0 2 12a10 10 0 0 0 1.1 4.4z"/><path fill="currentColor" d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 12 2a10 10 0 0 0-8.9 5.6l3.3 2.6C7.2 7.7 9.4 5.9 12 5.9z"/></svg>
+        </a>
+      </div>
+      <div class="foot-bottom-end">
+        <a href="/studio" data-studio-open>Staff sign in</a>
+        <div class="theme-bar" role="group" aria-label="Color mode">
+          <button type="button" data-theme-pref="auto">Auto</button>
+          <button type="button" data-theme-pref="light">Light</button>
+          <button type="button" data-theme-pref="dark">Dark</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+    <script src="/js/theme.js"></script>
+  <script src="/js/leads-config.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/studio-edit.js"></script>
+  <script src="/js/catalog.js"></script>
+</body>
+</html>
