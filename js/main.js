@@ -9,6 +9,13 @@
   }
 })();
 (function () {
+  document.querySelectorAll(".vendor-card img").forEach(function (img) {
+    function hide() { img.hidden = true; }
+    img.addEventListener("error", hide);
+    if (img.complete && img.naturalWidth === 0) hide();
+  });
+})();
+(function () {
   var wrap = document.querySelector("[data-svc]");
   var btn = document.querySelector("[data-svc-btn]");
   if (!wrap || !btn) return;
