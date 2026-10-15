@@ -56,51 +56,133 @@
     </nav>
   </header>
 
-  <main>
-    <header class="wrap page-hero">
-      <p class="kicker" data-copy="quoteKicker">Quote</p>
-      <h1 data-copy="quoteTitle">Tell us about the rooms.</h1>
-      <p class="lede" data-copy="quoteLede">Name, phone, and email are enough. Coming from remnants? The lot ID is filled in for you.</p>
-    </header>
-    <form class="wrap form" data-quote-form>
-      <label>Full name *<input name="name" required autocomplete="name"></label>
-      <label>Phone number *<input name="phone" type="tel" required autocomplete="tel"></label>
-      <label>Email *<input name="email" type="email" required autocomplete="email"></label>
-      <label>Project type
-        <select name="projectType">
-          <option>Hardwood install</option>
-          <option>Stone or tile</option>
-          <option>LVP / vinyl</option>
-          <option>Carpet</option>
-          <option>Refinish</option>
-          <option>Remnant inquiry</option>
-          <option>Not sure yet</option>
-        </select>
-      </label>
-      <label>Remnant ID (if any)<input name="remnant" placeholder="from remnants page"></label>
-      <label>Rooms
-        <select name="rooms">
-          <option value="">Select…</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
-          <option>9+</option>
-          <option>Full house</option>
-          <option>Not sure yet</option>
-        </select>
-      </label>
-      <div style="display:grid;gap:14px;grid-template-columns:1fr 1fr">
-        <label>Timing (optional)<input name="timing" placeholder="This month, spring…"></label>
-        <label>Square footage (optional)<input name="sqft" placeholder="e.g. 850"></label>
+  <main class="survey-page">
+    <form class="wrap survey" data-quote-form data-survey>
+      <input type="hidden" name="remnant" />
+      <input type="hidden" name="rooms" />
+      <div class="survey-top">
+        <p class="survey-count" data-survey-count>1 of 8</p>
+        <div class="survey-track" aria-hidden="true"><span data-survey-bar></span></div>
       </div>
-      <label>Additional information<textarea name="notes" placeholder="Pets, stairs, existing floor, access…"></textarea></label>
-      <label>Photos or plans (optional)<input type="file" name="files" accept="image/*,.pdf" multiple></label>
-      <button class="btn" type="submit">Send request</button>
+      <p class="survey-error" data-survey-error role="alert" hidden>Choose one to continue.</p>
+      <div class="survey-stage">
+        <section class="survey-slide is-on" data-step data-tone="oak">
+          <p class="kicker">The surface</p>
+          <h1>What are we putting down?</h1>
+          <p class="lede">The material is the first thing we need to price the job.</p>
+          <p class="remnant-note" data-remnant-note hidden></p>
+          <div class="choice-grid" role="radiogroup" aria-label="Project type">
+            <label class="choice"><input type="radio" name="projectType" value="Hardwood install"><span class="swatch" style="--swatch:#c48a3a"></span><span class="choice-copy"><strong>Hardwood</strong><small>Oak, walnut, engineered</small></span></label>
+            <label class="choice"><input type="radio" name="projectType" value="Stone or tile"><span class="swatch" style="--swatch:#5f8f9a"></span><span class="choice-copy"><strong>Stone or tile</strong><small>Porcelain, marble, limestone</small></span></label>
+            <label class="choice"><input type="radio" name="projectType" value="LVP / vinyl"><span class="swatch" style="--swatch:#d7b48a"></span><span class="choice-copy"><strong>Luxury vinyl</strong><small>LVP or sheet vinyl</small></span></label>
+            <label class="choice"><input type="radio" name="projectType" value="Carpet"><span class="swatch" style="--swatch:#8e5a7c"></span><span class="choice-copy"><strong>Carpet</strong><small>Rooms or stairs</small></span></label>
+            <label class="choice"><input type="radio" name="projectType" value="Refinish"><span class="swatch" style="--swatch:#1f6b56"></span><span class="choice-copy"><strong>Refinish</strong><small>Sand and finish what is there</small></span></label>
+            <label class="choice"><input type="radio" name="projectType" value="Remnant inquiry"><span class="swatch" style="--swatch:#c6532a"></span><span class="choice-copy"><strong>A remnant</strong><small>A lot you already saw</small></span></label>
+            <label class="choice"><input type="radio" name="projectType" value="Not sure yet"><span class="swatch" style="--swatch:#245b8a"></span><span class="choice-copy"><strong>Not sure yet</strong><small>Help me choose</small></span></label>
+          </div>
+        </section>
+
+        <section class="survey-slide" data-step data-tone="tide" hidden>
+          <p class="kicker">The rooms</p>
+          <h1>Which spaces are in the job?</h1>
+          <p class="lede">Pick every area. Stairs and baths change the quote.</p>
+          <div class="choice-grid">
+            <label class="choice"><input type="checkbox" name="areas" value="Kitchen"><span class="choice-copy"><strong>Kitchen</strong></span></label>
+            <label class="choice"><input type="checkbox" name="areas" value="Bathrooms"><span class="choice-copy"><strong>Bathrooms</strong></span></label>
+            <label class="choice"><input type="checkbox" name="areas" value="Living areas"><span class="choice-copy"><strong>Living areas</strong></span></label>
+            <label class="choice"><input type="checkbox" name="areas" value="Bedrooms"><span class="choice-copy"><strong>Bedrooms</strong></span></label>
+            <label class="choice"><input type="checkbox" name="areas" value="Stairs"><span class="choice-copy"><strong>Stairs</strong></span></label>
+            <label class="choice"><input type="checkbox" name="areas" value="Halls"><span class="choice-copy"><strong>Halls</strong></span></label>
+            <label class="choice"><input type="checkbox" name="areas" value="Whole home"><span class="choice-copy"><strong>Whole home</strong></span></label>
+          </div>
+        </section>
+
+        <section class="survey-slide" data-step data-tone="clay" hidden>
+          <p class="kicker">The size</p>
+          <h1>About how much floor?</h1>
+          <p class="lede">A rough number is enough. We measure before a price is locked.</p>
+          <div class="choice-grid" role="radiogroup" aria-label="Square footage">
+            <label class="choice"><input type="radio" name="sqft" value="Under 300"><span class="choice-copy"><strong>Under 300 sq ft</strong><small>A bath, laundry, or small room</small></span></label>
+            <label class="choice"><input type="radio" name="sqft" value="300-800"><span class="choice-copy"><strong>300–800 sq ft</strong><small>A couple of rooms</small></span></label>
+            <label class="choice"><input type="radio" name="sqft" value="800-1500"><span class="choice-copy"><strong>800–1,500 sq ft</strong><small>Most of a main floor</small></span></label>
+            <label class="choice"><input type="radio" name="sqft" value="1500-3000"><span class="choice-copy"><strong>1,500–3,000 sq ft</strong><small>A large home</small></span></label>
+            <label class="choice"><input type="radio" name="sqft" value="Not sure yet"><span class="choice-copy"><strong>Not sure yet</strong><small>We will measure it</small></span></label>
+          </div>
+        </section>
+
+        <section class="survey-slide" data-step data-tone="spruce" hidden>
+          <p class="kicker">What is down now</p>
+          <h1>What are we covering or pulling up?</h1>
+          <p class="lede">Removal and the subfloor change the schedule.</p>
+          <div class="choice-grid" role="radiogroup" aria-label="Existing floor">
+            <label class="choice"><input type="radio" name="existing" value="Carpet"><span class="choice-copy"><strong>Carpet</strong></span></label>
+            <label class="choice"><input type="radio" name="existing" value="Hardwood"><span class="choice-copy"><strong>Hardwood</strong></span></label>
+            <label class="choice"><input type="radio" name="existing" value="Tile or stone"><span class="choice-copy"><strong>Tile or stone</strong></span></label>
+            <label class="choice"><input type="radio" name="existing" value="Vinyl or laminate"><span class="choice-copy"><strong>Vinyl or laminate</strong></span></label>
+            <label class="choice"><input type="radio" name="existing" value="Concrete or subfloor"><span class="choice-copy"><strong>Concrete or subfloor</strong></span></label>
+            <label class="choice"><input type="radio" name="existing" value="New construction"><span class="choice-copy"><strong>New construction</strong><small>Nothing down yet</small></span></label>
+          </div>
+        </section>
+
+        <section class="survey-slide" data-step data-tone="ochre" hidden>
+          <p class="kicker">The house</p>
+          <h1>What should we plan around?</h1>
+          <p class="lede">Pick any that apply. This keeps the quote honest.</p>
+          <div class="choice-grid">
+            <label class="choice"><input type="checkbox" name="details" value="Stairs"><span class="choice-copy"><strong>Stairs</strong></span></label>
+            <label class="choice"><input type="checkbox" name="details" value="Pets in the home"><span class="choice-copy"><strong>Pets in the home</strong></span></label>
+            <label class="choice"><input type="checkbox" name="details" value="Furniture to move"><span class="choice-copy"><strong>Furniture to move</strong></span></label>
+            <label class="choice"><input type="checkbox" name="details" value="Radiant heat"><span class="choice-copy"><strong>Radiant heat</strong></span></label>
+            <label class="choice"><input type="checkbox" name="details" value="Living there during the work"><span class="choice-copy"><strong>Living there during the work</strong></span></label>
+            <label class="choice"><input type="checkbox" name="details" value="None of these"><span class="choice-copy"><strong>None of these</strong></span></label>
+          </div>
+        </section>
+
+        <section class="survey-slide" data-step data-tone="clay" hidden>
+          <p class="kicker">Timing</p>
+          <h1>When do you want it done?</h1>
+          <div class="choice-grid" role="radiogroup" aria-label="Timing">
+            <label class="choice"><input type="radio" name="timing" value="As soon as you can"><span class="choice-copy"><strong>As soon as you can</strong></span></label>
+            <label class="choice"><input type="radio" name="timing" value="This month"><span class="choice-copy"><strong>This month</strong></span></label>
+            <label class="choice"><input type="radio" name="timing" value="Next few months"><span class="choice-copy"><strong>Next few months</strong></span></label>
+            <label class="choice"><input type="radio" name="timing" value="Just pricing for now"><span class="choice-copy"><strong>Just pricing for now</strong></span></label>
+          </div>
+        </section>
+
+        <section class="survey-slide" data-step data-tone="tide" hidden>
+          <p class="kicker">The address</p>
+          <h1>What city is the home in?</h1>
+          <p class="lede">We cover Lynnwood, Seattle, the Eastside, and the I-5 corridor.</p>
+          <label class="survey-field">City
+            <input name="city" autocomplete="address-level2" placeholder="Lynnwood, Seattle, Bellevue…">
+          </label>
+        </section>
+
+        <section class="survey-slide" data-step data-tone="spruce" hidden>
+          <p class="kicker">Almost done</p>
+          <h1>Who should we call?</h1>
+          <p class="lede">Name, phone, and email. We reply from Allstarseattle@gmail.com.</p>
+          <div class="survey-fields">
+            <label class="survey-field">Full name
+              <input name="name" autocomplete="name" placeholder="Your name">
+            </label>
+            <label class="survey-field">Phone
+              <input name="phone" type="tel" autocomplete="tel" placeholder="(206) 555-0148">
+            </label>
+            <label class="survey-field">Email
+              <input name="email" type="email" autocomplete="email" placeholder="you@email.com">
+            </label>
+            <label class="survey-field">Anything else? <span class="optional">Optional</span>
+              <textarea name="notes" placeholder="Gate code, second floor only, a finish you already love…"></textarea>
+            </label>
+          </div>
+        </section>
+      </div>
+      <div class="survey-nav">
+        <button type="button" class="btn ghost" data-survey-back hidden>Back</button>
+        <button type="button" class="btn" data-survey-next>Continue</button>
+        <button type="submit" class="btn" data-survey-send hidden>Send my quote</button>
+      </div>
     </form>
     <div class="wrap thanks" data-thanks hidden>
       <h2>We have your request.</h2>
@@ -167,6 +249,7 @@
   </footer>
     <script src="/js/theme.js"></script>
   <script src="/js/leads-config.js"></script>
+  <script src="/js/survey.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/studio-edit.js"></script>
   <script src="/js/catalog.js"></script>
