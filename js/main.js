@@ -36,7 +36,11 @@
     var data = new FormData(form);
     var payload = {};
     for (var pair of data.entries()) {
-      if (pair[0] && pair[1]) payload[pair[0]] = String(pair[1]).trim();
+      if (!pair[0]) continue;
+      var val = String(pair[1]).trim();
+      if (!val || val === "[object File]") continue;
+      if (payload[pair[0]]) payload[pair[0]] += ", " + val;
+      else payload[pair[0]] = val;
     }
     if (!payload.projectType) payload.projectType = "Quote";
     var btn = form.querySelector("button[type=submit]");
