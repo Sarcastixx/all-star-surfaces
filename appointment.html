@@ -56,34 +56,70 @@
     </nav>
   </header>
 
-  <main>
-    <header class="wrap page-hero">
-      <p class="kicker">Showroom</p>
-      <h1>Book a showroom visit.</h1>
-      <p class="lede">See samples in person at our Lynnwood shop. We offer flexible scheduling, after-hours appointments, and Saturdays by request — just tell us what works for you.</p>
-    </header>
-    <form class="wrap form" data-quote-form>
-      <label>Full name *<input name="name" required autocomplete="name"></label>
-      <label>Phone number *<input name="phone" type="tel" required autocomplete="tel"></label>
-      <label>Email *<input name="email" type="email" required autocomplete="email"></label>
-      <label>Preferred date<input name="preferredDate" type="date"></label>
-      <label>Preferred time window
-        <select name="timeWindow">
-          <option value="">Select…</option>
-          <option>Morning (9–12)</option>
-          <option>Afternoon (12–5)</option>
-          <option>After hours (5–8)</option>
-          <option>Saturday</option>
-          <option>Flexible / any time</option>
-        </select>
-      </label>
-      <label>What would you like to see? (optional)<textarea name="notes" placeholder="Hardwood samples, tile, LVP, specific project ideas…"></textarea></label>
-      <input type="hidden" name="projectType" value="Showroom appointment">
-      <button class="btn" type="submit">Request appointment</button>
+  <main class="survey-page">
+    <form class="wrap survey" data-quote-form data-survey>
+      <input type="hidden" name="projectType" value="Showroom appointment" />
+      <div class="survey-top">
+        <p class="survey-count" data-survey-count>1 of 3</p>
+        <div class="survey-track" aria-hidden="true"><span data-survey-bar></span></div>
+      </div>
+      <p class="survey-error" data-survey-error role="alert" hidden>Choose one to continue.</p>
+      <div class="survey-stage">
+        <section class="survey-slide is-on" data-step data-tone="spruce">
+          <p class="kicker">Showroom</p>
+          <h1>When should we see you?</h1>
+          <p class="lede">The Lynnwood shop is open weekdays, 9 to 5. After hours is welcome — we allow evening visits — and Saturday is by appointment.</p>
+          <div class="choice-grid" role="radiogroup" aria-label="Time of day">
+            <label class="choice"><input type="radio" name="timeWindow" value="Morning (9–12)"><span class="choice-copy"><strong>Morning</strong><small>9 to 12, shop hours</small></span></label>
+            <label class="choice"><input type="radio" name="timeWindow" value="Afternoon (12–5)"><span class="choice-copy"><strong>Afternoon</strong><small>12 to 5, shop hours</small></span></label>
+            <label class="choice"><input type="radio" name="timeWindow" value="After hours (5–8)"><span class="choice-copy"><strong>After hours</strong><small>5 to 8. We allow this.</small></span></label>
+            <label class="choice"><input type="radio" name="timeWindow" value="Flexible / any time"><span class="choice-copy"><strong>I'm flexible</strong><small>Call me with a time</small></span></label>
+          </div>
+        </section>
+
+        <section class="survey-slide" data-step data-tone="ochre" hidden>
+          <p class="kicker">The day</p>
+          <h1>Which day works?</h1>
+          <p class="lede">Saturday is fine. Sunday the shop is closed.</p>
+          <div class="choice-grid" role="radiogroup" aria-label="Preferred day">
+            <label class="choice"><input type="radio" name="preferredDate" value="Monday"><span class="choice-copy"><strong>Monday</strong></span></label>
+            <label class="choice"><input type="radio" name="preferredDate" value="Tuesday"><span class="choice-copy"><strong>Tuesday</strong></span></label>
+            <label class="choice"><input type="radio" name="preferredDate" value="Wednesday"><span class="choice-copy"><strong>Wednesday</strong></span></label>
+            <label class="choice"><input type="radio" name="preferredDate" value="Thursday"><span class="choice-copy"><strong>Thursday</strong></span></label>
+            <label class="choice"><input type="radio" name="preferredDate" value="Friday"><span class="choice-copy"><strong>Friday</strong></span></label>
+            <label class="choice"><input type="radio" name="preferredDate" value="Saturday"><span class="choice-copy"><strong>Saturday</strong><small>By appointment</small></span></label>
+          </div>
+        </section>
+
+        <section class="survey-slide" data-step data-tone="clay" hidden>
+          <p class="kicker">Confirm</p>
+          <h1>Who should we text?</h1>
+          <p class="lede">We'll confirm the visit from Allstarseattle@gmail.com. After-hours times are welcome.</p>
+          <div class="survey-fields">
+            <label class="survey-field">Full name
+              <input name="name" autocomplete="name" placeholder="Your name">
+            </label>
+            <label class="survey-field">Phone
+              <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(206) 555-0148">
+            </label>
+            <label class="survey-field">Email
+              <input name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com">
+            </label>
+            <label class="survey-field">What do you want to see? <span class="optional">Optional</span>
+              <textarea name="notes" placeholder="Oak samples, tile, a remnant, a whole-house look…"></textarea>
+            </label>
+          </div>
+        </section>
+      </div>
+      <div class="survey-nav">
+        <button type="button" class="btn ghost" data-survey-back hidden>Back</button>
+        <button type="button" class="btn" data-survey-next>Continue</button>
+        <button type="submit" class="btn" data-survey-send hidden>Request the visit</button>
+      </div>
     </form>
     <div class="wrap thanks" data-thanks hidden>
       <h2>Appointment request received.</h2>
-      <p class="lede">Thanks <span data-who></span>. We’ll confirm your showroom visit from Allstarseattle@gmail.com. Looking forward to seeing you!</p>
+      <p class="lede">Thanks <span data-who></span>. We'll confirm your showroom visit from Allstarseattle@gmail.com, including after hours if that's what you picked.</p>
     </div>
   </main>
 
@@ -148,6 +184,7 @@
   </footer>
     <script src="/js/theme.js"></script>
   <script src="/js/leads-config.js"></script>
+  <script src="/js/survey.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/studio-edit.js"></script>
   <script src="/js/catalog.js"></script>
