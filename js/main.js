@@ -175,18 +175,18 @@
   var KEY = "as-cookie-consent";
   var banner = null;
 
-  // Inject styles so the banner works even if styles.css is large
   var style = document.createElement("style");
-  style.textContent = "
-.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:1000;background:var(--cream,#efe8dc);border-top:1px solid var(--line,#d9d0c3);padding:16px 20px;box-shadow:0 -8px 32px rgb(47 42 36 / .12);transform:translateY(100%);transition:transform .35s cubic-bezier(.2,0,0,1);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
-.cookie-banner.is-visible{transform:translateY(0)}
-.cookie-banner p{margin:0;flex:1 1 280px;font-size:14px;color:var(--ink-soft,#5a5248);line-height:1.4}
-.cookie-banner-actions{display:flex;gap:8px;flex-shrink:0}
-.cookie-banner .btn{min-height:40px;padding:0 16px;font-size:13px}
-.cookie-settings-link{color:var(--muted,#8a8175);font-size:12px;text-decoration:underline;cursor:pointer;background:none;border:0;padding:0;font-family:inherit}
-.cookie-settings-link:hover{color:var(--ink,#2f2a24)}
-@media(max-width:600px){.cookie-banner{padding:14px 16px;flex-direction:column;align-items:stretch}.cookie-banner-actions{justify-content:flex-end}}
-";
+  style.textContent = [
+    ".cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--cream,#efe8dc);color:var(--ink,#2f2a24);border-top:1px solid var(--line,#d9d0c3);padding:16px 20px;box-shadow:0 -8px 32px rgb(47 42 36 / .12);transform:translateY(110%);transition:transform .35s cubic-bezier(.2,0,0,1);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}",
+    ".cookie-banner.is-visible{transform:translateY(0)}",
+    ".cookie-banner p{margin:0;flex:1 1 280px;font-size:14px;color:var(--ink-soft,#5a5248);line-height:1.45}",
+    ".cookie-banner-actions{display:flex;gap:8px;flex-shrink:0}",
+    ".cookie-banner .btn{min-height:44px;padding:0 16px;font-size:13px}",
+    ".cookie-settings-link{color:var(--muted,#8a8175);font-size:12px;text-decoration:underline;cursor:pointer;background:none;border:0;padding:0;font-family:inherit}",
+    ".cookie-settings-link:hover{color:var(--ink,#2f2a24)}",
+    "body.has-cookie-banner .quote-fab{bottom:108px}",
+    "@media(max-width:600px){.cookie-banner{padding:14px 16px;flex-direction:column;align-items:stretch}.cookie-banner-actions{justify-content:flex-end}body.has-cookie-banner .quote-fab{bottom:168px}}"
+  ].join("\n");
   document.head.appendChild(style);
 
   function createBanner() {
@@ -196,7 +196,7 @@
     banner.setAttribute("role", "dialog");
     banner.setAttribute("aria-label", "Cookie consent");
     banner.innerHTML =
-      '<p>We use cookies to improve your experience and analyze site traffic. By continuing, you agree to our use of cookies. <button type="button" class="cookie-settings-link" data-cookie-more>Learn more</button></p>' +
+      '<p>This site keeps a preference in your browser so the banner stays dismissed. No ad cookies. <button type="button" class="cookie-settings-link" data-cookie-more>Learn more</button></p>' +
       '<div class="cookie-banner-actions">' +
         '<button type="button" class="btn ghost" data-cookie-decline>Decline</button>' +
         '<button type="button" class="btn" data-cookie-accept>Accept</button>' +
@@ -204,30 +204,35 @@
     document.body.appendChild(banner);
 
     banner.querySelector("[data-cookie-accept]").addEventListener("click", function () {
-      localStorage.setItem(KEY, "accepted");
+      try { localStorage.setItem(KEY, "accepted"); } catch (e) {}
       hideBanner();
     });
     banner.querySelector("[data-cookie-decline]").addEventListener("click", function () {
-      localStorage.setItem(KEY, "declined");
+      try { localStorage.setItem(KEY, "declined"); } catch (e) {}
       hideBanner();
     });
     banner.querySelector("[data-cookie-more]").addEventListener("click", function () {
-      alert("Allstar Surfaces uses essential cookies for site function and optional analytics cookies. You can change your preference anytime via the Cookie settings link in the footer.");
+      var p = banner.querySelector("p");
+      if (!p) return;
+      p.textContent = "Allstar Surfaces stores your cookie choice and theme on this device. Quote requests go to the shop. There is no third-party ad tracker. Use Cookie settings in the footer to choose again.";
     });
     return banner;
   }
 
   function showBanner() {
     var b = createBanner();
+    document.body.classList.add("has-cookie-banner");
     requestAnimationFrame(function () { b.classList.add("is-visible"); });
   }
 
   function hideBanner() {
+    document.body.classList.remove("has-cookie-banner");
     if (!banner) return;
     banner.classList.remove("is-visible");
+    var node = banner;
+    banner = null;
     setTimeout(function () {
-      if (banner && banner.parentNode) banner.parentNode.removeChild(banner);
-      banner = null;
+      if (node.parentNode) node.parentNode.removeChild(node);
     }, 400);
   }
 
@@ -241,28 +246,23 @@
     link.textContent = "Cookie settings";
     link.style.marginLeft = "12px";
     link.addEventListener("click", function () {
-      localStorage.removeItem(KEY);
+      try { localStorage.removeItem(KEY); } catch (e) {}
       showBanner();
     });
     var end = footBottom.querySelector(".foot-bottom-end") || footBottom;
     end.appendChild(link);
   }
 
-  if (!localStorage.getItem(KEY)) {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", function () {
-        showBanner();
-        addFooterLink();
-      });
-    } else {
-      showBanner();
-      addFooterLink();
-    }
+  function start() {
+    addFooterLink();
+    var saved = "";
+    try { saved = localStorage.getItem(KEY) || ""; } catch (e) {}
+    if (!saved) showBanner();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start);
   } else {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", addFooterLink);
-    } else {
-      addFooterLink();
-    }
+    start();
   }
 })();
