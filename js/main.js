@@ -44,6 +44,7 @@
     var payload = {};
     for (var pair of data.entries()) {
       if (!pair[0]) continue;
+      if (pair[1] && pair[1].name && pair[1].size != null) continue;
       var val = String(pair[1]).trim();
       if (!val || val === "[object File]") continue;
       if (payload[pair[0]]) payload[pair[0]] += ", " + val;
@@ -62,32 +63,70 @@
       var who = thanks.querySelector("[data-who]");
       if (who) who.textContent = (payload.name || "").split(" ")[0] || "";
     }
-    var sheet = window.AS_SHEET_WEBHOOK;
-    if (sheet) {
-      fetch(sheet, {
+    function send() {
+      var sheet = window.AS_SHEET_WEBHOOK;
+      if (sheet) {
+        fetch(sheet, {
+          method: "POST",
+          mode: "no-cors",
+          body: JSON.stringify(payload)
+        }).catch(function () {});
+      }
+      var timer = setTimeout(done, 7000);
+      fetch("/api/quote", {
         method: "POST",
-        mode: "no-cors",
+        headers: { "content-type": "application/json" },
         body: JSON.stringify(payload)
-      }).catch(function () {});
+      }).then(function (res) {
+        if (!res.ok) throw new Error("send");
+        clearTimeout(timer);
+        done();
+      }).catch(function () {
+        clearTimeout(timer);
+        if (sheet) { done(); return; }
+        var mail = {};
+        Object.keys(payload).forEach(function (k) { if (k !== "photoData") mail[k] = payload[k]; });
+        var body = Object.keys(mail).map(function(k){ return k + ": " + mail[k]; }).join("\n");
+        window.location.href = "mailto:Allstarseattle@gmail.com?subject=" + encodeURIComponent((payload.projectType || "Request") + " from " + (payload.name || "")) + "&body=" + encodeURIComponent(body);
+        done();
+      });
     }
-    var timer = setTimeout(done, 7000);
-    fetch("/api/quote", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(payload)
-    }).then(function (res) {
-      if (!res.ok) throw new Error("send");
-      clearTimeout(timer);
-      done();
-    }).catch(function () {
-      clearTimeout(timer);
-      if (sheet) { done(); return; }
-      var body = Object.keys(payload).map(function(k){ return k + ": " + payload[k]; }).join("\n");
-      window.location.href = "mailto:Allstarseattle@gmail.com?subject=" + encodeURIComponent((payload.projectType || "Request") + " from " + (payload.name || "")) + "&body=" + encodeURIComponent(body);
-      done();
-    });
+    var fileInput = form.querySelector("input[type=file]");
+    var files = fileInput && fileInput.files ? Array.prototype.slice.call(fileInput.files, 0, 3) : [];
+    if (!files.length) { send(); return; }
+    payload.photos = files.map(function (file) { return file.name; }).join(", ");
+    Promise.all(files.map(shrinkPhoto)).then(function (shots) {
+      var kept = shots.filter(Boolean);
+      var packed = JSON.stringify(kept);
+      if (kept.length && packed.length < 140000) payload.photoData = kept;
+      send();
+    }).catch(function () { send(); });
   });
 })();
+
+function shrinkPhoto(file) {
+  return new Promise(function (resolve) {
+    if (!file || !file.type || file.type.indexOf("image/") !== 0) { resolve(null); return; }
+    var reader = new FileReader();
+    reader.onerror = function () { resolve(null); };
+    reader.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var max = 720;
+        var scale = Math.min(1, max / Math.max(img.width, img.height));
+        var canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(img.width * scale));
+        canvas.height = Math.max(1, Math.round(img.height * scale));
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve({ name: file.name, data: canvas.toDataURL("image/jpeg", 0.55) });
+      };
+      img.onerror = function () { resolve(null); };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 (function () {
   var bar = document.querySelector("[data-filters]");
@@ -276,4 +315,15 @@
   } else {
     start();
   }
+})();
+
+(function () {
+  var header = document.querySelector(".site-header");
+  if (!header) return;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function sync() {
+    header.classList.toggle("is-top", !reduce && window.scrollY < 12);
+  }
+  sync();
+  window.addEventListener("scroll", sync, { passive: true });
 })();
