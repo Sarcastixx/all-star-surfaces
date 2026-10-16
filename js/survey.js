@@ -139,4 +139,19 @@
   }, true);
 
   show(0, false);
+
+  var fileInput = form.querySelector("input[type=file]");
+  var preview = form.querySelector("[data-photo-preview]");
+  if (fileInput && preview) {
+    fileInput.addEventListener("change", function () {
+      preview.innerHTML = "";
+      Array.prototype.forEach.call(fileInput.files, function (file) {
+        if (!file.type || file.type.indexOf("image/") !== 0) return;
+        var img = document.createElement("img");
+        img.alt = "";
+        img.src = URL.createObjectURL(file);
+        preview.appendChild(img);
+      });
+    });
+  }
 })();
