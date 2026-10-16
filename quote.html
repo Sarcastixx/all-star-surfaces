@@ -61,7 +61,7 @@
       <input type="hidden" name="remnant" />
       <input type="hidden" name="rooms" />
       <div class="survey-top">
-        <p class="survey-count" data-survey-count>1 of 8</p>
+        <p class="survey-count" data-survey-count>1 of 7</p>
         <div class="survey-track" aria-hidden="true"><span data-survey-bar></span></div>
       </div>
       <p class="survey-error" data-survey-error role="alert" hidden>Choose one to continue.</p>
@@ -125,20 +125,6 @@
           </div>
         </section>
 
-        <section class="survey-slide" data-step data-tone="ochre" hidden>
-          <p class="kicker">The house</p>
-          <h1>What should we plan around?</h1>
-          <p class="lede">Pick any that apply. This keeps the quote honest.</p>
-          <div class="choice-grid">
-            <label class="choice"><input type="checkbox" name="details" value="Stairs"><span class="choice-copy"><strong>Stairs</strong></span></label>
-            <label class="choice"><input type="checkbox" name="details" value="Pets in the home"><span class="choice-copy"><strong>Pets in the home</strong></span></label>
-            <label class="choice"><input type="checkbox" name="details" value="Furniture to move"><span class="choice-copy"><strong>Furniture to move</strong></span></label>
-            <label class="choice"><input type="checkbox" name="details" value="Radiant heat"><span class="choice-copy"><strong>Radiant heat</strong></span></label>
-            <label class="choice"><input type="checkbox" name="details" value="Living there during the work"><span class="choice-copy"><strong>Living there during the work</strong></span></label>
-            <label class="choice"><input type="checkbox" name="details" value="None of these"><span class="choice-copy"><strong>None of these</strong></span></label>
-          </div>
-        </section>
-
         <section class="survey-slide" data-step data-tone="clay" hidden>
           <p class="kicker">Timing</p>
           <h1>When do you want it done?</h1>
@@ -173,9 +159,13 @@
             <label class="survey-field">Email
               <input name="email" type="email" autocomplete="email" placeholder="you@email.com">
             </label>
-            <label class="survey-field">Anything else? <span class="optional">Optional</span>
-              <textarea name="notes" placeholder="Gate code, second floor only, a finish you already love…"></textarea>
+            <label class="survey-field">Additional message <span class="optional">Optional</span>
+              <textarea name="notes" placeholder="Stairs, pets, a finish you already love, how we get into the house…"></textarea>
             </label>
+            <label class="survey-field">Photos <span class="optional">Optional</span>
+              <input name="photos" type="file" accept="image/*" multiple>
+            </label>
+            <div class="photo-preview" data-photo-preview></div>
           </div>
         </section>
       </div>
