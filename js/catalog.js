@@ -100,8 +100,13 @@
   function apply(data) {
     Object.keys(data.photos || {}).forEach(function (slot) {
       if (slot === "hero") return;
-      if (!data.photos[slot]) return;
       document.querySelectorAll('[data-slot="' + slot + '"]').forEach(function (img) {
+        if (data.photos[slot] === "removed" || data.photos[slot] === "") {
+          img.classList.add("is-cleared");
+          return;
+        }
+        if (!data.photos[slot]) return;
+        img.classList.remove("is-cleared");
         if (img.getAttribute("src") !== data.photos[slot]) img.setAttribute("src", data.photos[slot]);
       });
     });
@@ -127,7 +132,7 @@
         var key = localStorage.key(i);
         if (key && key.indexOf("as-photo-") === 0) {
           var val = localStorage.getItem(key);
-          if (val) photos[key.slice(9)] = val;
+          if (val != null) photos[key.slice(9)] = val;
         }
       }
     } catch (e) {}
@@ -160,6 +165,8 @@
   window.setTimeout(markReady, 1400);
 
   loadCatalog().then(function (data) {
+    var local = cacheRead();
+    data.photos = Object.assign({}, data.photos || {}, local.photos || {});
     apply(data);
     cacheSave(data);
     markReady();
