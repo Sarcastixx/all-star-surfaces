@@ -19,10 +19,14 @@
     return "hardwood";
   }
 
+  function ownPhoto(val) {
+    return typeof val === "string" && val.indexOf("data:image/") === 0;
+  }
+
   function remnantCard(item) {
     var card = el("article", { class: "shop-card", "data-id": item.id, "data-surface": surfaceOf(item) });
-    var media = el("div", { class: "shop-media" });
-    if (item.photo) media.appendChild(el("img", { src: item.photo, alt: item.title || "" }));
+    var media = el("div", { class: "shop-media photo-hold" });
+    if (ownPhoto(item.photo)) media.appendChild(el("img", { src: item.photo, alt: item.title || "" }));
     media.appendChild(el("span", { class: "shop-badge" }, SURFACES[surfaceOf(item)] || "Lot"));
     card.appendChild(media);
     var body = el("div", { class: "shop-body" });
@@ -42,8 +46,8 @@
     var tag = asLink ? "a" : "article";
     var card = el(tag, { class: "shop-card job-card", "data-id": item.id || "" });
     if (asLink) card.setAttribute("href", "/portfolio");
-    var media = el("div", { class: "shop-media" });
-    if (item.photo) media.appendChild(el("img", { src: item.photo, alt: caption }));
+    var media = el("div", { class: "shop-media photo-hold" });
+    if (ownPhoto(item.photo)) media.appendChild(el("img", { src: item.photo, alt: caption }));
     card.appendChild(media);
     var body = el("div", { class: "shop-body" });
     body.appendChild(el(asLink ? "h3" : "h2", null, caption));
@@ -101,11 +105,11 @@
     Object.keys(data.photos || {}).forEach(function (slot) {
       if (slot === "hero") return;
       document.querySelectorAll('[data-slot="' + slot + '"]').forEach(function (img) {
-        if (data.photos[slot] === "removed" || data.photos[slot] === "") {
-          img.classList.add("is-cleared");
+        if (!ownPhoto(data.photos[slot])) {
+          img.removeAttribute("src");
+          img.classList.add("photo-hold");
           return;
         }
-        if (!data.photos[slot]) return;
         img.classList.remove("is-cleared");
         if (img.getAttribute("src") !== data.photos[slot]) img.setAttribute("src", data.photos[slot]);
       });
