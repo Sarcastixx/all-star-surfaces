@@ -680,8 +680,20 @@ html.is-studio { scroll-padding-top: 64px; }
 .studio-text { outline: 1px dashed color-mix(in srgb, var(--ink) 28%, transparent); outline-offset: 4px; }
 .studio-photo { position: relative; display: inline-block; max-width: 100%; }
 .studio-photo img { display: block; width: 100%; }
-.studio-photo img.is-cleared { visibility: hidden; }
-.hero-slide.is-cleared { display: none !important; }
+.studio-photo img.photo-hold,
+img.is-cleared,
+.shop-media.photo-hold,
+.sample-row {
+  background: #e4dccf;
+}
+img.photo-hold:not([src]),
+img.is-cleared:not([src]) {
+  visibility: hidden;
+  border: 0;
+}
+.hero-slide.is-cleared { display: block !important; }
+.shop-media.photo-hold { min-height: 220px; }
+.sample-row { border-radius: 24px; }
 .studio-file {
   position: fixed;
   width: 1px;
