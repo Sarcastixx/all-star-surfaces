@@ -264,7 +264,7 @@ function shrinkPhoto(file) {
     banner.querySelector("[data-cookie-more]").addEventListener("click", function () {
       var p = banner.querySelector("p");
       if (!p) return;
-      p.textContent = "Allstar Surfaces stores your cookie choice and theme on this device. Quote requests go to the shop. There is no third-party ad tracker. Use Cookie settings in the footer to choose again.";
+      p.textContent = "ALLSTAR Surfaces stores your cookie choice and theme on this device. Quote requests go to the shop. There is no third-party ad tracker. Use Cookie settings in the footer to choose again.";
     });
     return banner;
   }
