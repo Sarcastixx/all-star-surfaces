@@ -15,10 +15,16 @@
     dotsWrap.appendChild(b);
   });
   function show(n) {
+    var guard = 0;
+    while (slides[n] && slides[n].classList.contains("is-cleared") && guard < slides.length) {
+      n = (n + 1) % slides.length;
+      guard += 1;
+    }
     i = n;
-    slides.forEach(function (s, k) { s.classList.toggle("is-active", k === n); });
+    slides.forEach(function (s, k) { s.classList.toggle("is-active", k === n && !s.classList.contains("is-cleared")); });
     Array.prototype.forEach.call(dotsWrap.children, function (d, k) {
       d.classList.toggle("is-on", k === n);
+      d.hidden = slides[k].classList.contains("is-cleared");
     });
   }
   root.addEventListener("mouseenter", function () { paused = true; });
