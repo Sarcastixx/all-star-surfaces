@@ -122,53 +122,77 @@
       wrap.className = "studio-photo";
       img.parentNode.insertBefore(wrap, img);
       wrap.appendChild(img);
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "studio-photo-btn";
-      btn.textContent = "Change photo";
-      wrap.appendChild(btn);
+      var tools = document.createElement("span");
+      tools.className = "studio-photo-tools";
+      var change = document.createElement("button");
+      change.type = "button";
+      change.className = "studio-photo-btn";
+      change.textContent = "Change photo";
+      var remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "studio-photo-btn is-remove";
+      remove.textContent = "Remove";
+      tools.appendChild(change);
+      tools.appendChild(remove);
+      wrap.appendChild(tools);
       var input = document.createElement("input");
       input.type = "file";
       input.accept = "image/*";
-      input.setAttribute("capture", "environment");
-      input.hidden = true;
+      input.className = "studio-file";
+      input.setAttribute("aria-hidden", "true");
+      input.tabIndex = -1;
       document.body.appendChild(input);
-      function stop(e) {
+      var slot = img.getAttribute("data-slot");
+      function paint(photo) {
+        document.querySelectorAll('[data-slot="' + slot + '"]').forEach(function (node) {
+          if (!photo) {
+            node.classList.add("is-cleared");
+            return;
+          }
+          node.classList.remove("is-cleared");
+          node.setAttribute("src", photo);
+        });
+      }
+      function remember(photo) {
+        try { localStorage.setItem("as-photo-" + slot, photo || "removed"); }
+        catch (err) { toast("That photo is too big to keep on this device"); return false; }
+        return true;
+      }
+      change.addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
-      }
-      wrap.addEventListener("click", function (e) {
-        stop(e);
         input.click();
-      }, true);
-      btn.addEventListener("click", function (e) {
-        stop(e);
-        input.click();
-      }, true);
-      var link = wrap.closest("a");
-      if (link) {
-        link.setAttribute("data-studio-locked", "");
-        link.addEventListener("click", function (e) {
-          stop(e);
-        }, true);
-      }
+      });
+      remove.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!window.confirm("Remove this photo?")) return;
+        if (!remember("")) return;
+        paint("");
+        api("/api/photo", { token: token(), slot: slot, photo: "" }).catch(function () {});
+        toast("Photo removed");
+      });
       input.addEventListener("change", async function () {
         var file = input.files && input.files[0];
         input.value = "";
         if (!file) return;
         try {
           var photo = await readPhoto(file);
-          var slot = img.getAttribute("data-slot");
-          document.querySelectorAll('[data-slot="' + slot + '"]').forEach(function (node) {
-            node.setAttribute("src", photo);
-          });
-          try { localStorage.setItem("as-photo-" + slot, photo); } catch (err) {}
-          await api("/api/photo", { token: token(), slot: slot, photo: photo });
+          if (!remember(photo)) return;
+          paint(photo);
+          api("/api/photo", { token: token(), slot: slot, photo: photo }).catch(function () {});
           toast("Photo saved");
         } catch (ex) {
           toast(ex.message || "Could not save photo");
         }
       });
+      var link = wrap.closest("a");
+      if (link) {
+        link.setAttribute("data-studio-locked", "");
+        link.addEventListener("click", function (e) {
+          if (e.target.closest(".studio-photo-tools")) e.preventDefault();
+        });
+      }
     });
   }
 
@@ -379,12 +403,6 @@
     if (isFull()) markEditable();
     remnantTools();
     jobTools();
-    document.addEventListener("click", function (e) {
-      if (e.target.closest("[data-photo-edit], .studio-photo-btn")) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    }, true);
   }
 
   document.addEventListener("as-catalog-ready", function () {
