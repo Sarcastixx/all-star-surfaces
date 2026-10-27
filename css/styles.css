@@ -1068,3 +1068,7 @@ body.has-cookie-banner .survey-page { padding-bottom: 260px; }
 [data-theme="dark"] .remnant-note { background: #3a2c1c; color: #f3d7a4; }
 [data-theme="dark"] .section a[href="/services"],
 [data-theme="dark"] .section a[href="/portfolio"] { color: #8fd0b8; }
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
