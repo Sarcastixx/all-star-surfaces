@@ -754,21 +754,52 @@ html.is-studio { scroll-padding-top: 64px; }
   border-bottom: 0;
   background: #e4d9c8;
   backdrop-filter: none;
+  transition: box-shadow 480ms ease;
+}
+.site-header:not(.is-top) {
+  box-shadow: 0 12px 28px rgb(47 42 36 / 0.06);
 }
 .site-header::after {
   content: "";
   display: block;
   height: 5px;
-  background-image: linear-gradient(90deg, #1f6b56 0%, #e3a008 25%, #c6532a 50%, #245b8a 75%, #1f6b56 100%);
-  background-size: 480px 100%;
+  background-image: linear-gradient(90deg,
+    #1f6b56 0%,
+    #3d9a72 8%,
+    #d6c15a 16%,
+    #e3a008 26%,
+    #efb04a 34%,
+    #c6532a 44%,
+    #e07a4a 52%,
+    #c45a78 60%,
+    #245b8a 70%,
+    #3d7eb8 78%,
+    #6a5aa8 86%,
+    #2a7a62 94%,
+    #1f6b56 100%);
+  background-size: 1800px 100%;
   background-repeat: repeat-x;
-  animation: accentLoop 14s linear infinite;
+  animation: accentLoop 36s linear infinite;
 }
-.site-header.is-top::after { animation-duration: 2.4s; }
+.site-header.is-top::after { animation-duration: 5s; }
 @keyframes accentLoop {
   from { background-position: 0 0; }
-  to { background-position: -480px 0; }
+  to { background-position: -1800px 0; }
 }
+@media (min-width: 960px) {
+  .site-header::after {
+    height: 6px;
+    background-size: 4800px 100%;
+    animation-name: accentLoopWide;
+    animation-duration: 72s;
+  }
+  .site-header.is-top::after { animation-duration: 14s; }
+}
+@keyframes accentLoopWide {
+  from { background-position: 0 0; }
+  to { background-position: -4800px 0; }
+}
+::selection { background: #d7ebe2; color: #17382d; }
 .kicker { color: var(--clay); }
 .nav-item.is-on, .nav-item:hover {
   background: #e5f3ec;
@@ -843,7 +874,7 @@ html, body { background: var(--bg); overflow-x: clip; }
 .home-tiles a:nth-child(3) { animation-delay: 140ms; }
 .home-tiles a:nth-child(4) { animation-delay: 210ms; }
 .home-tiles a:hover,
-.card:hover { transform: translateY(-6px); }
+.card:hover { transform: translateY(-3px); }
 .visit-square {
   position: relative;
   z-index: 2;
