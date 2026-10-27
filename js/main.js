@@ -9,10 +9,19 @@
   }
 })();
 (function () {
-  document.querySelectorAll(".vendor-card img").forEach(function (img) {
-    function hide() { img.hidden = true; }
-    img.addEventListener("error", hide);
-    if (img.complete && img.naturalWidth === 0) hide();
+  document.querySelectorAll(".vendor-mark img").forEach(function (img) {
+    function fail() {
+      if (img.hidden) return;
+      img.hidden = true;
+      var mark = img.parentNode;
+      if (!mark || mark.querySelector(".vendor-fallback")) return;
+      var letters = document.createElement("span");
+      letters.className = "vendor-fallback";
+      letters.textContent = img.alt || "";
+      mark.appendChild(letters);
+    }
+    img.addEventListener("error", fail);
+    if (img.complete && img.naturalWidth === 0) fail();
   });
 })();
 (function () {
@@ -326,4 +335,54 @@ function shrinkPhoto(file) {
   }
   sync();
   window.addEventListener("scroll", sync, { passive: true });
+})();
+
+(function () {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (window.matchMedia("(pointer: coarse)").matches) return;
+  var target = window.scrollY;
+  var current = window.scrollY;
+  var running = false;
+  var fromUs = false;
+  function limit() {
+    return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  }
+  function tick() {
+    current += (target - current) * 0.08;
+    if (Math.abs(target - current) < 0.4) current = target;
+    fromUs = true;
+    window.scrollTo(0, current);
+    fromUs = false;
+    if (current !== target) requestAnimationFrame(tick);
+    else running = false;
+  }
+  function blocked(start) {
+    var node = start;
+    while (node && node !== document.body) {
+      var tag = node.tagName;
+      if (tag === "TEXTAREA" || tag === "SELECT") return true;
+      var style = window.getComputedStyle(node);
+      var scrollable = (style.overflowY === "auto" || style.overflowY === "scroll") && node.scrollHeight > node.clientHeight + 4;
+      if (scrollable) return true;
+      node = node.parentElement;
+    }
+    return false;
+  }
+  window.addEventListener("wheel", function (e) {
+    if (e.ctrlKey || blocked(e.target)) return;
+    e.preventDefault();
+    var delta = e.deltaY;
+    if (e.deltaMode === 1) delta *= 16;
+    if (e.deltaMode === 2) delta *= window.innerHeight;
+    target = Math.min(limit(), Math.max(0, target + delta * 0.72));
+    if (!running) {
+      running = true;
+      current = window.scrollY;
+      requestAnimationFrame(tick);
+    }
+  }, { passive: false });
+  window.addEventListener("scroll", function () {
+    if (fromUs) return;
+    target = current = window.scrollY;
+  }, { passive: true });
 })();
