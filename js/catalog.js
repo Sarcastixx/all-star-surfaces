@@ -108,6 +108,7 @@
         if (!ownPhoto(data.photos[slot])) {
           img.removeAttribute("src");
           img.classList.add("photo-hold");
+          img.classList.add("is-cleared");
           return;
         }
         img.classList.remove("is-cleared");
@@ -145,8 +146,18 @@
 
   function cacheSave(data) {
     try { localStorage.setItem("as-copy", JSON.stringify(data.copy || {})); } catch (e) {}
+    try {
+      var toRemove = [];
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        if (key && key.indexOf("as-photo-") === 0) toRemove.push(key);
+      }
+      toRemove.forEach(function (k) { localStorage.removeItem(k); });
+    } catch (e) {}
     Object.keys(data.photos || {}).forEach(function (k) {
-      try { localStorage.setItem("as-photo-" + k, data.photos[k]); } catch (e) {}
+      if (data.photos[k]) {
+        try { localStorage.setItem("as-photo-" + k, data.photos[k]); } catch (e) {}
+      }
     });
   }
 
@@ -154,23 +165,10 @@
     document.documentElement.classList.add("as-ready");
   }
 
-  var cached = cacheRead();
-  apply(cached);
-  var slots = document.querySelectorAll("img[data-slot]");
-  var cachedPhotos = true;
-  slots.forEach(function (img) {
-    var k = img.getAttribute("data-slot");
-    if (!k || k === "hero") return;
-    if (!cached.photos[k]) cachedPhotos = false;
-  });
-  var hasCopyCache = false;
-  try { hasCopyCache = !!localStorage.getItem("as-copy"); } catch (e) {}
-  if ((!slots.length || cachedPhotos) && (hasCopyCache || !document.querySelector("[data-copy]"))) markReady();
-  window.setTimeout(markReady, 1400);
+  markReady();
+  window.setTimeout(markReady, 400);
 
   loadCatalog().then(function (data) {
-    var local = cacheRead();
-    data.photos = Object.assign({}, data.photos || {}, local.photos || {});
     apply(data);
     cacheSave(data);
     markReady();
@@ -207,5 +205,9 @@
       mount("[data-jobs]", jobs.map(function (i) { return jobCard(i, featuredOnly); }));
     }
     document.dispatchEvent(new Event("as-catalog-ready"));
+  }).catch(function () {
+    var cached = cacheRead();
+    apply(cached);
+    markReady();
   });
 })();
