@@ -12,7 +12,7 @@
   --sans: "Manrope", system-ui, sans-serif;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.5; -webkit-font-smoothing: antialiased; }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -291,7 +291,7 @@ footer { background: var(--cream); border-top: 1px solid var(--line); padding: 8
 .shop-card { background: var(--cream); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; color: inherit; }
 .shop-media { position: relative; }
 .shop-media img { width: 100%; height: 220px; object-fit: cover; }
-.shop-badge { position: absolute; left: 12px; top: 12px; padding: 4px 10px; border-radius: 999px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; background: var(--surface); color: var(--ink); }
+.shop-badge { position: absolute; right: 10px; top: 10px; left: auto; padding: 4px 8px; border-radius: 999px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); background: color-mix(in srgb, white 42%, transparent); border: 1px solid rgb(255 255 255 / 0.55); box-shadow: 0 8px 18px rgb(47 42 36 / 0.12); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%); }
 .shop-badge.hold { background: #efe0c4; }
 .shop-badge.sold { background: #ddd6cc; color: var(--muted); }
 .shop-body { padding: 16px 18px 20px; display: grid; gap: 8px; }
@@ -326,10 +326,10 @@ html { color-scheme: light dark; }
 .lift-card { transition: transform 200ms ease, box-shadow 200ms ease; }
 .lift-card:hover { transform: translateY(-4px); }
 .float-card { animation: floaty 5.5s ease-in-out infinite; }
-.reveal { animation: fadeInUp 700ms ease-out both; }
+.reveal { animation: fadeInUp 1100ms cubic-bezier(0.16, 1, 0.3, 1) both; }
 .yelp-stars { position: relative; display: inline-block; font-size: 18px; letter-spacing: 0.08em; color: var(--line); }
 .yelp-stars-fill { position: absolute; left: 0; top: 0; overflow: hidden; white-space: nowrap; color: #d32323; width: 94%; }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @media (prefers-reduced-motion: reduce) {
   .hero-slide, .lift-card { transition: none; }
@@ -468,9 +468,15 @@ h1,h2,h3 { font-family: var(--serif); }
 .vendor-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; margin-top:20px; }
 @media (min-width:700px){ .vendor-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
 @media (min-width:1000px){ .vendor-grid { grid-template-columns: repeat(4, minmax(0,1fr)); } }
-.vendor-card { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; min-height:128px; padding:16px 12px; border-radius:20px; background:var(--cream); border:1px solid var(--line); text-align:center; }
+.vendor-card { position: relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; min-height:168px; padding:36px 14px 16px; border-radius:20px; background:var(--cream); border:1px solid var(--line); text-align:center; }
+.vendor-mark { width:72px; height:72px; aspect-ratio:1; flex:none; display:grid; place-items:center; border-radius:16px; background:#fff; overflow:hidden; box-shadow: 0 8px 18px rgb(47 42 36 / 0.08); }
 .vendor-card img { width:48px; height:48px; object-fit:contain; }
-.vendor-card span { font-size:13px; }
+.vendor-fallback { font-size:15px; font-weight:600; letter-spacing:0.06em; color:#2f2a24; }
+.vendor-specs { position:absolute; top:8px; right:8px; display:flex; flex-direction:column; align-items:flex-end; gap:4px; z-index:2; max-width:calc(100% - 16px); pointer-events:none; }
+.vendor-spec { font-size:9px; line-height:1; letter-spacing:0.12em; text-transform:uppercase; padding:5px 8px; border-radius:999px; color:var(--ink); background:color-mix(in srgb, white 38%, transparent); border:1px solid rgb(255 255 255 / 0.55); box-shadow:0 8px 18px rgb(47 42 36 / 0.14); backdrop-filter:blur(18px) saturate(170%); -webkit-backdrop-filter:blur(18px) saturate(170%); }
+[data-theme="dark"] .vendor-spec, [data-theme="dark"] .shop-badge { background:color-mix(in srgb, #1c1916 42%, transparent); border-color:rgb(255 255 255 / 0.16); }
+.vendor-card .vendor-spec { font-size: 9px; }
+.vendor-card > span:last-child { font-size: 13px; }
 .vendor-card.is-hide { display:none; }
 .vendor-search { max-width:28rem; margin: 0 auto 8px; }
 
