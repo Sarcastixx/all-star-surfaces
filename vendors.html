@@ -15,24 +15,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/styles.css" />
-  <style>
-    .vendor-card { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px 10px; min-height: 130px; position: relative; }
-    .vendor-card img { max-height: 48px; max-width: 150px; object-fit: contain; margin-bottom: 8px; display: block; }
-    .vendor-badges { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
-    .vendor-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; background: #1e3a2f; color: #fff; padding: 3px 7px; border-radius: 999px; }
-    .vendor-badge.tile { background: #3d5a80; }
-    .vendor-badge.hardwood { background: #8b5e3c; }
-    .vendor-badge.carpet { background: #5c4d3c; }
-    .vendor-badge.lvp { background: #2f5d50; }
-    .vendor-badge.stone { background: #6b5b4b; }
-  </style>
   <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.setAttribute("data-theme-pref",p);}catch(e){}})();</script>
+
   <script>(function(){try{var t=localStorage.getItem("as-theme");var d=t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
+
 </head>
 <body>
   <header class="site-header">
     <div class="wrap nav">
-      <a class="logo" href="/" aria-label="ALLSTAR Surfaces home">
+            <a class="logo" href="/" aria-label="ALLSTAR Surfaces home">
         <img class="as-mark-img" src="/images/as-mark-mask.png" alt="" />
         <span class="brand-word"><span class="brand-all">ALLSTAR</span><span class="brand-sub">Surfaces</span></span>
       </a>
@@ -56,7 +47,7 @@
         <button class="icon-btn menu" data-menu type="button" aria-label="Open menu" aria-expanded="false">☰</button>
       </div>
     </div>
-    <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
+        <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
       <a href="/">Home</a>
       <button type="button" class="mobile-link" data-mobile-svc aria-expanded="false">Services <span class="chev" aria-hidden="true">›</span></button>
       <div class="mobile-svc" data-mobile-svc-panel>
@@ -71,6 +62,8 @@
   </header>
 
   <a class="quote-fab" href="/quote" data-quote-go aria-label="Get a quote"><span class="quote-fab-label">Get a quote</span></a>
+  
+
 
   <main>
     <header class="wrap page-hero">
@@ -83,24 +76,24 @@
         <input class="field" type="search" data-vendor-q placeholder="Daltile, Shaw, Mohawk…">
       </label>
       <div class="vendor-grid" data-vendor-grid>
-        <a class="vendor-card" data-vendor="daltile" href="https://www.daltile.com" target="_blank" rel="noreferrer"><img src="/images/vendors/daltile.svg" alt="Daltile"><span>Daltile</span><div class="vendor-badges"><span class="vendor-badge tile">Tile</span><span class="vendor-badge stone">Stone</span></div></a>
-        <a class="vendor-card" data-vendor="mohawk" href="https://www.mohawkflooring.com" target="_blank" rel="noreferrer"><img src="/images/vendors/mohawk.svg" alt="Mohawk"><span>Mohawk</span><div class="vendor-badges"><span class="vendor-badge carpet">Carpet</span><span class="vendor-badge hardwood">Hardwood</span><span class="vendor-badge lvp">LVP</span></div></a>
-        <a class="vendor-card" data-vendor="shaw" href="https://shawfloors.com" target="_blank" rel="noreferrer"><img src="/images/vendors/shaw.svg" alt="Shaw"><span>Shaw</span><div class="vendor-badges"><span class="vendor-badge carpet">Carpet</span><span class="vendor-badge hardwood">Hardwood</span><span class="vendor-badge lvp">LVP</span></div></a>
-        <a class="vendor-card" data-vendor="mannington" href="https://www.mannington.com" target="_blank" rel="noreferrer"><img src="/images/vendors/mannington.svg" alt="Mannington"><span>Mannington</span><div class="vendor-badges"><span class="vendor-badge lvp">LVP</span><span class="vendor-badge hardwood">Hardwood</span><span class="vendor-badge carpet">Carpet</span></div></a>
-        <a class="vendor-card" data-vendor="msi" href="https://www.msisurfaces.com" target="_blank" rel="noreferrer"><img src="/images/vendors/msi.svg" alt="MSI"><span>MSI</span><div class="vendor-badges"><span class="vendor-badge tile">Tile</span><span class="vendor-badge stone">Stone</span></div></a>
-        <a class="vendor-card" data-vendor="emser" href="https://www.emser.com" target="_blank" rel="noreferrer"><img src="/images/vendors/emser.svg" alt="Emser"><span>Emser</span><div class="vendor-badges"><span class="vendor-badge tile">Tile</span></div></a>
-        <a class="vendor-card" data-vendor="arizona tile" href="https://www.arizonatile.com" target="_blank" rel="noreferrer"><span>Arizona Tile</span><div class="vendor-badges"><span class="vendor-badge tile">Tile</span><span class="vendor-badge stone">Stone</span></div></a>
-        <a class="vendor-card" data-vendor="bedrosians" href="https://www.bedrosians.com" target="_blank" rel="noreferrer"><span>Bedrosians</span><div class="vendor-badges"><span class="vendor-badge tile">Tile</span></div></a>
-        <a class="vendor-card" data-vendor="pental" href="https://www.pentalquartz.com" target="_blank" rel="noreferrer"><span>Pental</span><div class="vendor-badges"><span class="vendor-badge stone">Quartz</span></div></a>
-        <a class="vendor-card" data-vendor="florida tile" href="https://www.floridatile.com" target="_blank" rel="noreferrer"><span>Florida Tile</span><div class="vendor-badges"><span class="vendor-badge tile">Tile</span></div></a>
-        <a class="vendor-card" data-vendor="forbo" href="https://www.forbo.com" target="_blank" rel="noreferrer"><span>Forbo</span><div class="vendor-badges"><span class="vendor-badge lvp">LVT</span></div></a>
-        <a class="vendor-card" data-vendor="dixie group" href="https://www.thedixiegroup.com" target="_blank" rel="noreferrer"><span>Dixie Group</span><div class="vendor-badges"><span class="vendor-badge carpet">Carpet</span></div></a>
-        <a class="vendor-card" data-vendor="masland" href="https://www.maslandcarpets.com" target="_blank" rel="noreferrer"><span>Masland</span><div class="vendor-badges"><span class="vendor-badge carpet">Carpet</span></div></a>
-        <a class="vendor-card" data-vendor="dreamweaver" href="https://www.dreamweavercarpet.com" target="_blank" rel="noreferrer"><span>Dreamweaver</span><div class="vendor-badges"><span class="vendor-badge carpet">Carpet</span></div></a>
-        <a class="vendor-card" data-vendor="amorim" href="https://www.amorim.com" target="_blank" rel="noreferrer"><span>Amorim</span><div class="vendor-badges"><span class="vendor-badge hardwood">Cork</span></div></a>
-        <a class="vendor-card" data-vendor="aurora hardwood" href="https://www.aurorahardwood.com" target="_blank" rel="noreferrer"><span>Aurora Hardwood</span><div class="vendor-badges"><span class="vendor-badge hardwood">Hardwood</span></div></a>
-        <a class="vendor-card" data-vendor="e.b. bradley" href="https://www.ebbradley.com" target="_blank" rel="noreferrer"><span>E.B. Bradley</span><div class="vendor-badges"><span class="vendor-badge hardwood">Hardwood</span></div></a>
-        <a class="vendor-card" data-vendor="greenhome solutions" href="https://www.ghsproducts.com" target="_blank" rel="noreferrer"><span>Greenhome Solutions</span><div class="vendor-badges"><span class="vendor-badge lvp">LVP</span></div></a>
+<a class="vendor-card" data-vendor="daltile" href="https://www.daltile.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Tile</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=daltile.com" alt="DT" width="64" height="64"></span><span>Daltile</span></a>
+<a class="vendor-card" data-vendor="mohawk" href="https://www.mohawkflooring.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Carpet</span><span class="vendor-spec">Hardwood</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=mohawkflooring.com" alt="MH" width="64" height="64"></span><span>Mohawk</span></a>
+<a class="vendor-card" data-vendor="shaw" href="https://shawfloors.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Carpet</span><span class="vendor-spec">Hardwood</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=shawfloors.com" alt="SH" width="64" height="64"></span><span>Shaw</span></a>
+<a class="vendor-card" data-vendor="mannington" href="https://www.mannington.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">LVP</span><span class="vendor-spec">Hardwood</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=mannington.com" alt="MN" width="64" height="64"></span><span>Mannington</span></a>
+<a class="vendor-card" data-vendor="msi" href="https://www.msisurfaces.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Tile</span><span class="vendor-spec">LVP</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=msisurfaces.com" alt="MSI" width="64" height="64"></span><span>MSI</span></a>
+<a class="vendor-card" data-vendor="emser" href="https://www.emser.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Tile</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=emser.com" alt="EM" width="64" height="64"></span><span>Emser</span></a>
+<a class="vendor-card" data-vendor="arizona tile" href="https://www.arizonatile.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Tile</span><span class="vendor-spec">Stone</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=arizonatile.com" alt="AZ" width="64" height="64"></span><span>Arizona Tile</span></a>
+<a class="vendor-card" data-vendor="bedrosians" href="https://www.bedrosians.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Tile</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=bedrosians.com" alt="BD" width="64" height="64"></span><span>Bedrosians</span></a>
+<a class="vendor-card" data-vendor="pental" href="https://www.pentalquartz.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Quartz</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=pentalquartz.com" alt="PQ" width="64" height="64"></span><span>Pental</span></a>
+<a class="vendor-card" data-vendor="florida tile" href="https://www.floridatile.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Tile</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=floridatile.com" alt="FT" width="64" height="64"></span><span>Florida Tile</span></a>
+<a class="vendor-card" data-vendor="forbo" href="https://www.forbo.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Linoleum</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=forbo.com" alt="FB" width="64" height="64"></span><span>Forbo</span></a>
+<a class="vendor-card" data-vendor="dixie group" href="https://www.thedixiegroup.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Carpet</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=thedixiegroup.com" alt="DG" width="64" height="64"></span><span>Dixie Group</span></a>
+<a class="vendor-card" data-vendor="masland" href="https://www.maslandcarpets.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Carpet</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=maslandcarpets.com" alt="MS" width="64" height="64"></span><span>Masland</span></a>
+<a class="vendor-card" data-vendor="dreamweaver" href="https://www.dreamweavercarpet.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Carpet</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=dreamweavercarpet.com" alt="DW" width="64" height="64"></span><span>Dreamweaver</span></a>
+<a class="vendor-card" data-vendor="amorim" href="https://www.amorim.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Cork</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=amorim.com" alt="AM" width="64" height="64"></span><span>Amorim</span></a>
+<a class="vendor-card" data-vendor="aurora hardwood" href="https://www.aurorahardwood.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Hardwood</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=aurorahardwood.com" alt="AH" width="64" height="64"></span><span>Aurora Hardwood</span></a>
+<a class="vendor-card" data-vendor="e.b. bradley" href="https://www.ebbradley.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Millwork</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=ebbradley.com" alt="EB" width="64" height="64"></span><span>E.B. Bradley</span></a>
+<a class="vendor-card" data-vendor="greenhome solutions" href="https://www.ghsproducts.com" target="_blank" rel="noreferrer"><span class="vendor-specs"><span class="vendor-spec">Eco</span></span><span class="vendor-mark"><img src="https://www.google.com/s2/favicons?sz=128&domain=ghsproducts.com" alt="GH" width="64" height="64"></span><span>Greenhome Solutions</span></a>
       </div>
       <p class="lede" data-vendor-empty hidden>No vendor by that name.</p>
     </section>
@@ -163,7 +156,7 @@
       </div>
     </div>
   </footer>
-  <script src="/js/theme.js"></script>
+    <script src="/js/theme.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/studio-edit.js"></script>
   <script src="/js/catalog.js"></script>
