@@ -470,7 +470,7 @@ h1,h2,h3 { font-family: var(--serif); }
 @media (min-width:1000px){ .vendor-grid { grid-template-columns: repeat(4, minmax(0,1fr)); } }
 .vendor-card { position: relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; min-height:168px; padding:36px 14px 16px; border-radius:20px; background:var(--cream); border:1px solid var(--line); text-align:center; }
 .vendor-mark { width:72px; height:72px; aspect-ratio:1; flex:none; display:grid; place-items:center; border-radius:16px; background:#fff; overflow:hidden; box-shadow: 0 8px 18px rgb(47 42 36 / 0.08); }
-.vendor-card img { width:48px; height:48px; object-fit:contain; }
+.vendor-card img { width:62px; height:62px; object-fit:contain; }
 .vendor-fallback { font-size:15px; font-weight:600; letter-spacing:0.06em; color:#2f2a24; }
 .vendor-specs { position:absolute; top:8px; right:8px; display:flex; flex-direction:column; align-items:flex-end; gap:4px; z-index:2; max-width:calc(100% - 16px); pointer-events:none; }
 .vendor-spec { font-size:9px; line-height:1; letter-spacing:0.12em; text-transform:uppercase; padding:5px 8px; border-radius:999px; color:var(--ink); background:color-mix(in srgb, white 38%, transparent); border:1px solid rgb(255 255 255 / 0.55); box-shadow:0 8px 18px rgb(47 42 36 / 0.14); backdrop-filter:blur(18px) saturate(170%); -webkit-backdrop-filter:blur(18px) saturate(170%); }
