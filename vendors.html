@@ -15,15 +15,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    .vendor-card img { max-height: 48px; max-width: 140px; object-fit: contain; margin-bottom: 8px; }
+    .vendor-card { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 16px; }
+  </style>
   <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.setAttribute("data-theme-pref",p);}catch(e){}})();</script>
-
   <script>(function(){try{var t=localStorage.getItem("as-theme");var d=t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
-
 </head>
 <body>
   <header class="site-header">
     <div class="wrap nav">
-            <a class="logo" href="/" aria-label="ALLSTAR Surfaces home">
+      <a class="logo" href="/" aria-label="ALLSTAR Surfaces home">
         <img class="as-mark-img" src="/images/as-mark-mask.png" alt="" />
         <span class="brand-word"><span class="brand-all">ALLSTAR</span><span class="brand-sub">Surfaces</span></span>
       </a>
@@ -47,7 +49,7 @@
         <button class="icon-btn menu" data-menu type="button" aria-label="Open menu" aria-expanded="false">☰</button>
       </div>
     </div>
-        <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
+    <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
       <a href="/">Home</a>
       <button type="button" class="mobile-link" data-mobile-svc aria-expanded="false">Services <span class="chev" aria-hidden="true">›</span></button>
       <div class="mobile-svc" data-mobile-svc-panel>
@@ -62,8 +64,6 @@
   </header>
 
   <a class="quote-fab" href="/quote" data-quote-go aria-label="Get a quote"><span class="quote-fab-label">Get a quote</span></a>
-  
-
 
   <main>
     <header class="wrap page-hero">
@@ -76,25 +76,24 @@
         <input class="field" type="search" data-vendor-q placeholder="Daltile, Shaw, Mohawk…">
       </label>
       <div class="vendor-grid" data-vendor-grid>
-<a class="vendor-card" data-vendor="daltile" href="https://www.daltile.com" target="_blank" rel="noreferrer"><span>Daltile</span></a>
-<a class="vendor-card" data-vendor="mohawk" href="https://www.mohawkflooring.com" target="_blank" rel="noreferrer"><span>Mohawk</span></a>
-<a class="vendor-card" data-vendor="shaw" href="https://shawfloors.com" target="_blank" rel="noreferrer"><span>Shaw</span></a>
-<a class="vendor-card" data-vendor="mannington" href="https://www.mannington.com" target="_blank" rel="noreferrer"><span>Mannington</span></a>
-<a class="vendor-card" data-vendor="msi" href="https://www.msisurfaces.com" target="_blank" rel="noreferrer"><span>MSI</span></a>
-<a class="vendor-card" data-vendor="emser" href="https://www.emser.com" target="_blank" rel="noreferrer"><span>Emser</span></a>
-<a class="vendor-card" data-vendor="arizona tile" href="https://www.arizonatile.com" target="_blank" rel="noreferrer"><span>Arizona Tile</span></a>
-<a class="vendor-card" data-vendor="bedrosians" href="https://www.bedrosians.com" target="_blank" rel="noreferrer"><span>Bedrosians</span></a>
-<a class="vendor-card" data-vendor="pental" href="https://www.pentalquartz.com" target="_blank" rel="noreferrer"><span>Pental</span></a>
-<a class="vendor-card" data-vendor="florida tile" href="https://www.floridatile.com" target="_blank" rel="noreferrer"><span>Florida Tile</span></a>
-<a class="vendor-card" data-vendor="forbo" href="https://www.forbo.com" target="_blank" rel="noreferrer"><span>Forbo</span></a>
-<a class="vendor-card" data-vendor="dixie group" href="https://www.thedixiegroup.com" target="_blank" rel="noreferrer"><span>Dixie Group</span></a>
-<a class="vendor-card" data-vendor="masland" href="https://www.maslandcarpets.com" target="_blank" rel="noreferrer"><span>Masland</span></a>
-<a class="vendor-card" data-vendor="dreamweaver" href="https://www.dreamweavercarpet.com" target="_blank" rel="noreferrer"><span>Dreamweaver</span></a>
-<a class="vendor-card" data-vendor="amorim" href="https://www.amorim.com" target="_blank" rel="noreferrer"><span>Amorim</span></a>
-<a class="vendor-card" data-vendor="aurora hardwood" href="https://www.aurorahardwood.com" target="_blank" rel="noreferrer"><span>Aurora Hardwood</span></a>
-<a class="vendor-card" data-vendor="e.b. bradley" href="https://www.ebbradley.com" target="_blank" rel="noreferrer"><span>E.B. Bradley</span></a>
-<a class="vendor-card" data-vendor="greenhome solutions" href="https://www.ghsproducts.com" target="_blank" rel="noreferrer"><span>Greenhome Solutions</span></a>
-
+        <a class="vendor-card" data-vendor="daltile" href="https://www.daltile.com" target="_blank" rel="noreferrer"><img src="https://www.daltile.com/etc.clientlibs/daltile/clientlibs/clientlib-site/resources/images/logo.svg" alt="Daltile" onerror="this.style.display='none'"><span>Daltile</span></a>
+        <a class="vendor-card" data-vendor="mohawk" href="https://www.mohawkflooring.com" target="_blank" rel="noreferrer"><img src="https://www.mohawkflooring.com/content/dam/mohawk/logos/mohawk-logo.svg" alt="Mohawk" onerror="this.style.display='none'"><span>Mohawk</span></a>
+        <a class="vendor-card" data-vendor="shaw" href="https://shawfloors.com" target="_blank" rel="noreferrer"><img src="https://www.shawfloors.com/content/dam/shaw/logos/shaw-floors-logo.svg" alt="Shaw" onerror="this.style.display='none'"><span>Shaw</span></a>
+        <a class="vendor-card" data-vendor="mannington" href="https://www.mannington.com" target="_blank" rel="noreferrer"><img src="https://www.mannington.com/etc/designs/mannington/clientlibs/images/logo.svg" alt="Mannington" onerror="this.style.display='none'"><span>Mannington</span></a>
+        <a class="vendor-card" data-vendor="msi" href="https://www.msisurfaces.com" target="_blank" rel="noreferrer"><span>MSI</span></a>
+        <a class="vendor-card" data-vendor="emser" href="https://www.emser.com" target="_blank" rel="noreferrer"><span>Emser</span></a>
+        <a class="vendor-card" data-vendor="arizona tile" href="https://www.arizonatile.com" target="_blank" rel="noreferrer"><span>Arizona Tile</span></a>
+        <a class="vendor-card" data-vendor="bedrosians" href="https://www.bedrosians.com" target="_blank" rel="noreferrer"><span>Bedrosians</span></a>
+        <a class="vendor-card" data-vendor="pental" href="https://www.pentalquartz.com" target="_blank" rel="noreferrer"><span>Pental</span></a>
+        <a class="vendor-card" data-vendor="florida tile" href="https://www.floridatile.com" target="_blank" rel="noreferrer"><span>Florida Tile</span></a>
+        <a class="vendor-card" data-vendor="forbo" href="https://www.forbo.com" target="_blank" rel="noreferrer"><span>Forbo</span></a>
+        <a class="vendor-card" data-vendor="dixie group" href="https://www.thedixiegroup.com" target="_blank" rel="noreferrer"><span>Dixie Group</span></a>
+        <a class="vendor-card" data-vendor="masland" href="https://www.maslandcarpets.com" target="_blank" rel="noreferrer"><span>Masland</span></a>
+        <a class="vendor-card" data-vendor="dreamweaver" href="https://www.dreamweavercarpet.com" target="_blank" rel="noreferrer"><span>Dreamweaver</span></a>
+        <a class="vendor-card" data-vendor="amorim" href="https://www.amorim.com" target="_blank" rel="noreferrer"><span>Amorim</span></a>
+        <a class="vendor-card" data-vendor="aurora hardwood" href="https://www.aurorahardwood.com" target="_blank" rel="noreferrer"><span>Aurora Hardwood</span></a>
+        <a class="vendor-card" data-vendor="e.b. bradley" href="https://www.ebbradley.com" target="_blank" rel="noreferrer"><span>E.B. Bradley</span></a>
+        <a class="vendor-card" data-vendor="greenhome solutions" href="https://www.ghsproducts.com" target="_blank" rel="noreferrer"><span>Greenhome Solutions</span></a>
       </div>
       <p class="lede" data-vendor-empty hidden>No vendor by that name.</p>
     </section>
@@ -157,7 +156,7 @@
       </div>
     </div>
   </footer>
-    <script src="/js/theme.js"></script>
+  <script src="/js/theme.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/studio-edit.js"></script>
   <script src="/js/catalog.js"></script>
