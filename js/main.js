@@ -213,14 +213,17 @@ function shrinkPhoto(file) {
 
 (function () {
   var input = document.querySelector("[data-vendor-q]");
-  var select = document.querySelector("[data-vendor-type]");
+  var menu = document.querySelector("[data-vendor-type]");
   var grid = document.querySelector("[data-vendor-grid]");
   var empty = document.querySelector("[data-vendor-empty]");
   if (!input || !grid) return;
   var cards = grid.querySelectorAll("[data-vendor]");
+  function currentType() {
+    return menu ? (menu.getAttribute("data-value") || "") : "";
+  }
   function apply() {
     var q = input.value.trim().toLowerCase();
-    var type = select ? select.value : "";
+    var type = currentType();
     var n = 0;
     cards.forEach(function (c) {
       var name = (c.getAttribute("data-vendor") || "").toLowerCase();
@@ -232,7 +235,43 @@ function shrinkPhoto(file) {
     if (empty) empty.hidden = n > 0;
   }
   input.addEventListener("input", apply);
-  if (select) select.addEventListener("change", apply);
+  if (!menu) return;
+  var btn = menu.querySelector(".type-menu-btn");
+  var panel = menu.querySelector(".type-panel");
+  var label = menu.querySelector("[data-type-label]");
+  function closeMenu() {
+    panel.hidden = true;
+    btn.setAttribute("aria-expanded", "false");
+  }
+  btn.addEventListener("click", function () {
+    var open = panel.hidden;
+    panel.hidden = !open;
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) {
+      var room = window.innerHeight - btn.getBoundingClientRect().bottom - 12;
+      panel.style.maxHeight = Math.max(200, room) + "px";
+    }
+  });
+  panel.addEventListener("click", function (e) {
+    var opt = e.target.closest("[data-value]");
+    if (!opt) return;
+    menu.setAttribute("data-value", opt.getAttribute("data-value") || "");
+    menu.classList.toggle("is-set", !!opt.getAttribute("data-value"));
+    label.textContent = opt.textContent.trim();
+    panel.querySelectorAll("[data-value]").forEach(function (b) {
+      var on = b === opt;
+      b.classList.toggle("is-on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    closeMenu();
+    apply();
+  });
+  document.addEventListener("click", function (e) {
+    if (!menu.contains(e.target)) closeMenu();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeMenu();
+  });
 })();
 
 /* Cookie consent */
