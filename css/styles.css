@@ -1120,29 +1120,48 @@ body.has-cookie-banner .survey-page { padding-bottom: 260px; }
 [data-theme="dark"] .section a[href="/services"],
 [data-theme="dark"] .section a[href="/portfolio"] { color: #8fd0b8; }
 
-.vendor-reel { margin: 8px 0 18px; padding: 22px 0; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.vendor-reel-track { display: flex; align-items: center; gap: 22px; width: max-content; animation: vendorReel 64s linear infinite; }
+.vendor-reel { margin: 8px 0 18px; padding: 36px 0 42px; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.vendor-reel-track { display: flex; align-items: center; gap: 28px; width: max-content; animation: vendorReel 64s linear infinite; }
 .vendor-reel:hover .vendor-reel-track { animation-play-state: paused; }
 .reel-card {
+  --lift: 0px;
+  --edge: 1;
   position: relative;
   z-index: 1;
-  width: 232px;
-  height: 168px;
+  width: 248px;
+  height: 176px;
   flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 18px;
-  border-radius: 26px;
+  padding: 16px 16px 18px;
+  border-radius: 28px;
   overflow: hidden;
-  background: color-mix(in srgb, white 42%, transparent);
+  background: color-mix(in srgb, white 38%, transparent);
   border: 1px solid rgb(255 255 255 / 0.72);
   box-shadow: 0 16px 36px rgb(47 42 36 / 0.08), inset 0 1px 0 rgb(255 255 255 / 0.9);
-  backdrop-filter: blur(20px) saturate(1.7);
-  -webkit-backdrop-filter: blur(20px) saturate(1.7);
-  transition: transform 460ms cubic-bezier(.22, 1, .36, 1), box-shadow 460ms ease;
+  backdrop-filter: blur(22px) saturate(1.7);
+  -webkit-backdrop-filter: blur(22px) saturate(1.7);
+  transform: translateY(var(--lift)) scale(var(--edge));
+  transform-origin: center center;
+  transition: box-shadow 480ms ease;
 }
-.reel-card img { width: 156px; height: 78px; object-fit: contain; transition: transform 460ms cubic-bezier(.22, 1, .36, 1); }
+.reel-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 32%, rgb(255 255 255 / 0.55) 50%, transparent 68%);
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+.reel-card img {
+  width: 92%;
+  height: 118px;
+  object-fit: contain;
+  border-radius: 18px;
+  background: radial-gradient(ellipse at center, rgb(255 252 248 / 0.28), transparent 70%);
+  transition: transform 480ms cubic-bezier(.22, 1, .36, 1);
+}
 .reel-meta {
   position: absolute;
   left: 10px;
@@ -1153,45 +1172,57 @@ body.has-cookie-banner .survey-page { padding-bottom: 260px; }
   gap: 6px;
   padding: 10px 8px 8px;
   border-radius: 16px;
-  background: color-mix(in srgb, white 58%, transparent);
-  border: 1px solid rgb(255 255 255 / 0.7);
-  box-shadow: 0 8px 20px rgb(47 42 36 / 0.08);
+  background: color-mix(in srgb, white 62%, transparent);
+  border: 1px solid rgb(255 255 255 / 0.72);
+  box-shadow: 0 10px 24px rgb(47 42 36 / 0.1);
   backdrop-filter: blur(16px) saturate(1.5);
   -webkit-backdrop-filter: blur(16px) saturate(1.5);
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 320ms ease, transform 420ms cubic-bezier(.22, 1, .36, 1);
+  transform: translateY(14px) scale(0.96);
+  transition: opacity 320ms ease, transform 460ms cubic-bezier(.22, 1, .36, 1);
 }
 .reel-name { font-size: 13px; font-weight: 600; color: var(--ink); }
 .reel-specs { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }
 .reel-specs .vendor-spec { font-size: 8px; padding: 4px 7px; }
 .reel-more { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--spruce); }
 .reel-card:hover, .reel-card:focus-visible {
-  z-index: 3;
-  transform: scale(1.08);
-  box-shadow: 0 24px 48px rgb(47 42 36 / 0.16), inset 0 1px 0 rgb(255 255 255 / 0.95);
+  z-index: 5;
+  box-shadow: 0 32px 64px rgb(47 42 36 / 0.22), inset 0 1px 0 rgb(255 255 255 / 0.95);
 }
-.reel-card:hover img, .reel-card:focus-visible img { transform: translateY(-22px) scale(0.78); }
+.reel-card:hover::after, .reel-card:focus-visible::after { animation: reelSheen 900ms ease; }
+.reel-card:hover img, .reel-card:focus-visible img { transform: translateY(-20px) scale(0.8); }
 .reel-card:hover .reel-meta, .reel-card:focus-visible .reel-meta { opacity: 1; transform: none; }
+@keyframes reelSheen { from { transform: translateX(-130%); } to { transform: translateX(130%); } }
 @keyframes vendorReel { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (max-width: 700px) {
-  .vendor-reel-track { gap: 14px; }
-  .reel-card { width: 188px; height: 146px; }
-  .reel-card img { width: 124px; height: 62px; }
+  .vendor-reel-track { gap: 16px; }
+  .reel-card { width: 200px; height: 154px; }
+  .reel-card img { height: 96px; }
 }
 @media (hover: none) {
   .reel-meta { opacity: 1; transform: none; }
-  .reel-card img { transform: translateY(-16px) scale(0.78); }
+  .reel-card img { transform: translateY(-14px) scale(0.8); }
 }
 @media (prefers-reduced-motion: reduce) {
   .vendor-reel { mask-image: none; -webkit-mask-image: none; overflow-x: auto; }
   .vendor-reel-track { animation: none; }
   .reel-card, .reel-card img, .reel-meta { transition: none; }
+  .reel-card:hover { transform: none; }
 }
 [data-theme="dark"] .reel-card {
-  background: color-mix(in srgb, #2a241e 52%, transparent);
+  background: color-mix(in srgb, #241f1b 48%, transparent);
   border-color: rgb(255 255 255 / 0.14);
-  box-shadow: 0 14px 32px rgb(0 0 0 / 0.28), inset 0 1px 0 rgb(255 255 255 / 0.08);
+  box-shadow: 0 16px 36px rgb(0 0 0 / 0.32), inset 0 1px 0 rgb(255 255 255 / 0.08);
+}
+[data-theme="dark"] .reel-card img {
+  background: radial-gradient(ellipse at center, rgb(255 250 244 / 0.96) 0%, rgb(255 247 238 / 0.84) 60%, transparent 78%);
+}
+[data-theme="dark"] .reel-card:hover {
+  box-shadow: 0 32px 64px rgb(0 0 0 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.12);
+}
+[data-theme="dark"] .reel-meta {
+  background: color-mix(in srgb, #2c261f 62%, transparent);
+  border-color: rgb(255 255 255 / 0.14);
 }
 [data-theme="dark"] .reel-more { color: #8fd0b8; }
 html.lenis, html.lenis body { height: auto; }
