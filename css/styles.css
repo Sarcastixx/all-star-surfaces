@@ -1201,6 +1201,9 @@ body.has-cookie-banner .survey-page { padding-bottom: 260px; }
   .reel-card { width: 200px; height: 154px; }
   .reel-card img { height: 96px; transform: none; }
   .reel-meta { display: none; }
+  .reel-card.is-open { z-index: 5; box-shadow: 0 28px 54px rgb(47 42 36 / 0.2), inset 0 1px 0 rgb(255 255 255 / 0.95); }
+  .reel-card.is-open img { transform: translateY(-16px) scale(0.82); }
+  .reel-card.is-open .reel-meta { display: grid; opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .vendor-reel { mask-image: none; -webkit-mask-image: none; overflow-x: auto; touch-action: pan-x pan-y; }
