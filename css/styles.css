@@ -474,7 +474,27 @@ h1,h2,h3 { font-family: var(--serif); }
 .vendor-fallback { font-size:15px; font-weight:600; letter-spacing:0.06em; color:#2f2a24; }
 .vendor-specs { position:absolute; top:8px; right:8px; display:flex; flex-direction:column; align-items:flex-end; gap:4px; z-index:2; max-width:calc(100% - 16px); pointer-events:none; }
 .vendor-spec { font-size:9px; line-height:1; letter-spacing:0.12em; text-transform:uppercase; padding:5px 8px; border-radius:999px; color:var(--ink); background:color-mix(in srgb, white 38%, transparent); border:1px solid rgb(255 255 255 / 0.55); box-shadow:0 8px 18px rgb(47 42 36 / 0.14); backdrop-filter:blur(18px) saturate(170%); -webkit-backdrop-filter:blur(18px) saturate(170%); }
-[data-theme="dark"] .vendor-spec, [data-theme="dark"] .shop-badge { background:color-mix(in srgb, #1c1916 42%, transparent); border-color:rgb(255 255 255 / 0.16); }
+.vendor-spec[data-tone="tile"] { background:color-mix(in srgb, #245b8a 24%, rgb(255 255 255 / 0.46)); border-color:rgb(36 91 138 / 0.28); color:#1a456c; }
+.vendor-spec[data-tone="carpet"] { background:color-mix(in srgb, #c6532a 20%, rgb(255 255 255 / 0.48)); border-color:rgb(198 83 42 / 0.28); color:#8a3b1d; }
+.vendor-spec[data-tone="hardwood"] { background:color-mix(in srgb, #c48a3a 28%, rgb(255 255 255 / 0.46)); border-color:rgb(164 112 36 / 0.3); color:#7a5414; }
+.vendor-spec[data-tone="lvp"] { background:color-mix(in srgb, #1f6b56 22%, rgb(255 255 255 / 0.48)); border-color:rgb(31 107 86 / 0.28); color:#145443; }
+.vendor-spec[data-tone="stone"] { background:color-mix(in srgb, #6d7c8a 26%, rgb(255 255 255 / 0.46)); border-color:rgb(80 96 110 / 0.28); color:#3d4c58; }
+.vendor-spec[data-tone="quartz"] { background:color-mix(in srgb, #6a5aa8 20%, rgb(255 255 255 / 0.5)); border-color:rgb(90 74 150 / 0.26); color:#43386e; }
+.vendor-spec[data-tone="linoleum"] { background:color-mix(in srgb, #2f8f6e 24%, rgb(255 255 255 / 0.48)); border-color:rgb(31 120 88 / 0.28); color:#146048; }
+.vendor-spec[data-tone="cork"] { background:color-mix(in srgb, #c47c44 26%, rgb(255 255 255 / 0.48)); border-color:rgb(168 98 48 / 0.28); color:#7a4520; }
+.vendor-spec[data-tone="millwork"] { background:color-mix(in srgb, #5c4636 18%, rgb(255 255 255 / 0.5)); border-color:rgb(80 60 44 / 0.24); color:#4a372b; }
+.vendor-spec[data-tone="earth"] { background:color-mix(in srgb, #3d9a46 26%, rgb(255 255 255 / 0.46)); border-color:rgb(40 130 55 / 0.3); color:#1d6a2c; }
+[data-theme="dark"] .vendor-spec, [data-theme="dark"] .shop-badge { background:color-mix(in srgb, #1c1916 42%, transparent); border-color:rgb(255 255 255 / 0.16); color:#f4efe6; }
+[data-theme="dark"] .vendor-spec[data-tone="tile"] { background:color-mix(in srgb, #245b8a 42%, rgb(28 25 22 / 0.45)); color:#d7e7f6; }
+[data-theme="dark"] .vendor-spec[data-tone="carpet"] { background:color-mix(in srgb, #c6532a 40%, rgb(28 25 22 / 0.45)); color:#f6d2c4; }
+[data-theme="dark"] .vendor-spec[data-tone="hardwood"] { background:color-mix(in srgb, #c48a3a 40%, rgb(28 25 22 / 0.45)); color:#f6e2bc; }
+[data-theme="dark"] .vendor-spec[data-tone="lvp"] { background:color-mix(in srgb, #1f6b56 42%, rgb(28 25 22 / 0.45)); color:#cfeedf; }
+[data-theme="dark"] .vendor-spec[data-tone="stone"] { background:color-mix(in srgb, #6d7c8a 40%, rgb(28 25 22 / 0.45)); color:#e2e8ee; }
+[data-theme="dark"] .vendor-spec[data-tone="quartz"] { background:color-mix(in srgb, #6a5aa8 40%, rgb(28 25 22 / 0.45)); color:#e4dff6; }
+[data-theme="dark"] .vendor-spec[data-tone="linoleum"] { background:color-mix(in srgb, #2f8f6e 42%, rgb(28 25 22 / 0.45)); color:#d4f3e6; }
+[data-theme="dark"] .vendor-spec[data-tone="cork"] { background:color-mix(in srgb, #c47c44 42%, rgb(28 25 22 / 0.45)); color:#f6dfcc; }
+[data-theme="dark"] .vendor-spec[data-tone="millwork"] { background:color-mix(in srgb, #8a6a52 36%, rgb(28 25 22 / 0.5)); color:#f0e4d8; }
+[data-theme="dark"] .vendor-spec[data-tone="earth"] { background:color-mix(in srgb, #3d9a46 42%, rgb(28 25 22 / 0.45)); color:#d8f5dc; }
 .vendor-card .vendor-spec { font-size: 9px; }
 .vendor-card > span:last-child { font-size: 13px; }
 .vendor-card.is-hide { display:none; }
@@ -1100,6 +1120,20 @@ body.has-cookie-banner .survey-page { padding-bottom: 260px; }
 [data-theme="dark"] .section a[href="/services"],
 [data-theme="dark"] .section a[href="/portfolio"] { color: #8fd0b8; }
 
+.vendor-reel { margin: 8px 0 18px; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.vendor-reel-track { display: flex; gap: 14px; width: max-content; animation: vendorReel 52s linear infinite; }
+.vendor-reel:hover .vendor-reel-track { animation-play-state: paused; }
+.vendor-reel a { width: 148px; height: 88px; flex: none; display: grid; place-items: center; border-radius: 18px; background: #fff; box-shadow: 0 10px 24px rgb(47 42 36 / 0.07); }
+.vendor-reel img { width: 112px; height: 58px; object-fit: contain; }
+@keyframes vendorReel { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (max-width: 700px) {
+  .vendor-reel a { width: 124px; height: 76px; }
+  .vendor-reel img { width: 96px; height: 48px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vendor-reel { mask-image: none; -webkit-mask-image: none; overflow-x: auto; }
+  .vendor-reel-track { animation: none; }
+}
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
