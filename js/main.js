@@ -213,20 +213,26 @@ function shrinkPhoto(file) {
 
 (function () {
   var input = document.querySelector("[data-vendor-q]");
+  var select = document.querySelector("[data-vendor-type]");
   var grid = document.querySelector("[data-vendor-grid]");
   var empty = document.querySelector("[data-vendor-empty]");
   if (!input || !grid) return;
   var cards = grid.querySelectorAll("[data-vendor]");
-  input.addEventListener("input", function () {
+  function apply() {
     var q = input.value.trim().toLowerCase();
+    var type = select ? select.value : "";
     var n = 0;
     cards.forEach(function (c) {
-      var show = !q || (c.getAttribute("data-vendor") || "").indexOf(q) >= 0;
+      var name = (c.getAttribute("data-vendor") || "").toLowerCase();
+      var types = " " + (c.getAttribute("data-types") || "") + " ";
+      var show = (!q || name.indexOf(q) >= 0) && (!type || types.indexOf(" " + type + " ") >= 0);
       c.classList.toggle("is-hide", !show);
       if (show) n += 1;
     });
     if (empty) empty.hidden = n > 0;
-  });
+  }
+  input.addEventListener("input", apply);
+  if (select) select.addEventListener("change", apply);
 })();
 
 /* Cookie consent */
