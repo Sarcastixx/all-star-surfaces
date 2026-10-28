@@ -1195,17 +1195,15 @@ body.has-cookie-banner .survey-page { padding-bottom: 260px; }
 .reel-card:hover .reel-meta, .reel-card:focus-visible .reel-meta { opacity: 1; transform: none; }
 @keyframes reelSheen { from { transform: translateX(-130%); } to { transform: translateX(130%); } }
 @keyframes vendorReel { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (max-width: 700px) {
-  .vendor-reel-track { gap: 16px; }
+@media (max-width: 900px) {
+  .vendor-reel { touch-action: pan-y; }
+  .vendor-reel-track { gap: 16px; animation: none; }
   .reel-card { width: 200px; height: 154px; }
-  .reel-card img { height: 96px; }
-}
-@media (hover: none) {
-  .reel-meta { opacity: 1; transform: none; }
-  .reel-card img { transform: translateY(-14px) scale(0.8); }
+  .reel-card img { height: 96px; transform: none; }
+  .reel-meta { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .vendor-reel { mask-image: none; -webkit-mask-image: none; overflow-x: auto; }
+  .vendor-reel { mask-image: none; -webkit-mask-image: none; overflow-x: auto; touch-action: pan-x pan-y; }
   .vendor-reel-track { animation: none; }
   .reel-card, .reel-card img, .reel-meta { transition: none; }
   .reel-card:hover { transform: none; }
