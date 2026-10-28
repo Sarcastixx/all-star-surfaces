@@ -1120,9 +1120,10 @@ body.has-cookie-banner .survey-page { padding-bottom: 260px; }
 [data-theme="dark"] .section a[href="/services"],
 [data-theme="dark"] .section a[href="/portfolio"] { color: #8fd0b8; }
 
-.vendor-reel { margin: 8px 0 18px; padding: 36px 0 42px; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.vendor-reel { margin: 8px 0 18px; padding: 64px 0 52px; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
 .vendor-reel-track { display: flex; align-items: center; gap: 28px; width: max-content; animation: vendorReel 64s linear infinite; }
-.vendor-reel:hover .vendor-reel-track { animation-play-state: paused; }
+.vendor-reel:has(.reel-card:hover) .vendor-reel-track,
+.vendor-reel:has(.reel-card:focus-visible) .vendor-reel-track { animation-play-state: paused; }
 .reel-card {
   --lift: 0px;
   --edge: 1;
@@ -1210,12 +1211,13 @@ body.has-cookie-banner .survey-page { padding-bottom: 260px; }
   .reel-card:hover { transform: none; }
 }
 [data-theme="dark"] .reel-card {
-  background: color-mix(in srgb, #241f1b 48%, transparent);
-  border-color: rgb(255 255 255 / 0.14);
-  box-shadow: 0 16px 36px rgb(0 0 0 / 0.32), inset 0 1px 0 rgb(255 255 255 / 0.08);
+  background: color-mix(in srgb, #342c24 70%, transparent);
+  border-color: rgb(239 230 214 / 0.16);
+  box-shadow: 0 16px 36px rgb(0 0 0 / 0.28), inset 0 1px 0 rgb(239 230 214 / 0.08);
 }
 [data-theme="dark"] .reel-card img {
-  background: radial-gradient(ellipse at center, rgb(255 250 244 / 0.96) 0%, rgb(255 247 238 / 0.84) 60%, transparent 78%);
+  background: none;
+  filter: drop-shadow(0 0 1px #f4efe6) drop-shadow(0 0 8px rgb(244 239 230 / 0.85)) drop-shadow(0 0 18px rgb(244 239 230 / 0.28));
 }
 [data-theme="dark"] .reel-card:hover {
   box-shadow: 0 32px 64px rgb(0 0 0 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.12);
