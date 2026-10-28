@@ -353,3 +353,37 @@ function shrinkPhoto(file) {
   };
   document.head.appendChild(s);
 })();
+
+(function () {
+  var reel = document.querySelector(".vendor-reel");
+  if (!reel) return;
+  var track = reel.querySelector(".vendor-reel-track");
+  if (!track || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var cards = Array.prototype.slice.call(track.querySelectorAll(".reel-card"));
+  var state = cards.map(function () { return { s: 1, y: 0, o: 1 }; });
+  function frame() {
+    var box = reel.getBoundingClientRect();
+    var mid = box.left + box.width / 2;
+    var half = Math.max(1, box.width / 2);
+    cards.forEach(function (card, i) {
+      var rect = card.getBoundingClientRect();
+      var center = rect.left + rect.width / 2;
+      var dist = Math.min(1, Math.abs(center - mid) / half);
+      var edge = dist * dist;
+      var hot = card.matches(":hover") || card.matches(":focus-visible");
+      var targetS = hot ? 1.24 : 1 - edge * 0.2;
+      var targetY = hot ? -20 : 0;
+      var targetO = hot ? 1 : 1 - edge * 0.34;
+      var st = state[i];
+      var k = hot ? 0.14 : 0.2;
+      st.s += (targetS - st.s) * k;
+      st.y += (targetY - st.y) * k;
+      st.o += (targetO - st.o) * 0.2;
+      card.style.setProperty("--edge", st.s.toFixed(3));
+      card.style.setProperty("--lift", st.y.toFixed(2) + "px");
+      card.style.opacity = st.o.toFixed(3);
+    });
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
