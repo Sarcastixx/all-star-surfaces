@@ -77,20 +77,30 @@
         <input class="field" type="search" data-vendor-q placeholder="Daltile, Shaw, Mohawk…">
       </label>
       <label class="vendor-filter">Flooring type
-        <select class="field" data-vendor-type>
-          <option value="">All types</option>
-          <option value="carpet">Carpet</option>
-          <option value="hardwood">Hardwood</option>
-          <option value="lvp">LVP</option>
-          <option value="laminate">Laminate</option>
-          <option value="tile">Tile</option>
-          <option value="stone">Stone</option>
-          <option value="quartz">Quartz</option>
-          <option value="linoleum">Linoleum</option>
-          <option value="cork">Cork</option>
-          <option value="millwork">Millwork</option>
-          <option value="earth">Earth-friendly</option>
-        </select>
+        <div class="type-menu" data-vendor-type data-value="">
+          <button class="type-menu-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
+            <span class="type-dot" aria-hidden="true"></span>
+            <span data-type-label>All types</span>
+          </button>
+          <div class="type-panel" role="listbox" hidden>
+            <button type="button" role="option" data-value="" class="is-on" aria-selected="true"><span class="type-dot"></span>All types</button>
+            <div class="type-sep"><span>Soft</span></div>
+            <button type="button" role="option" data-value="carpet"><span class="type-dot"></span>Carpet</button>
+            <div class="type-sep"><span>Wood and resilient</span></div>
+            <button type="button" role="option" data-value="hardwood"><span class="type-dot"></span>Hardwood</button>
+            <button type="button" role="option" data-value="lvp"><span class="type-dot"></span>LVP</button>
+            <button type="button" role="option" data-value="laminate"><span class="type-dot"></span>Laminate</button>
+            <button type="button" role="option" data-value="cork"><span class="type-dot"></span>Cork</button>
+            <button type="button" role="option" data-value="linoleum"><span class="type-dot"></span>Linoleum</button>
+            <div class="type-sep"><span>Stone and slab</span></div>
+            <button type="button" role="option" data-value="tile"><span class="type-dot"></span>Tile</button>
+            <button type="button" role="option" data-value="stone"><span class="type-dot"></span>Stone</button>
+            <button type="button" role="option" data-value="quartz"><span class="type-dot"></span>Quartz</button>
+            <div class="type-sep"><span>Other</span></div>
+            <button type="button" role="option" data-value="millwork"><span class="type-dot"></span>Millwork</button>
+            <button type="button" role="option" data-value="earth"><span class="type-dot"></span>Earth-friendly</button>
+          </div>
+        </div>
       </label>
     </div>
       <div class="vendor-grid" data-vendor-grid>
@@ -161,5 +171,6 @@
   <script src="/js/main.js"></script>
   <script src="/js/studio-edit.js"></script>
   <script src="/js/catalog.js"></script>
+  <script src="/js/detail.js"></script>
 </body>
 </html>
