@@ -41,16 +41,14 @@
     return card;
   }
 
-  function jobCard(item, asLink) {
+  function jobCard(item) {
     var caption = item.caption || item.title || "";
-    var tag = asLink ? "a" : "article";
-    var card = el(tag, { class: "shop-card job-card", "data-id": item.id || "" });
-    if (asLink) card.setAttribute("href", "/portfolio");
+    var card = el("article", { class: "shop-card job-card", "data-id": item.id || "" });
     var media = el("div", { class: "shop-media photo-hold" });
     if (ownPhoto(item.photo)) media.appendChild(el("img", { src: item.photo, alt: caption }));
     card.appendChild(media);
     var body = el("div", { class: "shop-body" });
-    body.appendChild(el(asLink ? "h3" : "h2", null, caption));
+    body.appendChild(el("h3", null, caption));
     card.appendChild(body);
     return card;
   }
@@ -73,7 +71,7 @@
     return {
       remnants: api.remnants || [],
       jobs: (api.jobs || []).map(function (j) {
-        return { id: j.id, caption: j.caption || j.title, photo: j.photo, featured: j.featured };
+        return { id: j.id, caption: j.caption || j.title, title: j.title, photo: j.photo, featured: j.featured, material: j.material, location: j.location, year: j.year, blurb: j.blurb || j.detail || "" };
       }),
       photos: api.photos || {},
       copy: api.copy || {}
@@ -93,7 +91,7 @@
             return { id: i.id, surface: surfaceOf(i), title: i.title, qty: i.size, detail: i.blurb, photo: i.photo };
           }),
           jobs: (pack[2].items || []).map(function (i) {
-            return { id: i.id, caption: i.title, photo: i.photo, featured: i.featured };
+            return { id: i.id, caption: i.title, title: i.title, photo: i.photo, featured: i.featured, material: i.material, location: i.location, year: i.year, blurb: i.blurb };
           }),
           photos: {}
         };
@@ -108,7 +106,6 @@
         if (!ownPhoto(data.photos[slot])) {
           img.removeAttribute("src");
           img.classList.add("photo-hold");
-          img.classList.add("is-cleared");
           return;
         }
         img.classList.remove("is-cleared");
@@ -146,18 +143,8 @@
 
   function cacheSave(data) {
     try { localStorage.setItem("as-copy", JSON.stringify(data.copy || {})); } catch (e) {}
-    try {
-      var toRemove = [];
-      for (var i = 0; i < localStorage.length; i++) {
-        var key = localStorage.key(i);
-        if (key && key.indexOf("as-photo-") === 0) toRemove.push(key);
-      }
-      toRemove.forEach(function (k) { localStorage.removeItem(k); });
-    } catch (e) {}
     Object.keys(data.photos || {}).forEach(function (k) {
-      if (data.photos[k]) {
-        try { localStorage.setItem("as-photo-" + k, data.photos[k]); } catch (e) {}
-      }
+      try { localStorage.setItem("as-photo-" + k, data.photos[k]); } catch (e) {}
     });
   }
 
@@ -165,13 +152,27 @@
     document.documentElement.classList.add("as-ready");
   }
 
-  markReady();
-  window.setTimeout(markReady, 400);
+  var cached = cacheRead();
+  apply(cached);
+  var slots = document.querySelectorAll("img[data-slot]");
+  var cachedPhotos = true;
+  slots.forEach(function (img) {
+    var k = img.getAttribute("data-slot");
+    if (!k || k === "hero") return;
+    if (!cached.photos[k]) cachedPhotos = false;
+  });
+  var hasCopyCache = false;
+  try { hasCopyCache = !!localStorage.getItem("as-copy"); } catch (e) {}
+  if ((!slots.length || cachedPhotos) && (hasCopyCache || !document.querySelector("[data-copy]"))) markReady();
+  window.setTimeout(markReady, 1400);
 
   loadCatalog().then(function (data) {
+    var local = cacheRead();
+    data.photos = Object.assign({}, data.photos || {}, local.photos || {});
     apply(data);
     cacheSave(data);
     markReady();
+    window.ASCatalog = { remnants: data.remnants || [], jobs: data.jobs || [] };
 
     var remnantsRoot = document.querySelector("[data-remnants]");
     if (remnantsRoot) {
@@ -205,9 +206,5 @@
       mount("[data-jobs]", jobs.map(function (i) { return jobCard(i, featuredOnly); }));
     }
     document.dispatchEvent(new Event("as-catalog-ready"));
-  }).catch(function () {
-    var cached = cacheRead();
-    apply(cached);
-    markReady();
   });
 })();
