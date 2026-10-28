@@ -387,3 +387,61 @@ function shrinkPhoto(file) {
   }
   requestAnimationFrame(frame);
 })();
+
+(function () {
+  var reel = document.querySelector(".vendor-reel");
+  var track = reel && reel.querySelector(".vendor-reel-track");
+  if (!track) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var mobile = window.matchMedia("(max-width: 900px)");
+  if (!mobile.matches) return;
+  var offset = 0;
+  var half = 0;
+  var drag = null;
+  function measure() {
+    half = track.scrollWidth / 2;
+    if (half && offset === 0) offset = -half;
+  }
+  function wrap(v) {
+    if (!half) return v;
+    while (v >= 0) v -= half;
+    while (v < -half) v += half;
+    return v;
+  }
+  var last = performance.now();
+  function frame(now) {
+    if (!mobile.matches) {
+      track.style.transform = "";
+      return;
+    }
+    measure();
+    var dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    if (!drag && half) offset += (half / 16) * dt;
+    offset = wrap(offset);
+    track.style.transform = "translate3d(" + offset.toFixed(2) + "px,0,0)";
+    requestAnimationFrame(frame);
+  }
+  reel.addEventListener("touchstart", function (e) {
+    if (!e.touches[0]) return;
+    measure();
+    drag = { x: e.touches[0].clientX, y: e.touches[0].clientY, ox: offset, lock: "" };
+  }, { passive: true });
+  reel.addEventListener("touchmove", function (e) {
+    if (!drag || !e.touches[0]) return;
+    var dx = e.touches[0].clientX - drag.x;
+    var dy = e.touches[0].clientY - drag.y;
+    if (!drag.lock) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      drag.lock = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+    }
+    if (drag.lock === "y") {
+      drag = null;
+      return;
+    }
+    offset = wrap(drag.ox + dx);
+  }, { passive: true });
+  reel.addEventListener("touchend", function () { drag = null; }, { passive: true });
+  reel.addEventListener("touchcancel", function () { drag = null; }, { passive: true });
+  requestAnimationFrame(frame);
+})();
