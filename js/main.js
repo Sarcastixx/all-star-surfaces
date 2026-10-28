@@ -370,7 +370,8 @@ function shrinkPhoto(file) {
       var center = rect.left + rect.width / 2;
       var dist = Math.min(1, Math.abs(center - mid) / half);
       var edge = dist * dist;
-      var hot = card.matches(":hover") || card.matches(":focus-visible");
+      var coarse = window.matchMedia("(pointer: coarse)").matches;
+      var hot = card.classList.contains("is-open") || (!coarse && (card.matches(":hover") || card.matches(":focus-visible")));
       var targetS = hot ? 1.24 : 1 - edge * 0.2;
       var targetY = hot ? -20 : 0;
       var targetO = hot ? 1 : 1 - edge * 0.34;
@@ -409,6 +410,8 @@ function shrinkPhoto(file) {
     return v;
   }
   var last = performance.now();
+  var moved = false;
+  var open = false;
   function frame(now) {
     if (!mobile.matches) {
       track.style.transform = "";
@@ -417,14 +420,19 @@ function shrinkPhoto(file) {
     measure();
     var dt = Math.min(0.05, (now - last) / 1000);
     last = now;
-    if (!drag && half) offset += (half / 16) * dt;
+    if (!drag && !open && half) offset -= (half / 58) * dt;
     offset = wrap(offset);
     track.style.transform = "translate3d(" + offset.toFixed(2) + "px,0,0)";
     requestAnimationFrame(frame);
   }
+  function closeOpen() {
+    track.querySelectorAll(".reel-card.is-open").forEach(function (card) { card.classList.remove("is-open"); });
+    open = false;
+  }
   reel.addEventListener("touchstart", function (e) {
     if (!e.touches[0]) return;
     measure();
+    moved = false;
     drag = { x: e.touches[0].clientX, y: e.touches[0].clientY, ox: offset, lock: "" };
   }, { passive: true });
   reel.addEventListener("touchmove", function (e) {
@@ -439,9 +447,29 @@ function shrinkPhoto(file) {
       drag = null;
       return;
     }
+    if (Math.abs(dx) > 12) moved = true;
     offset = wrap(drag.ox + dx);
   }, { passive: true });
   reel.addEventListener("touchend", function () { drag = null; }, { passive: true });
   reel.addEventListener("touchcancel", function () { drag = null; }, { passive: true });
+  reel.addEventListener("click", function (e) {
+    var card = e.target.closest(".reel-card");
+    if (!card) return;
+    if (moved) {
+      e.preventDefault();
+      moved = false;
+      return;
+    }
+    if (!card.classList.contains("is-open")) {
+      e.preventDefault();
+      closeOpen();
+      card.classList.add("is-open");
+      open = true;
+    }
+  });
+  document.addEventListener("click", function (e) {
+    if (!open || e.target.closest(".vendor-reel")) return;
+    closeOpen();
+  });
   requestAnimationFrame(frame);
 })();
