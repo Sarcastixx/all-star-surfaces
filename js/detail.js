@@ -327,9 +327,9 @@
       place.appendChild(label);
       place.appendChild(addr);
       place.appendChild(map);
-    }
+    } else place.hidden = true;
     var extra = scrim.querySelector(".detail-extra");
-    if (item.extra) bindText(extra, item.copyKey + "-extra", item.extra);
+    if (item.extra) bindText(extra, item.extraKey || (item.copyKey + "-extra"), item.extra);
     else extra.hidden = true;
 
     var frame = scrim.querySelector("[data-frame]");
@@ -540,14 +540,13 @@
       open({
         kind: "Recent job",
         title: name,
-        brief: item.blurb || item.detail || (name + (item.location ? " in " + item.location : "") + "."),
+        brief: item.blurb || item.detail || name,
         copyKey: "job-" + (item.id || "job"),
         specs: item.material ? [{ tone: toneOf(item.material), label: item.material }] : [],
         site: "/quote",
         siteLabel: "Get a quote",
-        placeLabel: item.location ? "Neighborhood" : "Studio",
-        place: item.location ? item.location + ", Washington" : STUDIO,
-        extra: bits ? bits + ". Similar work starts at the Lynnwood studio." : STUDIO_HOURS,
+        extra: bits,
+        extraKey: "job-" + (item.id || "job") + "-meta",
         slots: slots("job-" + (item.id || "job")),
         photos: item.photo && String(item.photo).indexOf("data:image/") === 0 ? [item.photo] : [],
         simple: true,
