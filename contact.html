@@ -6,7 +6,7 @@
   <link rel="icon" href="/images/as-mark-mask.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ALLSTAR Surfaces · Contact</title>
-  <meta name="description" content="Call, email, or request a quote." />
+  <meta name="description" content="Email the Lynnwood shop, or come by on Hwy 99." />
   <link rel="canonical" href="https://www.all-star-flooring.com/contact" />
   <meta property="og:site_name" content="Allstar - Surfaces and remodel" />
   <meta property="og:title" content="ALLSTAR Surfaces · Contact" />
@@ -67,92 +67,61 @@
   <main>
     <header class="wrap page-hero">
       <p class="kicker" data-copy="contactKicker">Contact</p>
-      <h1 data-copy="contactTitle">Come by or send the rooms.</h1>
-      <p class="lede" data-copy="contactLede">Request a look at the Lynnwood shop, or tell us about the house. We answer from the shop, Mon–Fri, 9 AM–4 PM.</p>
+      <h1 data-copy="contactTitle">Email the shop.</h1>
+      <p class="lede" data-copy="contactLede">A name, a phone number, and a note is enough. We reply from the Lynnwood shop.</p>
     </header>
-    <section class="wrap section">
-      <div class="split">
-        <div class="card">
-          <p class="kicker" data-copy="contactCallKicker">Call the shop</p>
-          <a class="contact-phone" href="tel:+12067999881">(206) 799-9881</a>
-          <p class="lede" data-copy="contactCallLede">The fastest way to start. After hours, leave a message or send the rooms by email.</p>
-          <a href="mailto:Allstarseattle@gmail.com">Allstarseattle@gmail.com</a>
-          <p><a class="btn" href="tel:+12067999881">Call us</a></p>
-        </div>
-        <div class="card">
-          <p class="kicker" data-copy="contactVisitKicker">Request an estimate</p>
-          <h2 data-copy="contactVisitTitle">What helps us price it</h2>
-          <ul class="contact-ask">
-            <li data-copy="contactAsk1">The address, or just the city</li>
-            <li data-copy="contactAsk2">Which rooms are in the job</li>
-            <li data-copy="contactAsk3">What is down now, and what you want instead</li>
-          </ul>
-          <p class="lede" data-copy="contactVisitBody">Name, phone, and email is enough to start. We come back with a written scope, not a price guessed from a square-foot box.</p>
-          <p style="display:flex;gap:12px;flex-wrap:wrap">
-            <a class="btn" href="/quote">Send the rooms</a>
-            <a class="btn ghost" href="/appointment">Book a visit</a>
-          </p>
-        </div>
-      </div>
-    </section>
 
     <section class="wrap section">
       <div class="contact-side">
-        <div class="contact-side-copy">
-          <p class="kicker" data-copy="contactMapKicker">Where we work</p>
-          <h2 data-copy="contactMapTitle">Greater Seattle, from the Lynnwood shop.</h2>
-          <p class="lede" data-copy="contactMapBody">Based on Hwy 99, we work Lynnwood, Edmonds, Everett, Seattle, Bellevue, Kirkland, Bothell, Redmond, Shoreline, Renton, Tacoma, and Issaquah. The same crew that shows the samples comes back to install.</p>
-          <p class="kicker">Shop hours</p>
-          <div class="hours">
-            <div><span>Monday</span><span>9 AM–4 PM</span></div>
-            <div><span>Tuesday</span><span>9 AM–4 PM</span></div>
-            <div><span>Wednesday</span><span>9 AM–4 PM</span></div>
-            <div><span>Thursday</span><span>9 AM–4 PM</span></div>
-            <div><span>Friday</span><span>9 AM–4 PM</span></div>
-            <div><span>Saturday</span><span>Closed</span></div>
-            <div><span>Sunday</span><span>Closed</span></div>
+        <div class="card contact-card">
+          <form class="contact-form" data-quote-form>
+            <p class="kicker" data-copy="contactFormKicker">Write us</p>
+            <h2 data-copy="contactFormTitle">Who should we reply to?</h2>
+            <p class="lede" data-copy="contactFormLede">Name, phone, and email. We write back from Allstarseattle@gmail.com.</p>
+            <input type="hidden" name="projectType" value="Contact">
+            <div class="survey-fields">
+              <label class="survey-field">Full name
+                <input name="name" autocomplete="name" placeholder="Your name" required>
+              </label>
+              <label class="survey-field">Phone
+                <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(206) 555-0148" required>
+              </label>
+              <label class="survey-field">Email
+                <input name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
+              </label>
+              <label class="survey-field">Message <span class="optional">Optional</span>
+                <textarea name="notes" placeholder="The rooms, the city, or a question."></textarea>
+              </label>
+            </div>
+            <button class="btn" type="submit">Send</button>
+          </form>
+          <div class="thanks" data-thanks hidden>
+            <h2>We have your note.</h2>
+            <p class="lede">Thanks <span data-who></span>. We’ll email you back from Allstarseattle@gmail.com.</p>
           </div>
-          <p style="margin-top:16px"><a href="https://maps.google.com/?q=18000+Hwy+99+Lynnwood+WA+98037" target="_blank" rel="noreferrer">18000 Hwy 99, Lynnwood, WA 98037</a></p>
-          <p><a href="tel:+12067999881">(206) 799-9881</a></p>
         </div>
+        <aside class="card contact-note">
+          <p class="kicker" data-copy="contactNoteKicker">The shop</p>
+          <h2 data-copy="contactNoteTitle">See it before it is ordered.</h2>
+          <p class="lede" data-copy="contactNoteBody">Hardwood, stone, tile, vinyl, and carpet are in the Lynnwood shop. Come look at the grain in real light.</p>
+          <p class="map-caption">
+            <a href="https://maps.google.com/?q=18000+Hwy+99+Lynnwood+WA+98037" target="_blank" rel="noreferrer">18000 Hwy 99, Lynnwood, WA 98037</a>
+            <span>Mon–Fri, 9 AM–4 PM</span>
+            <a href="tel:+12067999881">(206) 799-9881</a>
+          </p>
+        </aside>
         <div class="shop-pin-map">
           <iframe title="ALLSTAR Surfaces in Lynnwood" src="https://maps.google.com/maps?q=18000%20Hwy%2099%20Lynnwood%20WA%2098037&z=13&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </section>
 
-    <section class="wrap section">
-      <p class="kicker" data-copy="contactHowKicker">How a job starts</p>
-      <h2 data-copy="contactHowTitle">Look, then a number you can read.</h2>
-      <div class="cards cards-3">
-        <article class="card">
-          <p class="kicker">01</p>
-          <h3 data-copy="contactLookTitle">Look</h3>
-          <p class="lede" data-copy="contactLookBody">At the Lynnwood shop, or in the house. Samples in the light you actually live with.</p>
-        </article>
-        <article class="card">
-          <p class="kicker">02</p>
-          <h3 data-copy="contactScopeTitle">Scope</h3>
-          <p class="lede" data-copy="contactScopeBody">We measure the rooms, check the subfloor, and leave a schedule you can read.</p>
-        </article>
-        <article class="card">
-          <p class="kicker">03</p>
-          <h3 data-copy="contactShopTitle">The shop</h3>
-          <p class="lede" data-copy="contactShopBody">18000 Hwy 99, Lynnwood. Founded in 2007. The same people who show the samples come back to install.</p>
-        </article>
+    <section class="wrap section story-gate">
+      <div>
+        <p class="kicker">About us</p>
+        <h2 data-copy="contactStoryTitle">Find out more about our story.</h2>
       </div>
-    </section>
-    <section class="cta-band">
-      <div class="wrap">
-        <div>
-          <h2 data-copy="contactCtaTitle">See the samples in person.</h2>
-          <p class="lede" data-copy="contactCtaBody">18000 Hwy 99, Lynnwood. Greater Seattle, the Eastside, and the I-5 corridor.</p>
-        </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a class="btn" href="tel:+12067999881">Call (206) 799-9881</a>
-          <a class="btn ghost" href="/quote">Get a quote</a>
-        </div>
-      </div>
+      <a class="btn" href="/about">About us</a>
     </section>
   </main>
 
@@ -214,6 +183,7 @@
     </div>
   </footer>
     <script src="/js/theme.js"></script>
+  <script src="/js/leads-config.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/studio-edit.js"></script>
   <script src="/js/catalog.js"></script>

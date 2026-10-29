@@ -1482,38 +1482,52 @@ html.lenis, html.lenis body { height: auto; }
 .contact-side {
   display: grid;
   gap: 22px;
-  align-items: stretch;
+  align-items: start;
 }
-.contact-side .hours { max-width: 280px; margin-top: 4px; }
-.city-list {
-  margin: 8px 0 18px;
-  padding: 0;
-  list-style: none;
-  columns: 2;
-  column-gap: 28px;
+.contact-form .survey-fields { max-width: none; margin-top: 18px; }
+.contact-form .survey-field { display: grid; gap: 6px; }
+.contact-form input,
+.contact-form textarea { width: 100%; }
+.contact-form textarea { min-height: 88px; }
+.contact-form .btn { margin-top: 16px; }
+@media (min-width: 720px) {
+  .contact-form .survey-fields { grid-template-columns: 1fr 1fr; }
+  .contact-form .survey-field:nth-child(n + 3) { grid-column: 1 / -1; }
 }
-.city-list li {
-  break-inside: avoid;
-  padding: 7px 0;
-  border-bottom: 1px solid var(--line);
+.contact-card .thanks { max-width: none; padding: 8px 0 4px; }
+.contact-note { display: flex; flex-direction: column; }
+.contact-note h2 { max-width: 16ch; }
+.contact-note .map-caption { margin-top: auto; padding-top: 22px; }
+.map-caption {
+  display: grid;
+  gap: 4px;
+  margin: 12px 0 0;
   font-size: 15px;
-  color: var(--ink);
 }
-.contact-side .shop-pin-map { margin: 0; height: 320px; }
-.contact-side .shop-pin-map iframe { height: 100%; }
+.contact-side .shop-pin-map { margin: 0; }
+.contact-side .shop-pin-map iframe { height: 300px; }
+.story-gate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  padding-top: 8px;
+}
+.story-gate h2 {
+  margin: 6px 0 0;
+  font-size: clamp(28px, 4vw, 42px);
+  max-width: 16ch;
+}
 @media (min-width: 900px) {
   .contact-side {
-    grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
-    gap: 28px;
-    align-items: stretch;
+    grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+    gap: 22px 28px;
   }
-  .contact-side .shop-pin-map {
-    height: auto;
-    min-height: 460px;
-    position: relative;
-    top: auto;
-  }
-  .contact-side .shop-pin-map iframe { min-height: 460px; height: 100%; }
+  .contact-card { grid-column: 1; grid-row: 1; }
+  .contact-note { grid-column: 2; grid-row: 1; align-self: stretch; height: 100%; }
+  .contact-side .shop-pin-map { grid-column: 1 / -1; grid-row: 2; }
+  .contact-side .shop-pin-map iframe { height: 380px; min-height: 0; }
 }
 .contact-phone {
   display: block;
