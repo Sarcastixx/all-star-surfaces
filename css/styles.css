@@ -1430,6 +1430,55 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
+.quote-layout {
+  display: grid;
+  gap: 28px;
+  align-items: start;
+  padding: 28px 0 24px;
+}
+.quote-aside-title {
+  font-size: clamp(36px, 5vw, 56px);
+  margin: 8px 0 12px;
+  max-width: 11ch;
+}
+.quote-rail { display: grid; gap: 10px; margin-top: 22px; }
+.quote-rail article {
+  background: var(--cream);
+  border-radius: 18px;
+  padding: 14px 16px;
+}
+.quote-rail article:nth-child(1) { background: #f8ecd8; box-shadow: inset 4px 0 0 #c48a3a; }
+.quote-rail article:nth-child(2) { background: #e7eef3; box-shadow: inset 4px 0 0 var(--tide); }
+.quote-rail article:nth-child(3) { background: #e6f2ec; box-shadow: inset 4px 0 0 var(--spruce); }
+.quote-rail .kicker { margin-bottom: 4px; }
+.quote-rail p:last-child { margin: 0; color: var(--ink-soft); font-size: 15px; }
+.quote-aside-note { margin-top: 18px; font-size: 15px; }
+.quote-sheet {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 8px 18px 18px;
+}
+.choice { transition: transform 420ms cubic-bezier(.22, 1, .36, 1), background 280ms ease, border-color 280ms ease, color 280ms ease; }
+.choice:hover { transform: translateY(-2px); }
+@media (max-width: 959px) {
+  .quote-layout { gap: 12px; padding-top: 16px; }
+  .quote-rail, .quote-aside-note { display: none; }
+  .quote-aside-title { font-size: 36px; margin-bottom: 6px; }
+}
+@media (min-width: 960px) {
+  .quote-layout { grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr); gap: 40px; }
+  .quote-aside { position: sticky; top: 96px; }
+  .quote-sheet { padding: 12px 28px 22px; }
+}
+[data-theme="dark"] .quote-sheet { background: #2a241e; border-color: #3d362e; }
+[data-theme="dark"] .quote-rail article:nth-child(1) { background: #322818; }
+[data-theme="dark"] .quote-rail article:nth-child(2) { background: #1c2833; }
+[data-theme="dark"] .quote-rail article:nth-child(3) { background: #1a2c26; }
+@media (prefers-reduced-motion: reduce) {
+  .choice:hover { transform: none; }
+}
+
 /* Home scroll-in. Scoped to the home page so other grids stay visible without the script. */
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
   body:has(.home-band) .home-tiles a,
