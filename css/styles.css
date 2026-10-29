@@ -1429,3 +1429,50 @@ body.has-cookie-banner .survey-page { padding-bottom: 260px; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
+
+/* Home scroll-in. Scoped to the home page so other grids stay visible without the script. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  body:has(.home-band) .home-tiles a,
+  body:has(.home-band) .sample-row,
+  body:has(.home-band) .split > div,
+  body:has(.home-band) .cards-3 .card,
+  body:has(.home-band) .wrap.section > .kicker,
+  body:has(.home-band) .wrap.section > h2,
+  body:has(.home-band) [data-jobs] .shop-card,
+  body:has(.home-band) .cta-band .wrap > div {
+    animation: none;
+    transition:
+      opacity 740ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 740ms cubic-bezier(0.16, 1, 0.3, 1),
+      background 420ms ease,
+      box-shadow 520ms ease,
+      color 320ms ease;
+    transition-delay: var(--rise, 0ms), var(--rise, 0ms), 0ms, 0ms, 0ms;
+  }
+  body:has(.home-band) .home-tiles a:not(.is-in),
+  body:has(.home-band) .sample-row:not(.is-in),
+  body:has(.home-band) .split > div:not(.is-in),
+  body:has(.home-band) .cards-3 .card:not(.is-in),
+  body:has(.home-band) .wrap.section > .kicker:not(.is-in),
+  body:has(.home-band) .wrap.section > h2:not(.is-in),
+  body:has(.home-band) [data-jobs] .shop-card:not(.is-in),
+  body:has(.home-band) .cta-band .wrap > div:not(.is-in) {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  body:has(.home-band) .home-tiles a.is-in,
+  body:has(.home-band) .sample-row.is-in,
+  body:has(.home-band) .split > div.is-in,
+  body:has(.home-band) .cards-3 .card.is-in,
+  body:has(.home-band) .wrap.section > .kicker.is-in,
+  body:has(.home-band) .wrap.section > h2.is-in,
+  body:has(.home-band) [data-jobs] .shop-card.is-in,
+  body:has(.home-band) .cta-band .wrap > div.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  body:has(.home-band) .home-tiles a.is-in:hover,
+  body:has(.home-band) .card.is-in:hover {
+    transform: translateY(-3px);
+  }
+}
