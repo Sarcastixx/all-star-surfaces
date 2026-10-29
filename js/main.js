@@ -518,3 +518,64 @@ function shrinkPhoto(file) {
   });
   requestAnimationFrame(frame);
 })();
+
+/* Home: sections rise in once as they enter view. Hero and the vendor reel stay put. */
+(function () {
+  if (!document.querySelector(".home-band")) return;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var groups = [
+    ".home-tiles a",
+    ".sample-row",
+    ".split > div",
+    ".wrap.section > .kicker, .wrap.section > h2",
+    ".cards-3 .card",
+    "[data-jobs] .shop-card",
+    ".cta-band .wrap > div"
+  ];
+  function collect() {
+    var seen = [];
+    groups.forEach(function (sel) {
+      Array.prototype.forEach.call(document.querySelectorAll(sel), function (el, i) {
+        if (el.closest(".vendor-reel") || seen.indexOf(el) !== -1) return;
+        seen.push(el);
+        if (!el.getAttribute("data-rise")) {
+          el.setAttribute("data-rise", "1");
+          el.style.setProperty("--rise", Math.min(i, 4) * 70 + "ms");
+        }
+      });
+    });
+    return seen;
+  }
+  function settle(el) {
+    function done(ev) {
+      if (ev.propertyName !== "opacity" && ev.propertyName !== "transform") return;
+      el.style.setProperty("--rise", "0ms");
+      el.removeEventListener("transitionend", done);
+    }
+    el.addEventListener("transitionend", done);
+  }
+  if (reduce || !("IntersectionObserver" in window)) {
+    collect().forEach(function (el) {
+      el.classList.add("is-in");
+      el.style.setProperty("--rise", "0ms");
+    });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      en.target.classList.add("is-in");
+      settle(en.target);
+      io.unobserve(en.target);
+    });
+  }, { threshold: 0.08, rootMargin: "0px 0px 64px 0px" });
+  function arm() {
+    collect().forEach(function (el) {
+      if (el.classList.contains("is-in")) return;
+      io.observe(el);
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", arm);
+  else arm();
+  document.addEventListener("as-catalog-ready", arm);
+})();
