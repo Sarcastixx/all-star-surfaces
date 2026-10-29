@@ -268,13 +268,13 @@ footer { background: var(--cream); border-top: 1px solid var(--line); padding: 8
   box-shadow: 0 14px 36px rgb(47 42 36 / 0.22);
   overflow: hidden;
   text-decoration: none;
-  transition: width 220ms ease, padding 220ms ease, transform 180ms ease;
+  transition: width 220ms ease, padding 220ms ease, box-shadow 280ms ease;
 }
 .quote-fab-short { font-size: 13px; font-weight: 600; }
 .quote-fab-full { display: none; white-space: nowrap; font-size: 14px; }
 @media (hover: hover) and (pointer: fine) {
   .quote-fab { width: 52px; padding: 0; }
-  .quote-fab:hover, .quote-fab:focus-visible { width: auto; padding: 0 18px; transform: translateY(-2px); }
+  .quote-fab:hover, .quote-fab:focus-visible { width: auto; padding: 0 18px; }
   .quote-fab:hover .quote-fab-full, .quote-fab:focus-visible .quote-fab-full { display: inline; }
   .quote-fab:hover .quote-fab-short, .quote-fab:focus-visible .quote-fab-short { display: none; }
 }
@@ -355,6 +355,11 @@ html { color-scheme: light dark; }
 .quote-fab {
   min-height: 56px; padding: 0 22px; width: auto !important;
   letter-spacing: 0.14em; text-transform: uppercase; font-size: 12px; font-weight: 600;
+  animation: cloudDrift 3.4s ease-in-out infinite;
+}
+.quote-fab:hover, .quote-fab:focus-visible {
+  animation-play-state: paused;
+  box-shadow: 0 22px 40px rgb(47 42 36 / 0.28);
 }
 .quote-fab-label { white-space: nowrap; }
 .quote-fab-short, .quote-fab-full { display: none !important; }
@@ -1061,7 +1066,6 @@ html, body { background: var(--bg); overflow-x: clip; }
   margin-top: 14px;
   border-radius: 24px;
   overflow: hidden;
-  animation: fadeInUp 720ms ease both;
 }
 .sample-row > img {
   display: block;
@@ -1087,10 +1091,6 @@ html, body { background: var(--bg); overflow-x: clip; }
 .nav-item {
   transition: transform 520ms cubic-bezier(.22, 1, .36, 1), background 420ms ease, box-shadow 520ms ease, color 320ms ease;
 }
-.home-tiles a { animation: fadeInUp 640ms ease both; }
-.home-tiles a:nth-child(2) { animation-delay: 70ms; }
-.home-tiles a:nth-child(3) { animation-delay: 140ms; }
-.home-tiles a:nth-child(4) { animation-delay: 210ms; }
 .home-tiles a:hover,
 .card:hover { transform: translateY(-3px); }
 .visit-square {
@@ -1430,49 +1430,128 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-/* Home scroll-in. Scoped to the home page so other grids stay visible without the script. */
+/* Short fade on info cards only. Maps, photos, and lists stay still. */
+@keyframes squareLife {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes cloudDrift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -10px, 0); }
+}
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
-  body:has(.home-band) .home-tiles a,
-  body:has(.home-band) .sample-row,
-  body:has(.home-band) .split > div,
-  body:has(.home-band) .cards-3 .card,
-  body:has(.home-band) .wrap.section > .kicker,
-  body:has(.home-band) .wrap.section > h2,
-  body:has(.home-band) [data-jobs] .shop-card,
-  body:has(.home-band) .cta-band .wrap > div {
+  main .card,
+  main .about-copy {
     animation: none;
-    transition:
-      opacity 740ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 740ms cubic-bezier(0.16, 1, 0.3, 1),
-      background 420ms ease,
-      box-shadow 520ms ease,
-      color 320ms ease;
-    transition-delay: var(--rise, 0ms), var(--rise, 0ms), 0ms, 0ms, 0ms;
   }
-  body:has(.home-band) .home-tiles a:not(.is-in),
-  body:has(.home-band) .sample-row:not(.is-in),
-  body:has(.home-band) .split > div:not(.is-in),
-  body:has(.home-band) .cards-3 .card:not(.is-in),
-  body:has(.home-band) .wrap.section > .kicker:not(.is-in),
-  body:has(.home-band) .wrap.section > h2:not(.is-in),
-  body:has(.home-band) [data-jobs] .shop-card:not(.is-in),
-  body:has(.home-band) .cta-band .wrap > div:not(.is-in) {
+  main .card:not(.is-in),
+  main .about-copy:not(.is-in) {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(10px);
   }
-  body:has(.home-band) .home-tiles a.is-in,
-  body:has(.home-band) .sample-row.is-in,
-  body:has(.home-band) .split > div.is-in,
-  body:has(.home-band) .cards-3 .card.is-in,
-  body:has(.home-band) .wrap.section > .kicker.is-in,
-  body:has(.home-band) .wrap.section > h2.is-in,
-  body:has(.home-band) [data-jobs] .shop-card.is-in,
-  body:has(.home-band) .cta-band .wrap > div.is-in {
+  main .card:not(.is-settled),
+  main .about-copy:not(.is-settled) {
+    transition: none;
+  }
+  main .card.is-in:not(.is-settled),
+  main .about-copy.is-in:not(.is-settled) {
+    animation: squareLife 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--rise, 0ms);
+  }
+  main .survey .card,
+  main .detail-sheet .card {
     opacity: 1;
     transform: none;
+    animation: none;
   }
-  body:has(.home-band) .home-tiles a.is-in:hover,
-  body:has(.home-band) .card.is-in:hover {
+  main .card.is-settled,
+  main .about-copy.is-settled {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 280ms ease, background 280ms ease;
+  }
+  main .card.is-settled:hover,
+  main .about-copy.is-settled:hover {
     transform: translateY(-3px);
   }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quote-fab { animation: none; }
+}
+.contact-side {
+  display: grid;
+  gap: 22px;
+  align-items: stretch;
+}
+.contact-side .hours { max-width: 280px; margin-top: 4px; }
+.city-list {
+  margin: 8px 0 18px;
+  padding: 0;
+  list-style: none;
+  columns: 2;
+  column-gap: 28px;
+}
+.city-list li {
+  break-inside: avoid;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 15px;
+  color: var(--ink);
+}
+.contact-side .shop-pin-map { margin: 0; height: 320px; }
+.contact-side .shop-pin-map iframe { height: 100%; }
+@media (min-width: 900px) {
+  .contact-side {
+    grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+    gap: 28px;
+    align-items: stretch;
+  }
+  .contact-side .shop-pin-map {
+    height: auto;
+    min-height: 460px;
+    position: relative;
+    top: auto;
+  }
+  .contact-side .shop-pin-map iframe { min-height: 460px; height: 100%; }
+}
+.contact-phone {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(42px, 6vw, 68px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  text-decoration: none;
+  margin: 6px 0 14px;
+}
+.contact-phone:hover { color: var(--spruce, #1f6b56); }
+.contact-ask {
+  margin: 4px 0 14px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.contact-ask li {
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--bg) 55%, var(--cream));
+  color: var(--ink);
+}
+.city-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 4px;
+}
+.city-pills li {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--ink);
 }

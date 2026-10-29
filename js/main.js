@@ -390,10 +390,10 @@ function shrinkPhoto(file) {
     if (typeof Lenis !== "function") return;
     window.lenisInstance = new Lenis({
       autoRaf: true,
-      lerp: 0.1,
-      duration: 1.2,
-      wheelMultiplier: 1,
-      easing: function (x) { return Math.min(1, 1.001 - Math.pow(2, -10 * x)); }
+      lerp: 0.08,
+      smoothWheel: true,
+      syncTouch: false,
+      wheelMultiplier: 0.82
     });
   };
   document.head.appendChild(s);
@@ -406,7 +406,14 @@ function shrinkPhoto(file) {
   if (!track || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   var cards = Array.prototype.slice.call(track.querySelectorAll(".reel-card"));
   var state = cards.map(function () { return { s: 1, y: 0, o: 1 }; });
+  var coarse = window.matchMedia("(pointer: coarse)").matches;
+  var onScreen = true;
+  var ticking = false;
   function frame() {
+    if (!onScreen) {
+      ticking = false;
+      return;
+    }
     var box = reel.getBoundingClientRect();
     var mid = box.left + box.width / 2;
     var half = Math.max(1, box.width / 2);
@@ -415,7 +422,6 @@ function shrinkPhoto(file) {
       var center = rect.left + rect.width / 2;
       var dist = Math.min(1, Math.abs(center - mid) / half);
       var edge = dist * dist;
-      var coarse = window.matchMedia("(pointer: coarse)").matches;
       var hot = card.classList.contains("is-open") || (!coarse && (card.matches(":hover") || card.matches(":focus-visible")));
       var targetS = hot ? 1.24 : 1 - edge * 0.2;
       var targetY = hot ? -20 : 0;
@@ -431,7 +437,19 @@ function shrinkPhoto(file) {
     });
     requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
+  function kick() {
+    if (ticking || !onScreen) return;
+    ticking = true;
+    requestAnimationFrame(frame);
+  }
+  if ("IntersectionObserver" in window) {
+    var reelWatch = new IntersectionObserver(function (entries) {
+      onScreen = entries.some(function (en) { return en.isIntersecting; });
+      kick();
+    }, { rootMargin: "160px 0px" });
+    reelWatch.observe(reel);
+  }
+  kick();
 })();
 
 (function () {
@@ -519,44 +537,52 @@ function shrinkPhoto(file) {
   requestAnimationFrame(frame);
 })();
 
-/* Home: sections rise in once as they enter view. Hero and the vendor reel stay put. */
+/* A short rise on info cards only. Maps, photos, and lists stay still. */
 (function () {
-  if (!document.querySelector(".home-band")) return;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var groups = [
-    ".home-tiles a",
-    ".sample-row",
-    ".split > div",
-    ".wrap.section > .kicker, .wrap.section > h2",
-    ".cards-3 .card",
-    "[data-jobs] .shop-card",
-    ".cta-band .wrap > div"
-  ];
+  var groups = [".card", ".about-copy"];
+  function skip(el) {
+    return !!el.closest(".vendor-reel, .survey, .detail-sheet, .site-header, footer, .svc-menu, .shop-pin-map");
+  }
   function collect() {
     var seen = [];
     groups.forEach(function (sel) {
-      Array.prototype.forEach.call(document.querySelectorAll(sel), function (el, i) {
-        if (el.closest(".vendor-reel") || seen.indexOf(el) !== -1) return;
+      var batch = [];
+      Array.prototype.forEach.call(document.querySelectorAll(sel), function (el) {
+        if (seen.indexOf(el) !== -1 || skip(el)) return;
+        batch.push(el);
         seen.push(el);
-        if (!el.getAttribute("data-rise")) {
-          el.setAttribute("data-rise", "1");
-          el.style.setProperty("--rise", Math.min(i, 4) * 70 + "ms");
-        }
+      });
+      batch.forEach(function (el) {
+        if (el.getAttribute("data-rise")) return;
+        var parent = el.parentElement;
+        var sibs = batch.filter(function (s) { return s.parentElement === parent; });
+        var idx = sibs.indexOf(el);
+        var top = el.getBoundingClientRect().top;
+        var delayIndex = idx;
+        if (top > window.innerHeight * 0.92) delayIndex = 0;
+        el.setAttribute("data-rise", "1");
+        el.style.setProperty("--rise", Math.min(delayIndex, 1) * 40 + "ms");
       });
     });
     return seen;
   }
   function settle(el) {
-    function done(ev) {
-      if (ev.propertyName !== "opacity" && ev.propertyName !== "transform") return;
-      el.style.setProperty("--rise", "0ms");
-      el.removeEventListener("transitionend", done);
-    }
-    el.addEventListener("transitionend", done);
+    if (el.getAttribute("data-rise-bound")) return;
+    el.setAttribute("data-rise-bound", "1");
+    function mark() { el.classList.add("is-settled"); }
+    el.addEventListener("animationend", function (ev) {
+      if (ev.animationName !== "squareLife") return;
+      mark();
+    });
+    var raw = el.style.getPropertyValue("--rise") || "0";
+    var delayMs = raw.indexOf("ms") !== -1 ? parseFloat(raw) : parseFloat(raw) * 1000;
+    if (!delayMs || delayMs < 0) delayMs = 0;
+    setTimeout(mark, 500 + delayMs + 40);
   }
   if (reduce || !("IntersectionObserver" in window)) {
     collect().forEach(function (el) {
-      el.classList.add("is-in");
+      el.classList.add("is-in", "is-settled");
       el.style.setProperty("--rise", "0ms");
     });
     return;
@@ -568,11 +594,18 @@ function shrinkPhoto(file) {
       settle(en.target);
       io.unobserve(en.target);
     });
-  }, { threshold: 0.08, rootMargin: "0px 0px 64px 0px" });
+  }, { threshold: 0.2, rootMargin: "0px 0px -8% 0px" });
   function arm() {
+    var fresh = [];
     collect().forEach(function (el) {
       if (el.classList.contains("is-in")) return;
-      io.observe(el);
+      fresh.push(el);
+    });
+    if (!fresh.length) return;
+    requestAnimationFrame(function () {
+      fresh.forEach(function (el) {
+        if (!el.classList.contains("is-in")) io.observe(el);
+      });
     });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", arm);
