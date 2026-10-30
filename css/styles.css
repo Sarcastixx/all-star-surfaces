@@ -1489,9 +1489,45 @@ html.lenis, html.lenis body { height: auto; }
   .contact-form .survey-field:nth-child(n + 3) { grid-column: 1 / -1; }
 }
 .contact-card .thanks { max-width: none; padding: 8px 0 4px; }
-.contact-note { display: flex; flex-direction: column; }
-.contact-note h2 { max-width: 16ch; }
-.contact-note .map-caption { margin-top: auto; padding-top: 22px; }
+.contact-form-title { margin: 0; font-size: clamp(28px, 3vw, 36px); }
+.contact-reach {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+.reach-line {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 108px;
+  padding: 18px 16px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--bg) 62%, var(--cream));
+  color: inherit;
+  text-decoration: none;
+}
+.reach-line:hover { color: var(--spruce, #1f6b56); }
+.reach-mark {
+  width: 46px;
+  height: 46px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--spruce, #1f6b56);
+  color: #f6f1e8;
+}
+.reach-mark svg { width: 22px; height: 22px; }
+.reach-line .kicker { display: block; margin: 0 0 4px; }
+.reach-value {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
 .map-caption {
   display: grid;
   gap: 4px;
@@ -1519,7 +1555,7 @@ html.lenis, html.lenis body { height: auto; }
     gap: 22px 28px;
   }
   .contact-card { grid-column: 1; grid-row: 1; }
-  .contact-note { grid-column: 2; grid-row: 1; align-self: stretch; height: 100%; }
+  .contact-reach { grid-column: 2; grid-row: 1; align-self: stretch; height: 100%; }
   .contact-side .shop-pin-map { grid-column: 1 / -1; grid-row: 2; }
   .contact-side .shop-pin-map iframe { height: 380px; min-height: 0; }
 }
