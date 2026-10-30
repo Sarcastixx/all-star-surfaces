@@ -401,55 +401,19 @@ function shrinkPhoto(file) {
 
 (function () {
   var reel = document.querySelector(".vendor-reel");
-  if (!reel) return;
-  var track = reel.querySelector(".vendor-reel-track");
-  if (!track || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var cards = Array.prototype.slice.call(track.querySelectorAll(".reel-card"));
-  var state = cards.map(function () { return { s: 1, y: 0, o: 1 }; });
-  var coarse = window.matchMedia("(pointer: coarse)").matches;
-  var onScreen = true;
-  var ticking = false;
-  function frame() {
-    if (!onScreen) {
-      ticking = false;
-      return;
-    }
-    var box = reel.getBoundingClientRect();
-    var mid = box.left + box.width / 2;
-    var half = Math.max(1, box.width / 2);
-    cards.forEach(function (card, i) {
-      var rect = card.getBoundingClientRect();
-      var center = rect.left + rect.width / 2;
-      var dist = Math.min(1, Math.abs(center - mid) / half);
-      var edge = dist * dist;
-      var hot = card.classList.contains("is-open") || (!coarse && (card.matches(":hover") || card.matches(":focus-visible")));
-      var targetS = hot ? 1.24 : 1 - edge * 0.2;
-      var targetY = hot ? -20 : 0;
-      var targetO = hot ? 1 : 1 - edge * 0.34;
-      var st = state[i];
-      var k = hot ? 0.14 : 0.2;
-      st.s += (targetS - st.s) * k;
-      st.y += (targetY - st.y) * k;
-      st.o += (targetO - st.o) * 0.2;
-      card.style.setProperty("--edge", st.s.toFixed(3));
-      card.style.setProperty("--lift", st.y.toFixed(2) + "px");
-      card.style.opacity = st.o.toFixed(3);
-    });
-    requestAnimationFrame(frame);
-  }
-  function kick() {
-    if (ticking || !onScreen) return;
-    ticking = true;
-    requestAnimationFrame(frame);
-  }
-  if ("IntersectionObserver" in window) {
-    var reelWatch = new IntersectionObserver(function (entries) {
-      onScreen = entries.some(function (en) { return en.isIntersecting; });
-      kick();
-    }, { rootMargin: "160px 0px" });
-    reelWatch.observe(reel);
-  }
-  kick();
+  if (!reel || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!("IntersectionObserver" in window)) return;
+  var watch = new IntersectionObserver(function (entries) {
+    var on = entries.some(function (en) { return en.isIntersecting; });
+    reel.classList.toggle("is-off", !on);
+  }, { rootMargin: "180px 0px" });
+  watch.observe(reel);
+  var scrollTimer = 0;
+  window.addEventListener("scroll", function () {
+    reel.classList.add("is-scrolling");
+    if (scrollTimer) clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function () { reel.classList.remove("is-scrolling"); }, 140);
+  }, { passive: true });
 })();
 
 (function () {
@@ -462,9 +426,10 @@ function shrinkPhoto(file) {
   var offset = 0;
   var half = 0;
   var drag = null;
+  var onScreen = true;
+  var ticking = false;
   function measure() {
     half = track.scrollWidth / 2;
-    if (half && offset === 0) offset = -half;
   }
   function wrap(v) {
     if (!half) return v;
@@ -476,16 +441,28 @@ function shrinkPhoto(file) {
   var moved = false;
   var open = false;
   function frame(now) {
-    if (!mobile.matches) {
-      track.style.transform = "";
+    if (!onScreen || !mobile.matches) {
+      ticking = false;
+      if (!mobile.matches) track.style.transform = "";
       return;
     }
-    measure();
+    if (!half) measure();
+    if (reel.classList.contains("is-scrolling")) {
+      last = now;
+      requestAnimationFrame(frame);
+      return;
+    }
     var dt = Math.min(0.05, (now - last) / 1000);
     last = now;
     if (!drag && !open && half) offset -= (half / 58) * dt;
     offset = wrap(offset);
-    track.style.transform = "translate3d(" + offset.toFixed(2) + "px,0,0)";
+    track.style.transform = "translate3d(" + offset.toFixed(1) + "px,0,0)";
+    requestAnimationFrame(frame);
+  }
+  function kick() {
+    if (ticking || !onScreen || !mobile.matches) return;
+    ticking = true;
+    last = performance.now();
     requestAnimationFrame(frame);
   }
   function closeOpen() {
@@ -534,7 +511,15 @@ function shrinkPhoto(file) {
     if (!open || e.target.closest(".vendor-reel")) return;
     closeOpen();
   });
-  requestAnimationFrame(frame);
+  if ("IntersectionObserver" in window) {
+    var watch = new IntersectionObserver(function (entries) {
+      onScreen = entries.some(function (en) { return en.isIntersecting; });
+      if (onScreen) kick();
+    }, { rootMargin: "180px 0px" });
+    watch.observe(reel);
+  }
+  window.addEventListener("resize", function () { half = 0; });
+  kick();
 })();
 
 /* A short rise on info cards only. Maps, photos, and lists stay still. */
