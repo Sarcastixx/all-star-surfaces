@@ -408,12 +408,6 @@ function shrinkPhoto(file) {
     reel.classList.toggle("is-off", !on);
   }, { rootMargin: "180px 0px" });
   watch.observe(reel);
-  var scrollTimer = 0;
-  window.addEventListener("scroll", function () {
-    reel.classList.add("is-scrolling");
-    if (scrollTimer) clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(function () { reel.classList.remove("is-scrolling"); }, 140);
-  }, { passive: true });
 })();
 
 (function () {
@@ -447,11 +441,6 @@ function shrinkPhoto(file) {
       return;
     }
     if (!half) measure();
-    if (reel.classList.contains("is-scrolling")) {
-      last = now;
-      requestAnimationFrame(frame);
-      return;
-    }
     var dt = Math.min(0.05, (now - last) / 1000);
     last = now;
     if (!drag && !open && half) offset -= (half / 58) * dt;
