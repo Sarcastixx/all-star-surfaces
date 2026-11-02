@@ -406,10 +406,17 @@ html, body { background: var(--bg); }
 :root { --sans: "Figtree", system-ui, sans-serif; --serif: "Fraunces", Georgia, serif; }
 body { font-family: var(--sans); }
 h1,h2,h3 { font-family: var(--serif); }
-.as-mark-img { width:44px; height:44px; object-fit:contain; background:transparent; outline:none; }
-[data-theme="light"] .as-mark-img { filter: invert(1) brightness(0.18); }
-[data-theme="dark"] .as-mark-img { filter: none; }
-.brand-word { display:flex !important; flex-direction:column; line-height:1; }
+.brand-word { display: none !important; }
+.logo { display: flex; align-items: center; min-height: 44px; }
+.logo-lockup { width: auto; height: auto; display: none; }
+.logo-lockup-light { display: block; }
+[data-theme="dark"] .logo-lockup-light { display: none; }
+[data-theme="dark"] .logo-lockup-dark { display: block; }
+.logo .logo-lockup { width: min(240px, 58vw); height: auto; }
+.foot-brand .logo-lockup { width: 190px; height: auto; }
+.hero-frame img.logo-lockup,
+.quote-card-brand .logo-lockup { width: 168px; height: auto; object-fit: contain; }
+.as-mark-img { display: none !important; }
 .icon-btn, .menu { color: var(--ink) !important; -webkit-appearance:none; appearance:none; background: var(--surface); border:1px solid var(--line); }
 .hero-shell { position:relative; }
 .hero-frame { overflow:hidden; }
