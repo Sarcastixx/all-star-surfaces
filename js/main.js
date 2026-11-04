@@ -96,7 +96,7 @@
         var mail = {};
         Object.keys(payload).forEach(function (k) { if (k !== "photoData") mail[k] = payload[k]; });
         var body = Object.keys(mail).map(function(k){ return k + ": " + mail[k]; }).join("\n");
-        window.location.href = "mailto:Allstarseattle@gmail.com?subject=" + encodeURIComponent((payload.projectType || "Request") + " from " + (payload.name || "")) + "&body=" + encodeURIComponent(body);
+        window.location.href = "mailto:info@all-star-flooring.com?subject=" + encodeURIComponent((payload.projectType || "Request") + " from " + (payload.name || "")) + "&body=" + encodeURIComponent(body);
         done();
       });
     }
