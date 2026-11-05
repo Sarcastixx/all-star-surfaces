@@ -1,0 +1,68 @@
+.survey-book { width: min(760px, calc(100% - 32px)); }
+.book { margin-top: 18px; max-width: 420px; margin-left: auto; margin-right: auto; }
+.book-cal {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+.book-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.book-month { margin: 0; font-family: var(--serif); font-size: 22px; text-align: center; flex: 1; }
+.book-nav {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.book-nav:disabled { opacity: 0.35; cursor: default; }
+.book-week, .book-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.book-week { margin: 12px 0 6px; }
+.book-week span { text-align: center; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.book-day {
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.book-day.is-out { visibility: hidden; }
+.book-day.is-off { color: var(--ink-soft); opacity: 0.35; cursor: default; }
+.book-day:not(.is-off):hover { background: var(--line); }
+.book-day.is-on, .hour.is-on { background: var(--spruce); color: #f6f1e8; }
+.book-times { margin-top: 16px; }
+.book-time-label { margin: 12px 0 8px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--spruce); font-weight: 600; text-align: center; }
+.hour-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.hour {
+  width: 76px;
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.hour:hover { border-color: var(--spruce); }
+@media (min-width: 900px) {
+  .survey-book .book:has(.book-times:not([hidden])) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+    max-width: none;
+  }
+  .survey-book .book:has(.book-times:not([hidden])) .book-times { margin-top: 0; }
+}
+[data-theme="dark"] .book-cal,
+[data-theme="dark"] .hour { background: #241f1b; }
+[data-theme="dark"] .book-day.is-on,
+[data-theme="dark"] .hour.is-on { background: #2f6b56; color: #f6f1e8; }
