@@ -1,0 +1,57 @@
+.book { margin-top: 18px; max-width: 420px; }
+.book-cal {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+.book-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.book-month { margin: 0; font-family: var(--serif); font-size: 22px; }
+.book-nav {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.book-nav:disabled { opacity: 0.35; cursor: default; }
+.book-week, .book-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.book-week { margin: 12px 0 6px; }
+.book-week span { text-align: center; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.book-day {
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.book-day.is-out { visibility: hidden; }
+.book-day.is-off { color: var(--ink-soft); opacity: 0.35; cursor: default; }
+.book-day:not(.is-off):hover { background: var(--line); }
+.book-day.is-on, .hour.is-on { background: var(--spruce); color: #f6f1e8; }
+.book-times { margin-top: 16px; }
+.book-time-label { margin: 12px 0 8px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--spruce); font-weight: 600; }
+.hour-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.hour {
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.hour:hover { border-color: var(--spruce); }
+@media (max-width: 420px) { .hour-grid { grid-template-columns: repeat(3, 1fr); } }
+[data-theme="dark"] .book-cal,
+[data-theme="dark"] .hour { background: #241f1b; }
+[data-theme="dark"] .book-day.is-on,
+[data-theme="dark"] .hour.is-on { background: #2f6b56; color: #f6f1e8; }
