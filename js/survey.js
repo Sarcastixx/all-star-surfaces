@@ -73,6 +73,18 @@
       showError("Add an email we can reply to.");
       return false;
     }
+    if (slide.hasAttribute("data-book")) {
+      var date = form.querySelector("[data-visit-date]");
+      var time = form.querySelector("[data-visit-time]");
+      if (!date || !date.value) {
+        showError("Pick a date to continue.");
+        return false;
+      }
+      if (!time || !time.value) {
+        showError("Pick an hour to continue.");
+        return false;
+      }
+    }
     if (error) error.hidden = true;
     return true;
   }
