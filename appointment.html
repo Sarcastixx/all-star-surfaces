@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/images/tab-48.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ALLSTAR Surfaces · Book a visit</title>
-  <meta name="description" content="Schedule a flexible showroom appointment at ALLSTAR Surfaces in Lynnwood. After hours and Saturdays available." />
+  <meta name="description" content="Book a showroom visit at ALLSTAR Surfaces in Lynnwood. Pick a date at least one day ahead, then an hour." />
   <link rel="canonical" href="https://www.all-star-flooring.com/appointment" />
   <meta property="og:site_name" content="Allstar - Surfaces and remodel" />
   <meta property="og:title" content="ALLSTAR Surfaces · Book a visit" />
@@ -19,6 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/book.css" />
   <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.setAttribute("data-theme-pref",p);}catch(e){}})();</script>
 
   <script>(function(){try{var t=localStorage.getItem("as-theme");var d=t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
@@ -76,34 +77,31 @@
       <div class="survey-stage">
         <section class="survey-slide is-on" data-step data-tone="spruce">
           <p class="kicker">Showroom</p>
-          <h1>When should we see you?</h1>
-          <p class="lede">The Lynnwood shop is open weekdays, 9 to 4. After hours is welcome — we allow evening visits — and Saturday is by appointment.</p>
-          <div class="choice-grid" role="radiogroup" aria-label="Time of day">
-            <label class="choice"><input type="radio" name="timeWindow" value="Morning (9–12)"><span class="choice-copy"><strong>Morning</strong><small>9 to 12, shop hours</small></span></label>
-            <label class="choice"><input type="radio" name="timeWindow" value="Afternoon (12–5)"><span class="choice-copy"><strong>Afternoon</strong><small>12 to 5, shop hours</small></span></label>
-            <label class="choice"><input type="radio" name="timeWindow" value="After hours (5–8)"><span class="choice-copy"><strong>After hours</strong><small>5 to 8. We allow this.</small></span></label>
-            <label class="choice"><input type="radio" name="timeWindow" value="Flexible / any time"><span class="choice-copy"><strong>I'm flexible</strong><small>Call me with a time</small></span></label>
+          <h1>What do you want to see?</h1>
+          <p class="lede">Booked showroom visits are preferred. Tell us what you’re coming in for, and we’ll have those samples ready.</p>
+          <div class="choice-grid" role="radiogroup" aria-label="What you want to see">
+            <label class="choice"><input type="radio" name="interest" value="Hardwood"><span class="choice-copy"><strong>Hardwood</strong><small>Solid and engineered</small></span></label>
+            <label class="choice"><input type="radio" name="interest" value="Stone and tile"><span class="choice-copy"><strong>Stone & tile</strong><small>Slabs and large format</small></span></label>
+            <label class="choice"><input type="radio" name="interest" value="Carpet"><span class="choice-copy"><strong>Carpet</strong></span></label>
+            <label class="choice"><input type="radio" name="interest" value="Vinyl"><span class="choice-copy"><strong>Vinyl</strong><small>LVP and waterproof</small></span></label>
+            <label class="choice"><input type="radio" name="interest" value="A remnant"><span class="choice-copy"><strong>A remnant</strong></span></label>
+            <label class="choice"><input type="radio" name="interest" value="Not sure yet"><span class="choice-copy"><strong>Not sure yet</strong><small>I want to look around</small></span></label>
           </div>
         </section>
 
-        <section class="survey-slide" data-step data-tone="ochre" hidden>
+        <section class="survey-slide" data-step data-tone="ochre" data-book hidden>
           <p class="kicker">The day</p>
-          <h1>Which day works?</h1>
-          <p class="lede">Saturday is fine. Sunday the shop is closed.</p>
-          <div class="choice-grid" role="radiogroup" aria-label="Preferred day">
-            <label class="choice"><input type="radio" name="preferredDate" value="Monday"><span class="choice-copy"><strong>Monday</strong></span></label>
-            <label class="choice"><input type="radio" name="preferredDate" value="Tuesday"><span class="choice-copy"><strong>Tuesday</strong></span></label>
-            <label class="choice"><input type="radio" name="preferredDate" value="Wednesday"><span class="choice-copy"><strong>Wednesday</strong></span></label>
-            <label class="choice"><input type="radio" name="preferredDate" value="Thursday"><span class="choice-copy"><strong>Thursday</strong></span></label>
-            <label class="choice"><input type="radio" name="preferredDate" value="Friday"><span class="choice-copy"><strong>Friday</strong></span></label>
-            <label class="choice"><input type="radio" name="preferredDate" value="Saturday"><span class="choice-copy"><strong>Saturday</strong><small>By appointment</small></span></label>
-          </div>
+          <h1>Pick a date and hour.</h1>
+          <p class="lede">Same-day visits aren’t available. Book at least one day ahead. Sunday is closed.</p>
+          <div class="book" data-calendar></div>
+          <input type="hidden" name="visitDate" data-visit-date />
+          <input type="hidden" name="visitTime" data-visit-time />
         </section>
 
         <section class="survey-slide" data-step data-tone="clay" hidden>
           <p class="kicker">Confirm</p>
-          <h1>Who should we text?</h1>
-          <p class="lede">We'll confirm the visit from info@all-star-flooring.com. After-hours times are welcome.</p>
+          <h1>Who should we confirm with?</h1>
+          <p class="lede">We’ll confirm the visit from info@all-star-flooring.com.</p>
           <div class="survey-fields">
             <label class="survey-field">Full name
               <input name="name" autocomplete="name" placeholder="Your name">
@@ -114,8 +112,8 @@
             <label class="survey-field">Email
               <input name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com">
             </label>
-            <label class="survey-field">What do you want to see? <span class="optional">Optional</span>
-              <textarea name="notes" placeholder="Oak samples, tile, a remnant, a whole-house look…"></textarea>
+            <label class="survey-field">Anything else? <span class="optional">Optional</span>
+              <textarea name="notes" placeholder="Room, color, or a sample you already have in mind."></textarea>
             </label>
           </div>
         </section>
@@ -123,12 +121,12 @@
       <div class="survey-nav">
         <button type="button" class="btn ghost" data-survey-back hidden>Back</button>
         <button type="button" class="btn" data-survey-next>Continue</button>
-        <button type="submit" class="btn" data-survey-send hidden>Request the visit</button>
+        <button type="submit" class="btn" data-survey-send hidden>Book the visit</button>
       </div>
     </form>
     <div class="wrap thanks" data-thanks hidden>
-      <h2>Appointment request received.</h2>
-      <p class="lede">Thanks <span data-who></span>. We'll confirm your showroom visit from info@all-star-flooring.com, including after hours if that's what you picked.</p>
+      <h2>Visit booked.</h2>
+      <p class="lede">Thanks <span data-who></span>. We’ll confirm <span data-when>your visit</span> from info@all-star-flooring.com.</p>
     </div>
   </main>
 
@@ -151,6 +149,7 @@
           <div><span>After hours</span><span>Available</span></div>
           <div><span>Saturday</span><span>By appointment</span></div>
           <div><span>Sunday</span><span>Closed</span></div>
+          <div><span>Visits</span><span>Booked preferred</span></div>
         </div>
       </div>
       <div>
@@ -194,6 +193,7 @@
     <script src="/js/theme.js"></script>
   <script src="/js/leads-config.js"></script>
   <script src="/js/survey.js"></script>
+  <script src="/js/book.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/studio-edit.js"></script>
   <script src="/js/catalog.js"></script>
