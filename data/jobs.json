@@ -1,66 +1,66 @@
 {
-  "updated": "2026-09-15",
+  "updated": "2026-11-07",
   "note": "Edit this file to change Recent jobs / Portfolio. Set featured to true to show on the homepage (up to 3). Put photos in images/jobs/ then set photo to that path.",
   "items": [
     {
-      "id": "medina-oak",
-      "title": "Medina residence",
-      "material": "7\" white oak",
-      "location": "Medina",
+      "id": "curved-oak-stair",
+      "title": "Curved oak staircase",
+      "material": "White oak",
+      "location": "Seattle area",
       "year": "2026",
       "featured": true,
-      "photo": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
-      "blurb": "Wide plank throughout the main floor."
+      "photo": "images/jobs/curved-stair.jpg",
+      "blurb": "Custom curved staircase in matching white oak."
     },
     {
-      "id": "capitol-rift",
-      "title": "Capitol Hill remodel",
-      "material": "Rift oak",
-      "location": "Seattle",
+      "id": "freestanding-tub-bath",
+      "title": "Freestanding tub bathroom",
+      "material": "Marble tile",
+      "location": "Seattle area",
       "year": "2026",
       "featured": true,
-      "photo": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
-      "blurb": "Kitchen and hall, dust-controlled install."
+      "photo": "images/jobs/tub-bath.jpg",
+      "blurb": "Large-format marble tile with freestanding tub and glass enclosure."
     },
     {
-      "id": "bothell-lime",
-      "title": "Bothell studio",
-      "material": "Honed limestone",
-      "location": "Bothell",
-      "year": "2025",
-      "featured": false,
-      "photo": "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=900&q=80",
-      "blurb": "Studio floor and hearth surround."
-    },
-    {
-      "id": "queen-anne-bath",
-      "title": "Queen Anne bath",
-      "material": "Porcelain",
-      "location": "Seattle",
+      "id": "modern-bath-smart",
+      "title": "Modern primary bath",
+      "material": "Porcelain tile",
+      "location": "Seattle area",
       "year": "2026",
       "featured": true,
-      "photo": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80",
-      "blurb": "Large-format tile, heated floor."
+      "photo": "images/jobs/smart-bath.jpg",
+      "blurb": "Textured wall tile, glass shower, and smart toilet."
     },
     {
-      "id": "kirkland-smoked",
-      "title": "Kirkland primary",
-      "material": "Smoked oak",
-      "location": "Kirkland",
-      "year": "2025",
+      "id": "living-stairs-fireplace",
+      "title": "Living space with stairs",
+      "material": "White oak + porcelain",
+      "location": "Seattle area",
+      "year": "2026",
       "featured": false,
-      "photo": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80",
-      "blurb": "Bedroom and closet run."
+      "photo": "images/jobs/living-stairs.jpg",
+      "blurb": "Open living area with wood stairs, fireplace surround, and matching flooring."
     },
     {
-      "id": "georgetown-mineral",
-      "title": "Georgetown loft",
-      "material": "Mineral overlay",
-      "location": "Seattle",
-      "year": "2025",
+      "id": "kitchen-view-oak",
+      "title": "Kitchen with view",
+      "material": "White oak",
+      "location": "Seattle area",
+      "year": "2026",
       "featured": false,
-      "photo": "https://images.unsplash.com/photo-1598300042247-d088f8ab3a25?auto=format&fit=crop&w=900&q=80",
-      "blurb": "Thin overlay over existing slab."
+      "photo": "images/jobs/kitchen-view.jpg",
+      "blurb": "Light oak flooring throughout the kitchen with large windows."
+    },
+    {
+      "id": "straight-oak-stair",
+      "title": "Oak staircase",
+      "material": "White oak",
+      "location": "Seattle area",
+      "year": "2026",
+      "featured": false,
+      "photo": "images/jobs/straight-stair.jpg",
+      "blurb": "Clean white oak treads with black metal railings."
     }
   ]
 }
