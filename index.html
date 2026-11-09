@@ -7,7 +7,7 @@
   <link rel="icon" href="/images/tab-16.png" type="image/png" sizes="16x16" />
   <link rel="icon" href="/images/tab-48.png" type="image/png" sizes="48x48" />
   <link rel="shortcut icon" href="/images/tab-logo.ico" />
-  <link rel="apple-touch-icon" href="/images/tab-logo.png" />
+  <link rel="apple-touch-icon" href="/images/tab-48.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ALLSTAR Surfaces</title>
   <meta name="description" content="ALLSTAR Surfaces. Flooring and remodel in Lynnwood. Hardwood, stone, tile, and carpet at 18000 Hwy 99." />
@@ -95,7 +95,7 @@
           <img class="hero-slide" src="/images/jobs/smart-bath.jpg" alt="Modern primary bath" />
           <img class="hero-slide" src="/images/jobs/living-stairs.jpg" alt="Living space with stairs" />
           <img class="hero-slide" src="/images/jobs/kitchen-view.jpg" alt="Kitchen with view" />
-          <img class="hero-slide" src="/images/jobs/straight-stair.jpg" alt="Oak staircase" />
+          <img class="hero-slide" src="/images/jobs/showroom-samples.jpg" alt="Oak staircase" />
           <div class="hero-dots" data-hero-dots></div>
         </div>
         <aside class="quote-card">
@@ -111,7 +111,7 @@
       <a href="/portfolio"><img src="/images/jobs/living-stairs.jpg" alt="Rooms"><span>Rooms</span></a>
     </div>
     <div class="sample-row">
-      <img src="/images/jobs/showroom-samples.jpg" alt="Couple browsing hardwood samples" />
+      <img class="photo-hold" data-slot="showroom" alt="" />
       <a class="visit-square" href="/appointment">
         <span class="visit-kicker">Showroom</span>
         <span class="visit-title">Book a visit</span>
@@ -122,34 +122,115 @@
     </section>
     <section class="wrap section split">
       <div>
-        <p class="kicker">The studio</p>
-        <h2 style="font-size:clamp(28px,5vw,48px);margin:0 0 12px">Quiet floors. Honest work.</h2>
-        <p class="lede">Hardwood, stone, and tile for homes around Seattle.</p>
+        <p class="kicker" data-copy="homeKicker">The studio</p>
+        <h2 data-copy="homeHeadline" style="font-size:clamp(28px,5vw,48px);margin:0 0 12px">Quiet floors. Honest work.</h2>
+        <p class="lede" data-copy="homeLede">Hardwood, stone, and tile for homes around Seattle.</p>
       </div>
       <div class="card">
-        <h3>From sample to last plank</h3>
-        <p class="lede">Site measure, material match, dust-controlled install, and a walkthrough before we leave. Most residential projects complete in 3–10 days.</p>
+        <h3 data-copy="homeCardTitle">From sample to last plank</h3>
+        <p class="lede" data-copy="homeCardBody">Site measure, material match, dust-controlled install, and a walkthrough before we leave. Most residential projects complete in 3–10 days.</p>
       </div>
     </section>
     <section class="wrap section">
-      <p class="kicker">What we take on</p>
-      <h2>Services</h2>
+      <p class="kicker" data-copy="homeSvcKicker">What we take on</p>
+      <h2 data-copy="homeSvcTitle">Services</h2>
       <div class="cards cards-3">
-        <article class="card"><h3>Hardwood</h3><p class="lede">White oak, walnut, and engineered planks.</p></article>
-        <article class="card"><h3>Stone & tile</h3><p class="lede">Honed marble, limestone, and large-format porcelain.</p></article>
-        <article class="card"><h3>Refinish</h3><p class="lede">Dustless sanding that respects occupied homes.</p></article>
+        <article class="card"><h3 data-copy="homeWoodTitle">Hardwood</h3><p class="lede" data-copy="homeWoodBody">White oak, walnut, and engineered planks.</p></article>
+        <article class="card"><h3 data-copy="homeStoneTitle">Stone & tile</h3><p class="lede" data-copy="homeStoneBody">Honed marble, limestone, and large-format porcelain.</p></article>
+        <article class="card"><h3 data-copy="homeRefinishTitle">Refinish</h3><p class="lede" data-copy="homeRefinishBody">Dustless sanding that respects occupied homes.</p></article>
       </div>
       <p><a href="/services">See how we work →</a></p>
     </section>
     <section class="wrap section">
-      <p class="kicker">Selected rooms</p>
-      <h2>Recent jobs</h2>
+      <p class="kicker" data-copy="homeJobsKicker">Selected rooms</p>
+      <h2 data-copy="homeJobsTitle">Recent jobs</h2>
       <div class="shop-grid" data-jobs data-featured>
         <p class="lede">Loading jobs…</p>
       </div>
       <p><a href="/portfolio">See all work →</a></p>
     </section>
+    <section class="wrap section vendor-reel-section">
+      <p class="kicker">Lines we install</p>
+      <h2>Vendors</h2>
+      <div class="vendor-reel" aria-label="Rotating vendor list"><div class="vendor-reel-track"><a class="reel-card" href="https://www.daltile.com" target="_blank" rel="noreferrer"><img src="/images/vendors/daltile.png" alt="Daltile"><span class="reel-meta"><span class="reel-name">Daltile</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.mohawkflooring.com" target="_blank" rel="noreferrer"><img src="/images/vendors/mohawk.png" alt="Mohawk"><span class="reel-meta"><span class="reel-name">Mohawk</span><span class="reel-specs"><span class="vendor-spec" data-tone="carpet">Carpet</span><span class="vendor-spec" data-tone="hardwood">Hardwood</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://shawfloors.com" target="_blank" rel="noreferrer"><img src="/images/vendors/shaw.png" alt="Shaw"><span class="reel-meta"><span class="reel-name">Shaw</span><span class="reel-specs"><span class="vendor-spec" data-tone="carpet">Carpet</span><span class="vendor-spec" data-tone="hardwood">Hardwood</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.mannington.com" target="_blank" rel="noreferrer"><img src="/images/vendors/mannington.png" alt="Mannington"><span class="reel-meta"><span class="reel-name">Mannington</span><span class="reel-specs"><span class="vendor-spec" data-tone="lvp">LVP</span><span class="vendor-spec" data-tone="hardwood">Hardwood</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.msisurfaces.com" target="_blank" rel="noreferrer"><img src="/images/vendors/msi.png" alt="MSI"><span class="reel-meta"><span class="reel-name">MSI</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span><span class="vendor-spec" data-tone="lvp">LVP</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.emser.com" target="_blank" rel="noreferrer"><img src="/images/vendors/emser.png" alt="Emser"><span class="reel-meta"><span class="reel-name">Emser</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.arizonatile.com" target="_blank" rel="noreferrer"><img src="/images/vendors/arizona.png" alt="Arizona Tile"><span class="reel-meta"><span class="reel-name">Arizona Tile</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span><span class="vendor-spec" data-tone="stone">Stone</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.bedrosians.com" target="_blank" rel="noreferrer"><img src="/images/vendors/bedrosians.png" alt="Bedrosians"><span class="reel-meta"><span class="reel-name">Bedrosians</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.pentalquartz.com" target="_blank" rel="noreferrer"><img src="/images/vendors/pental.png" alt="Pental"><span class="reel-meta"><span class="reel-name">Pental</span><span class="reel-specs"><span class="vendor-spec" data-tone="quartz">Quartz</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.floridatile.com" target="_blank" rel="noreferrer"><img src="/images/vendors/florida.png" alt="Florida Tile"><span class="reel-meta"><span class="reel-name">Florida Tile</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.forbo.com" target="_blank" rel="noreferrer"><img src="/images/vendors/forbo.png" alt="Forbo"><span class="reel-meta"><span class="reel-name">Forbo</span><span class="reel-specs"><span class="vendor-spec" data-tone="linoleum">Linoleum</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.thedixiegroup.com" target="_blank" rel="noreferrer"><img src="/images/vendors/dixie.png" alt="Dixie Group"><span class="reel-meta"><span class="reel-name">Dixie Group</span><span class="reel-specs"><span class="vendor-spec" data-tone="carpet">Carpet</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.maslandcarpets.com" target="_blank" rel="noreferrer"><img src="/images/vendors/masland.png" alt="Masland"><span class="reel-meta"><span class="reel-name">Masland</span><span class="reel-specs"><span class="vendor-spec" data-tone="carpet">Carpet</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.dreamweavercarpet.com" target="_blank" rel="noreferrer"><img src="/images/vendors/dreamweaver.png" alt="Dreamweaver"><span class="reel-meta"><span class="reel-name">Dreamweaver</span><span class="reel-specs"><span class="vendor-spec" data-tone="carpet">Carpet</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.amorim.com" target="_blank" rel="noreferrer"><img src="/images/vendors/amorim.png" alt="Amorim"><span class="reel-meta"><span class="reel-name">Amorim</span><span class="reel-specs"><span class="vendor-spec" data-tone="cork">Cork</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.aurorahardwood.com" target="_blank" rel="noreferrer"><img src="/images/vendors/aurora.png" alt="Aurora Hardwood"><span class="reel-meta"><span class="reel-name">Aurora Hardwood</span><span class="reel-specs"><span class="vendor-spec" data-tone="hardwood">Hardwood</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.ebbradley.com" target="_blank" rel="noreferrer"><img src="/images/vendors/bradley.png" alt="E.B. Bradley"><span class="reel-meta"><span class="reel-name">E.B. Bradley</span><span class="reel-specs"><span class="vendor-spec" data-tone="millwork">Millwork</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.ghsproducts.com" target="_blank" rel="noreferrer"><img src="/images/vendors/greenhome.png" alt="Greenhome"><span class="reel-meta"><span class="reel-name">Greenhome</span><span class="reel-specs"><span class="vendor-spec" data-tone="earth">Earth-friendly</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.piuskb.com" target="_blank" rel="noreferrer"><img src="/images/vendors/pius.png" alt="Pius"><span class="reel-meta"><span class="reel-name">Pius</span><span class="reel-specs"><span class="vendor-spec" data-tone="millwork">Millwork</span><span class="vendor-spec" data-tone="quartz">Quartz</span><span class="vendor-spec" data-tone="stone">Stone</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.kraftersland.com" target="_blank" rel="noreferrer"><img src="/images/vendors/krafters.png" alt="Krafter's Land"><span class="reel-meta"><span class="reel-name">Krafter's Land</span><span class="reel-specs"><span class="vendor-spec" data-tone="lvp">LVP</span><span class="vendor-spec" data-tone="quartz">Quartz</span><span class="vendor-spec" data-tone="millwork">Millwork</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.daltile.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/daltile.png" alt=""><span class="reel-meta"><span class="reel-name">Daltile</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.mohawkflooring.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/mohawk.png" alt=""><span class="reel-meta"><span class="reel-name">Mohawk</span><span class="reel-specs"><span class="vendor-spec" data-tone="carpet">Carpet</span><span class="vendor-spec" data-tone="hardwood">Hardwood</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://shawfloors.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/shaw.png" alt=""><span class="reel-meta"><span class="reel-name">Shaw</span><span class="reel-specs"><span class="vendor-spec" data-tone="carpet">Carpet</span><span class="vendor-spec" data-tone="hardwood">Hardwood</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.mannington.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/mannington.png" alt=""><span class="reel-meta"><span class="reel-name">Mannington</span><span class="reel-specs"><span class="vendor-spec" data-tone="lvp">LVP</span><span class="vendor-spec" data-tone="hardwood">Hardwood</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.msisurfaces.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/msi.png" alt=""><span class="reel-meta"><span class="reel-name">MSI</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span><span class="vendor-spec" data-tone="lvp">LVP</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.emser.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/emser.png" alt=""><span class="reel-meta"><span class="reel-name">Emser</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.arizonatile.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/arizona.png" alt=""><span class="reel-meta"><span class="reel-name">Arizona Tile</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span><span class="vendor-spec" data-tone="stone">Stone</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.bedrosians.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/bedrosians.png" alt=""><span class="reel-meta"><span class="reel-name">Bedrosians</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.pentalquartz.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/pental.png" alt=""><span class="reel-meta"><span class="reel-name">Pental</span><span class="reel-specs"><span class="vendor-spec" data-tone="quartz">Quartz</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.floridatile.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/florida.png" alt=""><span class="reel-meta"><span class="reel-name">Florida Tile</span><span class="reel-specs"><span class="vendor-spec" data-tone="tile">Tile</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.forbo.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/forbo.png" alt=""><span class="reel-meta"><span class="reel-name">Forbo</span><span class="reel-specs"><span class="vendor-spec" data-tone="linoleum">Linoleum</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.thedixiegroup.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/dixie.png" alt=""><span class="reel-meta"><span class="reel-name">Dixie Group</span><span class="reel-specs"><span class="vendor-spec" data-tone="carpet">Carpet</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.maslandcarpets.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/masland.png" alt=""><span class="reel-meta"><span class="reel-name">Masland</span><span class="reel-specs"><span class="vendor-spec" data-tone="carpet">Carpet</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.dreamweavercarpet.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/dreamweaver.png" alt=""><span class="reel-meta"><span class="reel-name">Dreamweaver</span><span class="reel-specs"><span class="vendor-spec" data-tone="carpet">Carpet</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.amorim.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/amorim.png" alt=""><span class="reel-meta"><span class="reel-name">Amorim</span><span class="reel-specs"><span class="vendor-spec" data-tone="cork">Cork</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.aurorahardwood.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/aurora.png" alt=""><span class="reel-meta"><span class="reel-name">Aurora Hardwood</span><span class="reel-specs"><span class="vendor-spec" data-tone="hardwood">Hardwood</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.ebbradley.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/bradley.png" alt=""><span class="reel-meta"><span class="reel-name">E.B. Bradley</span><span class="reel-specs"><span class="vendor-spec" data-tone="millwork">Millwork</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.ghsproducts.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/greenhome.png" alt=""><span class="reel-meta"><span class="reel-name">Greenhome</span><span class="reel-specs"><span class="vendor-spec" data-tone="earth">Earth-friendly</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.piuskb.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/pius.png" alt=""><span class="reel-meta"><span class="reel-name">Pius</span><span class="reel-specs"><span class="vendor-spec" data-tone="millwork">Millwork</span><span class="vendor-spec" data-tone="quartz">Quartz</span><span class="vendor-spec" data-tone="stone">Stone</span></span><span class="reel-more">See more</span></span></a><a class="reel-card" href="https://www.kraftersland.com" target="_blank" rel="noreferrer" aria-hidden="true" tabindex="-1"><img src="/images/vendors/krafters.png" alt=""><span class="reel-meta"><span class="reel-name">Krafter's Land</span><span class="reel-specs"><span class="vendor-spec" data-tone="lvp">LVP</span><span class="vendor-spec" data-tone="quartz">Quartz</span><span class="vendor-spec" data-tone="millwork">Millwork</span></span><span class="reel-more">See more</span></span></a></div></div>
+      <p><a href="/vendors">See all vendors →</a></p>
+    </section>
+    <section class="cta-band">
+      <div class="wrap">
+        <div>
+          <h2 data-copy="homeCtaTitle">See the samples in person.</h2>
+          <p class="lede" data-copy="homeCtaBody">Book a flexible showroom visit — after hours and Saturdays available. Or get a quote online.</p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn" href="/appointment">Book showroom visit</a>
+          <a class="btn ghost" href="/quote">Get a quote</a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div>
+        <p class="foot-brand"><img class="logo-lockup logo-lockup-light" src="/images/logo-lockup-light.png" alt="ALLSTAR Surfaces" /><img class="logo-lockup logo-lockup-dark" src="/images/logo-lockup-dark.png" alt="" /></p>
+        <p class="foot-place">Located in Lynnwood. Founded in 2007.</p>
+      </div>
+      <div>
+        <p class="kicker">Visit</p>
+        <a href="https://maps.google.com/?q=18000+Hwy+99+Lynnwood+WA+98037" target="_blank" rel="noreferrer">18000 Hwy 99, Lynnwood, WA 98037</a>
+        <a href="tel:+12067999881">(206) 799-9881</a>
+        <a href="mailto:info@all-star-flooring.com">info@all-star-flooring.com</a>
+      </div>
+      <div>
+        <p class="kicker">Hours</p>
+        <div class="hours">
+          <div><span>Mon–Fri</span><span>9 AM–4 PM</span></div>
+          <div><span>After hours</span><span>Available</span></div>
+          <div><span>Saturday</span><span>By appointment</span></div>
+          <div><span>Sunday</span><span>Closed</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="kicker">Pages</p>
+        <div class="foot-nav">
+          <a href="/">Home</a>
+          <a href="/about">About Us</a>
+          <a href="/services">Process</a>
+          <a href="/contact">Contact</a>
+          <a href="/vendors">Vendors</a>
+          <a href="/quote">Quote</a>
+          <a href="/appointment">Showroom</a>
+          <a href="/portfolio">Portfolio</a>
+          <a href="/remnants">Remnants</a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap foot-bottom">
+      <p>© 2026 ALLSTAR Surfaces</p>
+      <div class="socials" aria-label="Social">
+        <a class="social" href="https://www.instagram.com/allstar_waflooringcenter" target="_blank" rel="noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3.2A4.8 4.8 0 1 1 7.2 12 4.8 4.8 0 0 1 12 7.2zm0 2A2.8 2.8 0 1 0 14.8 12 2.8 2.8 0 0 0 12 9.2zM17.6 6a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
+        </a>
+        <a class="social" href="https://www.yelp.com/biz/all-star-flooring-and-remodel-lynnwood" target="_blank" rel="noreferrer" aria-label="Yelp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.2 2.1 14 8.4l6.5.3-5.1 4.2 1.7 6.3-5.4-3.7-5.6 3.5 2-6.3L3 8.4l6.6-.2z"/></svg>
+        </a>
+        <a class="social" href="https://www.google.com/maps/search/?api=1&query=All+Star+Flooring+18000+Hwy+99+Lynnwood+WA" target="_blank" rel="noreferrer" aria-label="Google">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h5.3a4.5 4.5 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.6z"/><path fill="currentColor" d="M12 22c2.7 0 5-1 6.6-2.6l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z"/><path fill="currentColor" d="M6.4 13.8A6 6 0 0 1 6 12c0-.6.1-1.2.3-1.8V7.6H3.1A10 10 0 0 0 2 12a10 10 0 0 0 1.1 4.4z"/><path fill="currentColor" d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 12 2a10 10 0 0 0-8.9 5.6l3.3 2.6C7.2 7.7 9.4 5.9 12 5.9z"/></svg>
+        </a>
+      </div>
+      <div class="foot-bottom-end">
+        <a href="/studio" data-studio-open>Staff sign in</a>
+        <div class="theme-bar" role="group" aria-label="Color mode">
+          <button type="button" data-theme-pref="auto">Auto</button>
+          <button type="button" data-theme-pref="light">Light</button>
+          <button type="button" data-theme-pref="dark">Dark</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+    <script src="/js/theme.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/studio-edit.js"></script>
   <script src="/js/hero.js"></script>
   <script src="/js/catalog.js"></script>
   <script src="/js/detail.js"></script>
