@@ -111,13 +111,43 @@
           <p class="kicker">The size</p>
           <h1>About how much floor?</h1>
           <p class="lede">A rough number is enough. We measure before a price is locked.</p>
-          <div class="choice-grid" role="radiogroup" aria-label="Square footage">
-            <label class="choice"><input type="radio" name="sqft" value="Under 300"><span class="choice-copy"><strong>Under 300 sq ft</strong><small>A bath, laundry, or small room</small></span></label>
-            <label class="choice"><input type="radio" name="sqft" value="300-800"><span class="choice-copy"><strong>300–800 sq ft</strong><small>A couple of rooms</small></span></label>
-            <label class="choice"><input type="radio" name="sqft" value="800-1500"><span class="choice-copy"><strong>800–1,500 sq ft</strong><small>Most of a main floor</small></span></label>
-            <label class="choice"><input type="radio" name="sqft" value="1500-3000"><span class="choice-copy"><strong>1,500–3,000 sq ft</strong><small>A large home</small></span></label>
-            <label class="choice"><input type="radio" name="sqft" value="Not sure yet"><span class="choice-copy"><strong>Not sure yet</strong><small>We will measure it</small></span></label>
+          <div class="sqft-slider">
+            <div class="house-wrap">
+              <svg class="house-icon" viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M8 28 L32 8 L56 28 V56 H8 Z" fill="none" stroke="currentColor" stroke-width="3"/>
+                <rect x="26" y="36" width="12" height="20" fill="currentColor" opacity="0.3"/>
+              </svg>
+              <span class="sqft-value" data-sqft-label>800 sq ft</span>
+            </div>
+            <input type="range" name="sqft" min="100" max="4000" value="800" step="50" class="sqft-range" data-sqft-range>
+            <div class="sqft-labels"><span>Small room</span><span>Whole home</span></div>
+            <label class="choice skip-choice"><input type="radio" name="sqftSkip" value="skip"><span class="choice-copy"><strong>Skip</strong><small>We'll measure it</small></span></label>
           </div>
+          <style>
+            .sqft-slider { text-align: center; padding: 16px 0; }
+            .house-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 16px; }
+            .house-icon { width: 48px; height: 48px; color: var(--ink); transition: transform .15s ease; }
+            .sqft-value { font-size: 22px; font-weight: 600; }
+            .sqft-range { width: 100%; max-width: 320px; accent-color: #3a5; }
+            .sqft-labels { display: flex; justify-content: space-between; max-width: 320px; margin: 4px auto 12px; font-size: 12px; color: var(--muted); }
+            .skip-choice { display: inline-flex; margin-top: 8px; }
+          </style>
+          <script>
+            (function(){
+              var r = document.querySelector('[data-sqft-range]');
+              var l = document.querySelector('[data-sqft-label]');
+              var h = document.querySelector('.house-icon');
+              if(!r) return;
+              function upd(){
+                var v = +r.value;
+                l.textContent = v.toLocaleString() + ' sq ft';
+                var s = 0.6 + (v/4000)*0.8;
+                h.style.transform = 'scale(' + s + ')';
+              }
+              r.addEventListener('input', upd);
+              upd();
+            })();
+          </script>
         </section>
 
         <section class="survey-slide" data-step data-tone="spruce" hidden>
@@ -184,6 +214,16 @@
         <button type="submit" class="btn" data-survey-send hidden>Send my quote</button>
       </div>
     </form>
+    
+    <div class="wrap" style="margin-top:32px;padding:24px;background:var(--cream);border-radius:16px">
+      <p class="kicker">Or submit directly</p>
+      <h2>Request through Jobber</h2>
+      <p class="lede">Prefer the client hub form? Submit your request here and it goes straight into our system.</p>
+      <div id="f33d8757-0fe0-4775-8125-d3fc98ad7166-5331070"></div>
+      <link rel="stylesheet" href="https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css" media="screen" />
+      <script src="https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js" clienthub_id="f33d8757-0fe0-4775-8125-d3fc98ad7166-5331070" form_url="https://clienthub.getjobber.com/client_hubs/f33d8757-0fe0-4775-8125-d3fc98ad7166/public/work_request/embedded_work_request_form?form_id=5331070"></script>
+    </div>
+
     <div class="wrap thanks" data-thanks hidden>
       <h2>We have your request.</h2>
       <p class="lede">Thanks <span data-who></span>. We’ll email you back from info@all-star-flooring.com.</p>
