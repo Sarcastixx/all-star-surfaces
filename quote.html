@@ -23,6 +23,13 @@
 
   <script>(function(){try{var t=localStorage.getItem("as-theme");var d=t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
 
+
+<style>
+@media (min-width: 800px) {
+  .survey-nav { position: static; margin-top: 16px; justify-content: flex-end; }
+  .survey-nav .btn { min-width: 140px; }
+}
+</style>
 </head>
 <body>
   <header class="site-header">
@@ -89,6 +96,7 @@
             <label class="choice"><input type="radio" name="projectType" value="Refinish"><span class="swatch" style="--swatch:#1f6b56"></span><span class="choice-copy"><strong>Refinish</strong><small>Sand and finish what is there</small></span></label>
             <label class="choice"><input type="radio" name="projectType" value="Remnant inquiry"><span class="swatch" style="--swatch:#c6532a"></span><span class="choice-copy"><strong>A remnant</strong><small>A lot you already saw</small></span></label>
             <label class="choice"><input type="radio" name="projectType" value="Not sure yet"><span class="swatch" style="--swatch:#245b8a"></span><span class="choice-copy"><strong>Not sure yet</strong><small>Help me choose</small></span></label>
+            <label class="choice"><input type="radio" name="projectType" value="Skip"><span class="swatch" style="--swatch:#ccc"></span><span class="choice-copy"><strong>Skip</strong><small>Decide later</small></span></label>
           </div>
         </section>
 
@@ -111,41 +119,50 @@
           <p class="kicker">The size</p>
           <h1>About how much floor?</h1>
           <p class="lede">A rough number is enough. We measure before a price is locked.</p>
-          <div class="sqft-slider">
+          <div class="sqft-steps">
             <div class="house-wrap">
               <svg class="house-icon" viewBox="0 0 64 64" aria-hidden="true">
                 <path d="M8 28 L32 8 L56 28 V56 H8 Z" fill="none" stroke="currentColor" stroke-width="3"/>
                 <rect x="26" y="36" width="12" height="20" fill="currentColor" opacity="0.3"/>
               </svg>
-              <span class="sqft-value" data-sqft-label>800 sq ft</span>
+              <span class="sqft-value" data-sqft-label>A couple of rooms</span>
             </div>
-            <input type="range" name="sqft" min="100" max="4000" value="800" step="50" class="sqft-range" data-sqft-range>
-            <div class="sqft-labels"><span>Small room</span><span>Whole home</span></div>
-            <label class="choice skip-choice"><input type="radio" name="sqftSkip" value="skip"><span class="choice-copy"><strong>Skip</strong><small>We'll measure it</small></span></label>
+            <div class="step-btns" role="radiogroup" aria-label="Square footage">
+              <label class="step-btn"><input type="radio" name="sqft" value="Under 300" checked><span>Under 300</span><small>Bath or small room</small></label>
+              <label class="step-btn"><input type="radio" name="sqft" value="300-800"><span>300–800</span><small>A couple rooms</small></label>
+              <label class="step-btn"><input type="radio" name="sqft" value="800-1500"><span>800–1,500</span><small>Main floor</small></label>
+              <label class="step-btn"><input type="radio" name="sqft" value="1500-3000"><span>1,500–3,000</span><small>Large home</small></label>
+              <label class="step-btn"><input type="radio" name="sqft" value="3000+"><span>3,000+</span><small>Whole house</small></label>
+              <label class="step-btn skip"><input type="radio" name="sqft" value="Not sure"><span>Skip</span><small>We'll measure</small></label>
+            </div>
           </div>
           <style>
-            .sqft-slider { text-align: center; padding: 16px 0; }
-            .house-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 16px; }
-            .house-icon { width: 48px; height: 48px; color: var(--ink); transition: transform .15s ease; }
-            .sqft-value { font-size: 22px; font-weight: 600; }
-            .sqft-range { width: 100%; max-width: 320px; accent-color: #3a5; }
-            .sqft-labels { display: flex; justify-content: space-between; max-width: 320px; margin: 4px auto 12px; font-size: 12px; color: var(--muted); }
-            .skip-choice { display: inline-flex; margin-top: 8px; }
+            .sqft-steps { text-align: center; }
+            .house-wrap { margin-bottom: 16px; }
+            .house-icon { width: 40px; height: 40px; transition: transform .2s; }
+            .sqft-value { display: block; font-size: 16px; font-weight: 600; margin-top: 4px; }
+            .step-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 420px; margin: 0 auto; }
+            .step-btn { display: flex; flex-direction: column; padding: 12px 8px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; background: var(--surface); }
+            .step-btn input { display: none; }
+            .step-btn:has(input:checked) { border-color: #3a5; background: #f0f7f4; }
+            .step-btn span { font-weight: 600; font-size: 14px; }
+            .step-btn small { font-size: 11px; color: var(--muted); }
+            .step-btn.skip { grid-column: span 3; }
           </style>
           <script>
             (function(){
-              var r = document.querySelector('[data-sqft-range]');
-              var l = document.querySelector('[data-sqft-label]');
-              var h = document.querySelector('.house-icon');
-              if(!r) return;
-              function upd(){
-                var v = +r.value;
-                l.textContent = v.toLocaleString() + ' sq ft';
-                var s = 0.6 + (v/4000)*0.8;
-                h.style.transform = 'scale(' + s + ')';
-              }
-              r.addEventListener('input', upd);
-              upd();
+              var btns = document.querySelectorAll('.step-btn input');
+              var label = document.querySelector('[data-sqft-label]');
+              var house = document.querySelector('.house-icon');
+              var sizes = {'Under 300':0.7,'300-800':0.85,'800-1500':1,'1500-3000':1.15,'3000+':1.3,'Not sure':0.9};
+              var texts = {'Under 300':'Small room','300-800':'A couple rooms','800-1500':'Main floor','1500-3000':'Large home','3000+':'Whole house','Not sure':'Not sure yet'};
+              btns.forEach(function(b){
+                b.addEventListener('change', function(){
+                  var v = b.value;
+                  label.textContent = texts[v] || v;
+                  house.style.transform = 'scale(' + (sizes[v]||1) + ')';
+                });
+              });
             })();
           </script>
         </section>
