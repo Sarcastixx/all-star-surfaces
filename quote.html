@@ -119,77 +119,66 @@
           <p class="kicker">The size</p>
           <h1>About how much floor?</h1>
           <p class="lede">A rough number is enough. We measure before a price is locked.</p>
-          <div class="sqft-steps">
+          <div class="sqft-drag">
             <div class="house-wrap">
               <svg class="house-icon" viewBox="0 0 64 64" aria-hidden="true">
                 <path d="M8 28 L32 8 L56 28 V56 H8 Z" fill="none" stroke="currentColor" stroke-width="3"/>
                 <rect x="26" y="36" width="12" height="20" fill="currentColor" opacity="0.3"/>
               </svg>
-              <span class="sqft-value" data-sqft-label>A couple of rooms</span>
+              <span class="sqft-value" data-sqft-label>A few rooms</span>
             </div>
-            <div class="step-btns" role="radiogroup" aria-label="Square footage">
-              <label class="step-btn"><input type="radio" name="sqft" value="Under 300" checked><span>Under 300</span><small>Bath or small room</small></label>
-              <label class="step-btn"><input type="radio" name="sqft" value="300-800"><span>300–800</span><small>A couple rooms</small></label>
-              <label class="step-btn"><input type="radio" name="sqft" value="800-1500"><span>800–1,500</span><small>Main floor</small></label>
-              <label class="step-btn"><input type="radio" name="sqft" value="1500-3000"><span>1,500–3,000</span><small>Large home</small></label>
-              <label class="step-btn"><input type="radio" name="sqft" value="3000+"><span>3,000+</span><small>Whole house</small></label>
-              <label class="step-btn skip"><input type="radio" name="sqft" value="Not sure"><span>Skip</span><small>We'll measure</small></label>
-            </div>
+            <input type="range" name="sqft" min="1" max="5" value="3" step="1" class="sqft-range" data-sqft-range>
+            <div class="sqft-ticks"><span>Small</span><span>Medium</span><span>Large</span><span>Whole home</span><span>Not sure</span></div>
           </div>
           <style>
-            .sqft-steps { text-align: center; }
-            .house-wrap { margin-bottom: 16px; }
-            .house-icon { width: 40px; height: 40px; transition: transform .2s; }
-            .sqft-value { display: block; font-size: 16px; font-weight: 600; margin-top: 4px; }
-            .step-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 420px; margin: 0 auto; }
-            .step-btn { display: flex; flex-direction: column; padding: 12px 8px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; background: var(--surface); }
-            .step-btn input { display: none; }
-            .step-btn:has(input:checked) { border-color: #3a5; background: #f0f7f4; }
-            .step-btn span { font-weight: 600; font-size: 14px; }
-            .step-btn small { font-size: 11px; color: var(--muted); }
-            .step-btn.skip { grid-column: span 3; }
+            .sqft-drag { text-align: center; padding: 8px 0 16px; }
+            .house-wrap { margin-bottom: 12px; }
+            .house-icon { width: 44px; height: 44px; transition: transform .2s ease; }
+            .sqft-value { display: block; font-size: 17px; font-weight: 600; margin-top: 6px; }
+            .sqft-range { width: 100%; max-width: 340px; accent-color: #3a5; }
+            .sqft-ticks { display: flex; justify-content: space-between; max-width: 340px; margin: 6px auto 0; font-size: 11px; color: var(--muted); }
           </style>
           <script>
             (function(){
-              var btns = document.querySelectorAll('.step-btn input');
-              var label = document.querySelector('[data-sqft-label]');
-              var house = document.querySelector('.house-icon');
-              var sizes = {'Under 300':0.7,'300-800':0.85,'800-1500':1,'1500-3000':1.15,'3000+':1.3,'Not sure':0.9};
-              var texts = {'Under 300':'Small room','300-800':'A couple rooms','800-1500':'Main floor','1500-3000':'Large home','3000+':'Whole house','Not sure':'Not sure yet'};
-              btns.forEach(function(b){
-                b.addEventListener('change', function(){
-                  var v = b.value;
-                  label.textContent = texts[v] || v;
-                  house.style.transform = 'scale(' + (sizes[v]||1) + ')';
-                });
-              });
+              var r = document.querySelector('[data-sqft-range]');
+              var l = document.querySelector('[data-sqft-label]');
+              var h = document.querySelector('.house-icon');
+              var labels = ['Small room','A few rooms','Main floor','Whole home','Not sure yet'];
+              var scales = [0.7, 0.85, 1, 1.2, 0.95];
+              function upd(){
+                var i = +r.value - 1;
+                l.textContent = labels[i] || '';
+                h.style.transform = 'scale(' + (scales[i]||1) + ')';
+              }
+              r.addEventListener('input', upd);
+              upd();
             })();
           </script>
         </section>
 
-        <section class="survey-slide" data-step data-tone="spruce" hidden>
-          <p class="kicker">What is down now</p>
-          <h1>What are we covering or pulling up?</h1>
-          <p class="lede">Removal and the subfloor change the schedule.</p>
-          <div class="choice-grid" role="radiogroup" aria-label="Existing floor">
-            <label class="choice"><input type="radio" name="existing" value="Carpet"><span class="choice-copy"><strong>Carpet</strong></span></label>
-            <label class="choice"><input type="radio" name="existing" value="Hardwood"><span class="choice-copy"><strong>Hardwood</strong></span></label>
-            <label class="choice"><input type="radio" name="existing" value="Tile or stone"><span class="choice-copy"><strong>Tile or stone</strong></span></label>
-            <label class="choice"><input type="radio" name="existing" value="Vinyl or laminate"><span class="choice-copy"><strong>Vinyl or laminate</strong></span></label>
-            <label class="choice"><input type="radio" name="existing" value="Concrete or subfloor"><span class="choice-copy"><strong>Concrete or subfloor</strong></span></label>
-            <label class="choice"><input type="radio" name="existing" value="New construction"><span class="choice-copy"><strong>New construction</strong><small>Nothing down yet</small></span></label>
-          </div>
-        </section>
-
         <section class="survey-slide" data-step data-tone="clay" hidden>
           <p class="kicker">Timing</p>
-          <h1>When do you want it done?</h1>
-          <div class="choice-grid" role="radiogroup" aria-label="Timing">
-            <label class="choice"><input type="radio" name="timing" value="As soon as you can"><span class="choice-copy"><strong>As soon as you can</strong></span></label>
-            <label class="choice"><input type="radio" name="timing" value="This month"><span class="choice-copy"><strong>This month</strong></span></label>
-            <label class="choice"><input type="radio" name="timing" value="Next few months"><span class="choice-copy"><strong>Next few months</strong></span></label>
-            <label class="choice"><input type="radio" name="timing" value="Just pricing for now"><span class="choice-copy"><strong>Just pricing for now</strong></span></label>
+          <h1>How soon are you thinking?</h1>
+          <p class="lede">No pressure. Just helps us plan the calendar.</p>
+          <div class="timing-visual">
+            <div class="timing-track">
+              <label class="timing-stop"><input type="radio" name="timing" value="As soon as you can" checked><span class="dot"></span><strong>Ready now</strong><small>As soon as you can fit us</small></label>
+              <label class="timing-stop"><input type="radio" name="timing" value="This month"><span class="dot"></span><strong>This month</strong><small>Within the next few weeks</small></label>
+              <label class="timing-stop"><input type="radio" name="timing" value="Next few months"><span class="dot"></span><strong>Coming up</strong><small>Next couple of months</small></label>
+              <label class="timing-stop"><input type="radio" name="timing" value="Just pricing for now"><span class="dot"></span><strong>Just looking</strong><small>Pricing for later</small></label>
+            </div>
           </div>
+          <style>
+            .timing-visual { max-width: 420px; margin: 12px auto; }
+            .timing-track { display: flex; flex-direction: column; gap: 10px; }
+            .timing-stop { display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; background: var(--surface); }
+            .timing-stop input { display: none; }
+            .timing-stop .dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--line); justify-self: center; }
+            .timing-stop:has(input:checked) { border-color: #3a5; background: #f0f7f4; }
+            .timing-stop:has(input:checked) .dot { background: #3a5; border-color: #3a5; }
+            .timing-stop strong { font-size: 15px; }
+            .timing-stop small { grid-column: 2; font-size: 12px; color: var(--muted); margin-top: -4px; }
+          </style>
         </section>
 
         <section class="survey-slide" data-step data-tone="tide" hidden>
