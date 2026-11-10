@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Photo Framing Editor — ALLSTAR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; background: #f4efe6; color: #2f2a24; }
+  h1 { font-size: 20px; margin: 0 0 12px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .panel { background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  label { display: block; font-size: 13px; margin: 8px 0 4px; color: #5a5248; }
+  select, input[type=range] { width: 100%; }
+  .preview { position: relative; background: #e8dfd0; border-radius: 8px; overflow: hidden; margin-top: 8px; }
+  .preview img { width: 100%; height: 100%; object-fit: cover; }
+  .desktop { width: 320px; height: 144px; }
+  .mobile { width: 130px; height: 140px; }
+  .box { display: inline-block; margin-right: 12px; vertical-align: top; }
+  .box span { display: block; font-size: 11px; color: #8a8175; margin-bottom: 4px; }
+  button { margin-top: 12px; padding: 8px 14px; border: 0; border-radius: 8px; background: #3a5; color: #fff; cursor: pointer; }
+  pre { background: #fff; padding: 8px; border-radius: 8px; font-size: 12px; overflow: auto; }
+</style>
+</head>
+<body>
+<h1>Photo Framing Editor</h1>
+<p style="color:#5a5248;font-size:14px">Adjust object-position so the focus sits well in both desktop and mobile hero frames. Copy the CSS below into the site when ready.</p>
+<div class="row">
+  <div class="panel" style="flex:1;min-width:280px">
+    <label>Photo</label>
+    <select id="photo">
+      <option value="/images/jobs/curved-stair.jpg">Curved Stair</option>
+      <option value="/images/jobs/tub-bath.jpg">Tub Bathroom</option>
+      <option value="/images/jobs/smart-bath.jpg">Smart Bath</option>
+      <option value="/images/jobs/living-stairs.jpg">Living / Stairs</option>
+      <option value="/images/jobs/kitchen-view.jpg">Kitchen</option>
+      <option value="/images/jobs/straight-stair.jpg">Straight Stair</option>
+    </select>
+    <label>Horizontal position (object-position x)</label>
+    <input type="range" id="posX" min="0" max="100" value="50">
+    <label>Vertical position (object-position y)</label>
+    <input type="range" id="posY" min="0" max="100" value="50">
+    <button id="copy">Copy CSS</button>
+    <pre id="css">object-position: 50% 50%;</pre>
+  </div>
+  <div class="panel">
+    <div class="box">
+      <span>Desktop hero (~1200×540)</span>
+      <div class="preview desktop"><img id="deskImg" src="" alt=""></div>
+    </div>
+    <div class="box">
+      <span>Mobile hero (~390×420)</span>
+      <div class="preview mobile"><img id="mobImg" src="" alt=""></div>
+    </div>
+  </div>
+</div>
+<script>
+const photo = document.getElementById('photo');
+const posX = document.getElementById('posX');
+const posY = document.getElementById('posY');
+const deskImg = document.getElementById('deskImg');
+const mobImg = document.getElementById('mobImg');
+const css = document.getElementById('css');
+function update() {
+  const src = photo.value;
+  const x = posX.value + '%';
+  const y = posY.value + '%';
+  deskImg.src = src; mobImg.src = src;
+  deskImg.style.objectPosition = x + ' ' + y;
+  mobImg.style.objectPosition = x + ' ' + y;
+  css.textContent = 'object-position: ' + x + ' ' + y + ';';
+}
+photo.onchange = posX.oninput = posY.oninput = update;
+document.getElementById('copy').onclick = () => {
+  navigator.clipboard.writeText(css.textContent);
+  css.textContent += '  (copied)';
+};
+update();
+</script>
+</body>
+</html>
