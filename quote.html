@@ -18,21 +18,13 @@
   <link rel="stylesheet" href="/css/styles.css" />
   <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.setAttribute("data-theme-pref",p);}catch(e){}})();</script>
   <style>
-    .quote-wrap { max-width: 960px; margin: 0 auto; padding: 32px 16px 64px; }
-    @media (min-width: 900px) { .quote-wrap { max-width: 1100px; padding: 40px 24px 80px; } }
-    .quote-intro { margin-bottom: 24px; }
-    .fun-q { margin-bottom: 28px; }
-    .fun-q h2 { font-size: 22px; margin: 0 0 12px; }
-    .fun-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-    .fun-choice { display: flex; align-items: center; gap: 10px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); cursor: pointer; transition: border-color .15s, background .15s; }
-    .fun-choice input { display: none; }
-    .fun-choice:has(input:checked) { border-color: var(--ink); background: var(--cream); }
-    .fun-choice .sw { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; }
-    .jobber-stage { position: relative; display: none; }
-    .jobber-stage.is-on { display: block; }
-    .jobber-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 4px; overflow: hidden; position: relative; }
-    .jobber-tint { position: absolute; inset: 0; pointer-events: none; background: color-mix(in srgb, var(--cream) 18%, transparent); mix-blend-mode: multiply; border-radius: 16px; z-index: 2; }
-    .jobber-card > div { border-radius: 12px; position: relative; z-index: 1; }
+    .quote-page { max-width: 720px; margin: 0 auto; padding: 24px 16px 80px; }
+    @media (min-width: 900px) { .quote-page { max-width: 860px; } }
+    .jobber-stage { display: none; margin-top: 32px; }
+    .jobber-stage.is-on { display: block; animation: surveyIn 380ms ease; }
+    .jobber-card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 6px; position: relative; overflow: hidden; }
+    .jobber-tint { position: absolute; inset: 0; pointer-events: none; background: color-mix(in srgb, #c48a3a 12%, transparent); mix-blend-mode: multiply; border-radius: 18px; z-index: 2; }
+    .jobber-card > div { position: relative; z-index: 1; }
   </style>
 </head>
 <body>
@@ -57,26 +49,32 @@
   </header>
 
   <main>
-    <div class="quote-wrap">
-      <div class="quote-intro">
-        <p class="kicker">Get a quote</p>
-        <h1>Tell us about the floor.</h1>
-        <p class="lede">Start with what you’re thinking, then fill in the details.</p>
-      </div>
-
-      <div class="fun-q" id="funQ">
-        <h2>What are we putting down?</h2>
-        <div class="fun-grid">
-          <label class="fun-choice"><input type="radio" name="fun" value="Hardwood"><span class="sw" style="background:#c48a3a"></span><span>Hardwood</span></label>
-          <label class="fun-choice"><input type="radio" name="fun" value="Stone"><span class="sw" style="background:#5f8f9a"></span><span>Stone or tile</span></label>
-          <label class="fun-choice"><input type="radio" name="fun" value="LVP"><span class="sw" style="background:#d7b48a"></span><span>Luxury vinyl</span></label>
-          <label class="fun-choice"><input type="radio" name="fun" value="Carpet"><span class="sw" style="background:#8e5a7c"></span><span>Carpet</span></label>
-          <label class="fun-choice"><input type="radio" name="fun" value="Refinish"><span class="sw" style="background:#1f6b56"></span><span>Refinish</span></label>
-          <label class="fun-choice"><input type="radio" name="fun" value="Not sure"><span class="sw" style="background:#245b8a"></span><span>Not sure yet</span></label>
+    <div class="quote-page">
+      <div class="survey" data-tone="oak">
+        <div class="survey-top">
+          <p class="survey-count">Step 1</p>
+          <div class="survey-track"><span style="width:18%"></span></div>
+        </div>
+        <div class="survey-stage">
+          <p class="kicker">The surface</p>
+          <h1>What are we putting down?</h1>
+          <p class="lede">Pick the floor you’re thinking about.</p>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="fun" value="Hardwood"><span class="swatch" style="--swatch:#c48a3a"></span><span class="choice-copy"><strong>Hardwood</strong><small>Oak, walnut, engineered</small></span></label>
+            <label class="choice"><input type="radio" name="fun" value="Stone"><span class="swatch" style="--swatch:#5f8f9a"></span><span class="choice-copy"><strong>Stone or tile</strong><small>Porcelain, marble, limestone</small></span></label>
+            <label class="choice"><input type="radio" name="fun" value="LVP"><span class="swatch" style="--swatch:#d7b48a"></span><span class="choice-copy"><strong>Luxury vinyl</strong><small>LVP or sheet vinyl</small></span></label>
+            <label class="choice"><input type="radio" name="fun" value="Carpet"><span class="swatch" style="--swatch:#8e5a7c"></span><span class="choice-copy"><strong>Carpet</strong><small>Rooms or stairs</small></span></label>
+            <label class="choice"><input type="radio" name="fun" value="Refinish"><span class="swatch" style="--swatch:#1f6b56"></span><span class="choice-copy"><strong>Refinish</strong><small>Sand and finish what is there</small></span></label>
+            <label class="choice"><input type="radio" name="fun" value="Not sure"><span class="swatch" style="--swatch:#245b8a"></span><span class="choice-copy"><strong>Not sure yet</strong><small>Help me choose</small></span></label>
+          </div>
         </div>
       </div>
 
       <div class="jobber-stage" id="jobberStage">
+        <div class="survey-top">
+          <p class="survey-count">Step 2</p>
+          <div class="survey-track"><span style="width:100%;background:#c48a3a"></span></div>
+        </div>
         <div class="jobber-card">
           <div class="jobber-tint"></div>
           <div id="f33d8757-0fe0-4775-8125-d3fc98ad7166-5331070"></div>
@@ -105,7 +103,7 @@
   </footer>
   <script>
     (function(){
-      var choices = document.querySelectorAll('.fun-choice input');
+      var choices = document.querySelectorAll('.choice input');
       var stage = document.getElementById('jobberStage');
       choices.forEach(function(c){
         c.addEventListener('change', function(){
