@@ -1248,7 +1248,7 @@ html, body { background: var(--bg); overflow-x: clip; }
 }
 @media (min-width: 800px) {
   .sample-row > img { height: 380px; object-position: 22% center; }
-  .sample-row .visit-square { width: 248px; height: 248px; right: 28px; border-radius: 28px; padding: 22px; }
+  .sample-row .visit-square { width: 248px; height: 248px; left: 28px; border-radius: 28px; padding: 22px; }
 }
 @media (max-width: 799px) {
   .sample-row { overflow: hidden; }
