@@ -1181,7 +1181,7 @@ html, body { background: var(--bg); overflow-x: clip; }
 }
 .sample-row .visit-square {
   position: absolute;
-  right: 18px;
+  left: 18px;
   top: calc(50% - 14px);
   z-index: 2;
   width: 220px;
