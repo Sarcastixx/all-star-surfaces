@@ -26,6 +26,20 @@
 
   <script>(function(){try{var t=localStorage.getItem("as-theme");var d=t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
 
+
+<style>
+body.studio-editing a[href] { pointer-events: none; }
+body.studio-editing .edit-bubble { pointer-events: auto; }
+.edit-bubble {
+  position: absolute; top: 8px; right: 8px; z-index: 10;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: #2f2a24; color: #f6f1e8; border: 0;
+  font-size: 16px; cursor: pointer; display: none;
+  align-items: center; justify-content: center;
+}
+body.studio-editing .edit-bubble { display: flex; }
+.hero-frame, .home-tiles a, .sample-row { position: relative; }
+</style>
 </head>
 <body>
   <header class="site-header">
@@ -249,5 +263,46 @@
   <script src="/js/hero.js"></script>
   <script src="/js/catalog.js"></script>
   <script src="/js/detail.js"></script>
+
+<script>
+(function(){
+  var ON = "as-studio-on";
+  function isOn(){ return sessionStorage.getItem(ON) === "1"; }
+  function enable(){
+    if (!isOn()) return;
+    document.body.classList.add("studio-editing");
+    // Add edit bubbles to photos
+    document.querySelectorAll(".hero-slide, .home-tiles img, .sample-row img").forEach(function(img, i){
+      var parent = img.closest(".hero-frame, a, .sample-row") || img.parentNode;
+      if (parent.querySelector(".edit-bubble")) return;
+      var btn = document.createElement("button");
+      btn.className = "edit-bubble";
+      btn.type = "button";
+      btn.textContent = "✎";
+      btn.title = "Edit framing";
+      btn.addEventListener("click", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        window.open("/crop.html?img=" + encodeURIComponent(img.src), "_blank");
+      });
+      parent.style.position = "relative";
+      parent.appendChild(btn);
+    });
+    // Block link clicks in edit mode
+    document.addEventListener("click", function(e){
+      if (!isOn()) return;
+      var a = e.target.closest("a");
+      if (a && !e.target.closest(".edit-bubble, .nav, header")) {
+        e.preventDefault();
+      }
+    }, true);
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", enable);
+  } else {
+    enable();
+  }
+})();
+</script>
 </body>
 </html>
