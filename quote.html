@@ -105,8 +105,10 @@
     (function(){
       var choices = document.querySelectorAll('.choice input');
       var stage = document.getElementById('jobberStage');
+      var survey = document.querySelector('.survey');
       choices.forEach(function(c){
         c.addEventListener('change', function(){
+          if (survey) survey.style.display = 'none';
           stage.classList.add('is-on');
           stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
