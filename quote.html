@@ -18,17 +18,21 @@
   <link rel="stylesheet" href="/css/styles.css" />
   <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.setAttribute("data-theme-pref",p);}catch(e){}})();</script>
   <style>
-    .quote-wrap { max-width: 640px; margin: 0 auto; padding: 32px 16px 64px; }
+    .quote-wrap { max-width: 960px; margin: 0 auto; padding: 32px 16px 64px; }
+    @media (min-width: 900px) { .quote-wrap { max-width: 1100px; padding: 40px 24px 80px; } }
     .quote-intro { margin-bottom: 24px; }
     .fun-q { margin-bottom: 28px; }
     .fun-q h2 { font-size: 22px; margin: 0 0 12px; }
-    .fun-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
-    .fun-choice { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); cursor: pointer; }
+    .fun-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+    .fun-choice { display: flex; align-items: center; gap: 10px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); cursor: pointer; transition: border-color .15s, background .15s; }
     .fun-choice input { display: none; }
     .fun-choice:has(input:checked) { border-color: var(--ink); background: var(--cream); }
-    .fun-choice .sw { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; }
-    .jobber-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px; overflow: hidden; }
-    .jobber-card iframe, .jobber-card > div { border-radius: 12px; }
+    .fun-choice .sw { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; }
+    .jobber-stage { position: relative; display: none; }
+    .jobber-stage.is-on { display: block; }
+    .jobber-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 4px; overflow: hidden; position: relative; }
+    .jobber-tint { position: absolute; inset: 0; pointer-events: none; background: color-mix(in srgb, var(--cream) 18%, transparent); mix-blend-mode: multiply; border-radius: 16px; z-index: 2; }
+    .jobber-card > div { border-radius: 12px; position: relative; z-index: 1; }
   </style>
 </head>
 <body>
@@ -57,10 +61,10 @@
       <div class="quote-intro">
         <p class="kicker">Get a quote</p>
         <h1>Tell us about the floor.</h1>
-        <p class="lede">A few details and we’ll get back to you with options and pricing.</p>
+        <p class="lede">Start with what you’re thinking, then fill in the details.</p>
       </div>
 
-      <div class="fun-q">
+      <div class="fun-q" id="funQ">
         <h2>What are we putting down?</h2>
         <div class="fun-grid">
           <label class="fun-choice"><input type="radio" name="fun" value="Hardwood"><span class="sw" style="background:#c48a3a"></span><span>Hardwood</span></label>
@@ -72,10 +76,13 @@
         </div>
       </div>
 
-      <div class="jobber-card">
-        <div id="f33d8757-0fe0-4775-8125-d3fc98ad7166-5331070"></div>
-        <link rel="stylesheet" href="https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css" media="screen" />
-        <script src="https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js" clienthub_id="f33d8757-0fe0-4775-8125-d3fc98ad7166-5331070" form_url="https://clienthub.getjobber.com/client_hubs/f33d8757-0fe0-4775-8125-d3fc98ad7166/public/work_request/embedded_work_request_form?form_id=5331070"></script>
+      <div class="jobber-stage" id="jobberStage">
+        <div class="jobber-card">
+          <div class="jobber-tint"></div>
+          <div id="f33d8757-0fe0-4775-8125-d3fc98ad7166-5331070"></div>
+          <link rel="stylesheet" href="https://d3ey4dbjkt2f6s.cloudfront.net/assets/external/work_request_embed.css" media="screen" />
+          <script src="https://d3ey4dbjkt2f6s.cloudfront.net/assets/static_link/work_request_embed_snippet.js" clienthub_id="f33d8757-0fe0-4775-8125-d3fc98ad7166-5331070" form_url="https://clienthub.getjobber.com/client_hubs/f33d8757-0fe0-4775-8125-d3fc98ad7166/public/work_request/embedded_work_request_form?form_id=5331070"></script>
+        </div>
       </div>
     </div>
   </main>
@@ -96,6 +103,18 @@
       </div>
     </div>
   </footer>
+  <script>
+    (function(){
+      var choices = document.querySelectorAll('.fun-choice input');
+      var stage = document.getElementById('jobberStage');
+      choices.forEach(function(c){
+        c.addEventListener('change', function(){
+          stage.classList.add('is-on');
+          stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    })();
+  </script>
   <script src="/js/main.js"></script>
 </body>
 </html>
