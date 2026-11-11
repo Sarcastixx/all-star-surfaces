@@ -271,32 +271,84 @@ body.studio-editing .edit-bubble { display: flex; }
   function enable(){
     if (!isOn()) return;
     document.body.classList.add("studio-editing");
-    // Add edit bubbles to photos
-    document.querySelectorAll(".hero-slide, .home-tiles img, .sample-row img").forEach(function(img, i){
+
+    document.querySelectorAll(".hero-slide, .home-tiles img, .sample-row img").forEach(function(img){
       var parent = img.closest(".hero-frame, a, .sample-row") || img.parentNode;
       if (parent.querySelector(".edit-bubble")) return;
+      parent.style.position = "relative";
+      parent.style.overflow = "hidden";
+
       var btn = document.createElement("button");
       btn.className = "edit-bubble";
       btn.type = "button";
       btn.textContent = "✎";
-      btn.title = "Edit framing";
+      btn.title = "Adjust framing";
       btn.addEventListener("click", function(e){
         e.preventDefault();
         e.stopPropagation();
-        window.open("/crop.html?img=" + encodeURIComponent(img.src), "_blank");
+        openCrop(img, parent);
       });
-      parent.style.position = "relative";
       parent.appendChild(btn);
     });
-    // Block link clicks in edit mode
+
     document.addEventListener("click", function(e){
       if (!isOn()) return;
       var a = e.target.closest("a");
-      if (a && !e.target.closest(".edit-bubble, .nav, header")) {
+      if (a && !e.target.closest(".edit-bubble, .nav, header, .crop-ui")) {
         e.preventDefault();
       }
     }, true);
   }
+
+  function openCrop(img, parent){
+    if (parent.querySelector(".crop-ui")) return;
+    var ui = document.createElement("div");
+    ui.className = "crop-ui";
+    ui.innerHTML = '<div class="crop-bar"><span>Drag to move · Scroll to zoom</span><button type="button" class="crop-done">Done</button></div>';
+    parent.appendChild(ui);
+
+    var scale = 1, x = 0, y = 0, dragging = false, sx, sy;
+    img.style.transformOrigin = "center center";
+    img.style.cursor = "grab";
+
+    function apply(){
+      img.style.transform = "translate(" + x + "px," + y + "px) scale(" + scale + ")";
+    }
+
+    img.addEventListener("mousedown", function(e){
+      if (!ui.parentNode) return;
+      dragging = true;
+      sx = e.clientX - x;
+      sy = e.clientY - y;
+      img.style.cursor = "grabbing";
+      e.preventDefault();
+    });
+    window.addEventListener("mousemove", function(e){
+      if (!dragging) return;
+      x = e.clientX - sx;
+      y = e.clientY - sy;
+      apply();
+    });
+    window.addEventListener("mouseup", function(){
+      dragging = false;
+      img.style.cursor = "grab";
+    });
+    parent.addEventListener("wheel", function(e){
+      if (!ui.parentNode) return;
+      e.preventDefault();
+      scale = Math.max(0.5, Math.min(3, scale + (e.deltaY > 0 ? -0.1 : 0.1)));
+      apply();
+    }, { passive: false });
+
+    ui.querySelector(".crop-done").addEventListener("click", function(){
+      try {
+        localStorage.setItem("as-crop-" + img.src, JSON.stringify({x:x, y:y, scale:scale}));
+      } catch(err){}
+      ui.remove();
+      img.style.cursor = "";
+    });
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", enable);
   } else {
@@ -304,5 +356,10 @@ body.studio-editing .edit-bubble { display: flex; }
   }
 })();
 </script>
+<style>
+.crop-ui { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
+.crop-bar { pointer-events: auto; position: absolute; bottom: 8px; left: 8px; right: 8px; background: rgba(47,42,36,0.9); color: #f6f1e8; padding: 8px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+.crop-done { background: #3a5; color: #fff; border: 0; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+</style>
 </body>
 </html>
