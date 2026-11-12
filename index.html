@@ -248,7 +248,7 @@ body.studio-editing .edit-bubble { display: flex; }
         </a>
       </div>
       <div class="foot-bottom-end">
-        <a href="/studio" data-studio-open>Staff sign in</a> · <a href="/crop.html">Frame photos</a>
+        <a href="/studio" data-studio-open>Staff sign in</a>
         <div class="theme-bar" role="group" aria-label="Color mode">
           <button type="button" data-theme-pref="auto">Auto</button>
           <button type="button" data-theme-pref="light">Light</button>
@@ -264,89 +264,121 @@ body.studio-editing .edit-bubble { display: flex; }
   <script src="/js/catalog.js"></script>
   <script src="/js/detail.js"></script>
 
+
+
 <script>
 (function(){
   var ON = "as-studio-on";
   function isOn(){ return sessionStorage.getItem(ON) === "1"; }
+  
   function enable(){
     if (!isOn()) return;
     document.body.classList.add("studio-editing");
+    
+    // Block ALL link clicks in edit mode except nav
+    document.addEventListener("click", function(e){
+      if (!isOn()) return;
+      var a = e.target.closest("a");
+      if (a && !e.target.closest(".nav, header, .crop-panel")) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
 
-    document.querySelectorAll(".hero-slide, .home-tiles img, .sample-row img").forEach(function(img){
+    // Add edit bubbles to all photos
+    document.querySelectorAll(".hero-slide, .home-tiles img, .sample-row > img").forEach(function(img){
       var parent = img.closest(".hero-frame, a, .sample-row") || img.parentNode;
       if (parent.querySelector(".edit-bubble")) return;
       parent.style.position = "relative";
       parent.style.overflow = "hidden";
-
+      
       var btn = document.createElement("button");
       btn.className = "edit-bubble";
       btn.type = "button";
-      btn.textContent = "✎";
-      btn.title = "Adjust framing";
+      btn.innerHTML = "✎";
+      btn.title = "Edit this photo";
       btn.addEventListener("click", function(e){
         e.preventDefault();
         e.stopPropagation();
-        openCrop(img, parent);
+        openEditor(img, parent);
       });
       parent.appendChild(btn);
     });
-
-    document.addEventListener("click", function(e){
-      if (!isOn()) return;
-      var a = e.target.closest("a");
-      if (a && !e.target.closest(".edit-bubble, .nav, header, .crop-ui")) {
-        e.preventDefault();
-      }
-    }, true);
   }
 
-  function openCrop(img, parent){
-    if (parent.querySelector(".crop-ui")) return;
-    var ui = document.createElement("div");
-    ui.className = "crop-ui";
-    ui.innerHTML = '<div class="crop-bar"><span>Drag to move · Scroll to zoom</span><button type="button" class="crop-done">Done</button></div>';
-    parent.appendChild(ui);
+  function openEditor(img, parent){
+    // Close any existing editor
+    document.querySelectorAll(".crop-panel").forEach(function(p){ p.remove(); });
+    
+    var panel = document.createElement("div");
+    panel.className = "crop-panel";
+    panel.innerHTML = 
+      '<div class="crop-overlays">' +
+        '<div class="overlay-mobile" title="Mobile view"></div>' +
+        '<div class="overlay-desktop" title="Desktop view"></div>' +
+      '</div>' +
+      '<div class="crop-controls">' +
+        '<span>Drag photo to reposition · Scroll to zoom</span>' +
+        '<button type="button" class="crop-remove">Remove</button>' +
+        '<button type="button" class="crop-done">Done</button>' +
+      '</div>';
+    document.body.appendChild(panel);
 
-    var scale = 1, x = 0, y = 0, dragging = false, sx, sy;
-    img.style.transformOrigin = "center center";
+    var scale = 1, tx = 0, ty = 0, dragging = false, startX, startY;
     img.style.cursor = "grab";
+    img.style.transition = "none";
 
     function apply(){
-      img.style.transform = "translate(" + x + "px," + y + "px) scale(" + scale + ")";
+      img.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + scale + ")";
     }
 
-    img.addEventListener("mousedown", function(e){
-      if (!ui.parentNode) return;
+    function onDown(e){
       dragging = true;
-      sx = e.clientX - x;
-      sy = e.clientY - y;
+      startX = e.clientX - tx;
+      startY = e.clientY - ty;
       img.style.cursor = "grabbing";
       e.preventDefault();
-    });
-    window.addEventListener("mousemove", function(e){
+    }
+    function onMove(e){
       if (!dragging) return;
-      x = e.clientX - sx;
-      y = e.clientY - sy;
+      tx = e.clientX - startX;
+      ty = e.clientY - startY;
       apply();
-    });
-    window.addEventListener("mouseup", function(){
+    }
+    function onUp(){
       dragging = false;
       img.style.cursor = "grab";
-    });
-    parent.addEventListener("wheel", function(e){
-      if (!ui.parentNode) return;
+    }
+    function onWheel(e){
       e.preventDefault();
-      scale = Math.max(0.5, Math.min(3, scale + (e.deltaY > 0 ? -0.1 : 0.1)));
+      scale = Math.max(0.4, Math.min(3, scale + (e.deltaY > 0 ? -0.08 : 0.08)));
       apply();
-    }, { passive: false });
+    }
 
-    ui.querySelector(".crop-done").addEventListener("click", function(){
-      try {
-        localStorage.setItem("as-crop-" + img.src, JSON.stringify({x:x, y:y, scale:scale}));
-      } catch(err){}
-      ui.remove();
-      img.style.cursor = "";
+    img.addEventListener("mousedown", onDown);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    parent.addEventListener("wheel", onWheel, { passive: false });
+
+    panel.querySelector(".crop-done").addEventListener("click", function(){
+      try { localStorage.setItem("as-crop-" + img.src, JSON.stringify({tx:tx, ty:ty, scale:scale})); } catch(err){}
+      cleanup();
     });
+    panel.querySelector(".crop-remove").addEventListener("click", function(){
+      if (confirm("Remove this photo?")) {
+        img.style.opacity = "0.2";
+        cleanup();
+      }
+    });
+
+    function cleanup(){
+      img.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      parent.removeEventListener("wheel", onWheel);
+      img.style.cursor = "";
+      panel.remove();
+    }
   }
 
   if (document.readyState === "loading") {
@@ -357,9 +389,49 @@ body.studio-editing .edit-bubble { display: flex; }
 })();
 </script>
 <style>
-.crop-ui { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
-.crop-bar { pointer-events: auto; position: absolute; bottom: 8px; left: 8px; right: 8px; background: rgba(47,42,36,0.9); color: #f6f1e8; padding: 8px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-.crop-done { background: #3a5; color: #fff; border: 0; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+.crop-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(47,42,36,0.95);
+  color: #f6f1e8;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.crop-overlays {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.overlay-mobile, .overlay-desktop {
+  border: 2px dashed rgba(255,255,255,0.5);
+  border-radius: 8px;
+  pointer-events: none;
+}
+.overlay-mobile { width: 80px; height: 86px; }
+.overlay-desktop { width: 200px; height: 90px; }
+.crop-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.crop-controls span { font-size: 13px; opacity: 0.8; }
+.crop-done, .crop-remove {
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.crop-done { background: #3a5; color: #fff; }
+.crop-remove { background: #a33; color: #fff; }
+body.studio-editing a { cursor: default; }
 </style>
 </body>
 </html>
