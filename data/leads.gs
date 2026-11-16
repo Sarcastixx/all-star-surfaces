@@ -57,22 +57,30 @@ function writeRow_(data) {
 }
 
 function sendMail_(data) {
+  var isContact = (data.projectType || "").toLowerCase().indexOf("contact") >= 0 ||
+                  (data.projectType || "").toLowerCase().indexOf("inquiry") >= 0 ||
+                  (data.projectType || "").toLowerCase() === "contact";
+
+  var heading = isContact ? "New website contact / inquiry" : "New website quote";
+  var subjectPrefix = isContact ? "Contact / Inquiry from " : "Quote request from ";
+
   var body =
-    "New website quote\n\n" +
+    heading + "\n\n" +
     "Name: " + (data.name || "") + "\n" +
     "Phone: " + (data.phone || "") + "\n" +
     "Email: " + (data.email || "") + "\n" +
-    "Project: " + (data.projectType || "") + "\n" +
+    "Source / Type: " + (data.projectType || "") + "\n" +
     "Rooms: " + (data.rooms || "") + "\n" +
     "Timing: " + (data.timing || "") + "\n" +
     "Sq ft: " + (data.sqft || "") + "\n" +
     "Remnant: " + (data.remnant || "") + "\n\n" +
     (data.notes || "");
+
   MailApp.sendEmail({
     to: "Allstarseattle@gmail.com",
     cc: "Phillipmiro123@gmail.com",
     replyTo: data.email || "Allstarseattle@gmail.com",
-    subject: "Quote request from " + (data.name || "website"),
+    subject: subjectPrefix + (data.name || "website"),
     body: body
   });
 }
