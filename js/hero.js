@@ -33,5 +33,5 @@
   setInterval(function () {
     if (paused) return;
     show((i + 1) % slides.length);
-  }, 13000);
+  }, 17000);
 })();
