@@ -28,7 +28,12 @@
       return;
     }
     var distance = travel(slide);
+    var high = slide.hasAttribute("data-high");
     slide.style.transition = "none";
+    if (high) {
+      slide.style.transform = "none";
+      return;
+    }
     slide.style.transform = "translate3d(0," + (-distance) + "px,0)";
     void slide.offsetWidth;
     slide.style.transition = "transform 18s linear, opacity 1.1s ease";
