@@ -318,8 +318,26 @@ code { font-size: 0.9em; background: var(--cream-2); padding: 1px 6px; border-ra
 html { color-scheme: light dark; }
 .hero-rotator { position: relative; height: 420px; }
 @media (min-width: 800px) { .hero-rotator { height: 540px; } }
-.hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.04); transition: opacity 900ms ease, transform 6s ease; }
-.hero-slide.is-active { opacity: 1; transform: scale(1.12); z-index: 1; }
+.hero-frame .hero-slide {
+  position: absolute;
+  inset: auto 0 0 0;
+  width: 100%;
+  height: 128%;
+  object-fit: cover;
+  object-position: center center;
+  opacity: 0;
+  transform: translate3d(0, -8%, 0);
+  transition: opacity 900ms ease;
+}
+.hero-frame .hero-slide.is-active {
+  opacity: 1;
+  z-index: 1;
+  animation: heroRise 5.4s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+}
+@keyframes heroRise {
+  from { transform: translate3d(0, 6%, 0); }
+  to { transform: translate3d(0, -8%, 0); }
+}
 .hero-dots { position: absolute; left: 16px; bottom: 16px; z-index: 3; display: flex; gap: 8px; }
 .hero-dot { width: 10px; height: 10px; border: 0; border-radius: 999px; background: rgb(246 241 232 / 0.45); padding: 0; min-height: 10px; }
 .hero-dot.is-on { background: var(--on-ink); transform: scale(1.25); }
@@ -354,7 +372,7 @@ html { color-scheme: light dark; }
 @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @media (prefers-reduced-motion: reduce) {
   .hero-slide, .lift-card { transition: none; }
-  .reveal, .float-card, .hero-slide.is-active { animation: none; transform: none; }
+  .reveal, .float-card, .hero-slide.is-active { animation: none; transform: translate3d(0, -8%, 0); }
 }
 
 [data-theme="light"] {
