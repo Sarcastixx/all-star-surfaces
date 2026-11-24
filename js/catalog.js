@@ -102,10 +102,9 @@
   function apply(data) {
     Object.keys(data.photos || {}).forEach(function (slot) {
       if (slot === "hero") return;
-      document.querySelectorAll('[data-slot="' + slot + '"]').forEach(function (img) {
+      document.querySelectorAll('[data-slot="' + slot + '"], [data-photo="' + slot + '"]').forEach(function (img) {
         if (!ownPhoto(data.photos[slot])) {
-          img.removeAttribute("src");
-          img.classList.add("photo-hold");
+          if (!img.getAttribute("src")) img.classList.add("photo-hold");
           return;
         }
         img.classList.remove("is-cleared");

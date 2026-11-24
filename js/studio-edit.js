@@ -114,7 +114,7 @@
       });
     });
 
-    document.querySelectorAll("[data-slot]").forEach(function (img) {
+    document.querySelectorAll("[data-slot], [data-photo]").forEach(function (img) {
       if (img.classList.contains("hero-slide")) return;
       if (img.closest("[data-photo-edit], [data-jobs], [data-remnants]")) return;
       var wrap = document.createElement("span");
@@ -142,9 +142,9 @@
       input.setAttribute("aria-hidden", "true");
       input.tabIndex = -1;
       document.body.appendChild(input);
-      var slot = img.getAttribute("data-slot");
+      var slot = img.getAttribute("data-photo") || img.getAttribute("data-slot");
       function paint(photo) {
-        document.querySelectorAll('[data-slot="' + slot + '"]').forEach(function (node) {
+        document.querySelectorAll('[data-photo="' + slot + '"], [data-slot="' + slot + '"]').forEach(function (node) {
           if (!photo) {
             node.classList.add("is-cleared");
             return;
@@ -400,7 +400,7 @@
   }
 
   function changeSlot(img) {
-    var slot = img && img.getAttribute("data-slot");
+    var slot = img && (img.getAttribute("data-photo") || img.getAttribute("data-slot"));
     if (!slot) return;
     var input = document.createElement("input");
     input.type = "file";
@@ -413,7 +413,7 @@
       if (!file) return;
       try {
         var photo = await readPhoto(file);
-        document.querySelectorAll('[data-slot="' + slot + '"]').forEach(function (node) {
+        document.querySelectorAll('[data-photo="' + slot + '"], [data-slot="' + slot + '"]').forEach(function (node) {
           node.classList.remove("is-cleared");
           node.setAttribute("src", photo);
         });
