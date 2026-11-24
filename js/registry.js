@@ -5,6 +5,45 @@
 
   function blank() { return { name: "", note: "", id: "", items: [] }; }
 
+  function staffToken() {
+    return sessionStorage.getItem("as-studio-token") || "";
+  }
+
+  function renderGate() {
+    builder.hidden = false;
+    client.hidden = true;
+    builder.innerHTML =
+      '<header class="wrap page-hero">' +
+      '<p class="kicker">Staff</p>' +
+      "<h1>Client lists stay with us.</h1>" +
+      '<p class="lede">Sign in with the staff password. Clients only see the link you send them.</p>' +
+      "</header>" +
+      '<form class="wrap board-setup" data-gate>' +
+      '<label>Password<input class="field" type="password" name="pin" autocomplete="current-password" required></label>' +
+      '<button class="btn" type="submit">Enter</button>' +
+      '<p class="lede" data-gate-err hidden></p></form>';
+    builder.querySelector("[data-gate]").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var err = builder.querySelector("[data-gate-err]");
+      err.hidden = true;
+      var pin = e.target.pin.value;
+      fetch("/api/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ pin: pin })
+      }).then(function (r) { return r.json(); }).then(function (data) {
+        if (!data || !data.ok || !data.token) throw new Error("no");
+        sessionStorage.setItem("as-studio-token", data.token);
+        sessionStorage.setItem("as-studio-role", data.role || "update");
+        sessionStorage.setItem("as-studio-on", "1");
+        renderBuilder(readBoard());
+      }).catch(function () {
+        err.hidden = false;
+        err.textContent = "That password did not match.";
+      });
+    });
+  }
+
   function readBoard() {
     try { return Object.assign(blank(), JSON.parse(localStorage.getItem("as-board")) || {}); }
     catch (e) { return blank(); }
@@ -144,6 +183,10 @@
   }
 
   function renderBuilder(state) {
+    if (!staffToken()) {
+      renderGate();
+      return;
+    }
     builder.hidden = false;
     client.hidden = true;
     var items = state.items || [];
@@ -202,7 +245,11 @@
         return;
       }
       msg.textContent = "Reading that page…";
-      fetch("/api/product?url=" + encodeURIComponent(url)).then(function (r) { return r.json(); }).then(function (tile) {
+      fetch("/api/product", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ url: url, token: staffToken() })
+      }).then(function (r) { return r.json(); }).then(function (tile) {
         if (!tile || !tile.photo) throw new Error((tile && tile.error) || "No photos on that page");
         state.items.push({
           key: "link-" + Date.now(),
@@ -232,7 +279,7 @@
       fetch("/api/board", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ id: state.id, name: state.name, note: state.note, items: state.items })
+        body: JSON.stringify({ id: state.id, name: state.name, note: state.note, items: state.items, token: staffToken() })
       }).then(function (r) { return r.json(); }).then(function (res) {
         if (!res || !res.id) throw new Error((res && res.error) || "Save failed");
         state.id = res.id;

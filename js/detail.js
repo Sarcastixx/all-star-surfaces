@@ -14,6 +14,7 @@
   }
 
   function boardChip() {
+    if (sessionStorage.getItem("as-studio-on") !== "1") return;
     var n = ((readBoard().items) || []).length;
     var chip = document.querySelector("[data-board-chip]");
     if (!n) {
@@ -343,7 +344,7 @@
       actions.appendChild(link);
     }
     var addBtn = null;
-    if (item.kind === "Vendor") {
+    if (item.kind === "Vendor" && sessionStorage.getItem("as-studio-on") === "1") {
       addBtn = document.createElement("button");
       addBtn.type = "button";
       addBtn.className = "btn ghost";

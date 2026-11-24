@@ -245,9 +245,6 @@ export class CatalogDO {
         copy: copy,
       });
     }
-    if (request.method === "GET" && path === "/api/product") {
-      return this.product(url.searchParams.get("url") || "");
-    }
     if (request.method === "GET" && path === "/api/board") {
       const id = String(url.searchParams.get("id") || "").replace(/[^a-zA-Z0-9_-]/g, "");
       const rows = this.sql().exec("select body from boards where id = ?", id).toArray();
@@ -308,7 +305,13 @@ export class CatalogDO {
       }
       return json({ ok: true });
     }
-    if (path === "/api/board" || path === "/api/board/like") {
+    if (path === "/api/board/like") {
+      return this.boardWrite(path, body);
+    }
+    if (path === "/api/board" || path === "/api/product") {
+      const role = await roleFromToken(body.token);
+      if (!role) return json({ error: "Staff sign-in required" }, 401);
+      if (path === "/api/product") return this.product(body.url || "");
       return this.boardWrite(path, body);
     }
     const role = await roleFromToken(body.token);
