@@ -123,22 +123,146 @@
           return '<button type="button" class="board-thumb" data-swap="' + esc(src) + '"><img src="' + esc(src) + '" alt=""></button>';
         }).join("") + "</div>"
       : "";
-    var facts = (item.facts || []).map(function (line) { return "<li>" + esc(line) + "</li>"; }).join("");
-    var info = (facts ? '<ul class="board-facts">' + facts + "</ul>" : "") +
-      (item.detail ? '<p class="lede">' + esc(item.detail) + "</p>" : "") +
-      (item.link ? '<a href="' + esc(item.link) + '" target="_blank" rel="noreferrer">Product page</a>' : "");
     var fields = opts.client
-      ? '<p class="shop-meta">' + esc(item.vendor || "Tile") + room + "</p><h2>" + esc(item.title || item.vendor || "Tile") + "</h2>" + info
+      ? '<p class="shop-meta">' + esc(item.vendor || "Tile") + room + "</p><h2>" + esc(item.title || item.vendor || "Tile") + "</h2>"
       : '<p class="shop-meta">' + esc(item.vendor || "Tile") + "</p>" +
         '<label>Name<input class="field" data-title="' + esc(item.key) + '" value="' + esc(item.title) + '"></label>' +
         '<label>Where it goes<input class="field" data-room="' + esc(item.key) + '" value="' + esc(item.room) + '" placeholder="Main bath, kitchen…"></label>' +
-        info +
+        '<button type="button" class="btn ghost" data-details="' + esc(item.key) + '">Details</button>' +
         '<button type="button" class="btn ghost" data-remove="' + esc(item.key) + '">Remove</button>';
-    return '<article class="shop-card">' +
+    return '<article class="shop-card profile-card" data-open="' + esc(item.key) + '">' +
       '<div class="shop-media"><img data-main src="' + esc(photos[0]) + '" alt="' + esc(item.title || item.vendor) + '">' +
       '<span class="shop-badge">' + esc(item.vendor || "Tile") + "</span>" + like + "</div>" +
       thumbs +
       '<div class="shop-body">' + fields + "</div></article>";
+  }
+
+  function openProfile(item, board) {
+    var photos = (item.photos && item.photos.length) ? item.photos : [item.photo];
+    var index = 0;
+    var old = document.querySelector("[data-profile]");
+    if (old) old.remove();
+    var scrim = document.createElement("div");
+    scrim.className = "detail-scrim";
+    scrim.setAttribute("data-profile", "");
+    var facts = (item.facts || []).map(function (line) {
+      return '<span class="vendor-spec">' + esc(line) + "</span>";
+    }).join("");
+    scrim.innerHTML =
+      '<div class="detail-sheet" role="dialog" aria-modal="true" aria-label="' + esc(item.title || "Tile") + '">' +
+        '<button class="detail-close" type="button" aria-label="Close">×</button>' +
+        '<div class="detail-photo">' +
+          '<button class="detail-arrow is-prev" type="button" data-step="-1" aria-label="Previous photo">‹</button>' +
+          '<div class="detail-frame"><img class="detail-shot" data-shot alt=""></div>' +
+          '<button class="detail-arrow is-next" type="button" data-step="1" aria-label="Next photo">›</button>' +
+          '<div class="detail-dots" data-dots></div>' +
+        "</div>" +
+        '<div class="detail-copy">' +
+          '<p class="kicker">' + esc(item.vendor || "Tile") + (item.room ? " · " + esc(item.room) : "") + "</p>" +
+          "<h2>" + esc(item.title || item.vendor || "Tile") + "</h2>" +
+          (facts ? '<div class="detail-specs">' + facts + "</div>" : "") +
+          (item.detail ? '<p class="detail-brief">' + esc(item.detail) + "</p>" : "") +
+          '<div class="detail-actions"><button type="button" class="btn" data-sheet-like>I like this</button></div>' +
+          (item.link ? '<p class="detail-extra"><a href="' + esc(item.link) + '" target="_blank" rel="noreferrer">Product page</a></p>' : "") +
+        "</div></div>";
+    document.body.appendChild(scrim);
+    document.body.classList.add("detail-open");
+    requestAnimationFrame(function () { scrim.classList.add("is-in"); });
+    var shot = scrim.querySelector("[data-shot]");
+    var dots = scrim.querySelector("[data-dots]");
+    function paint() {
+      shot.src = photos[index] || "";
+      shot.alt = item.title || "";
+      dots.innerHTML = photos.map(function (_, i) {
+        return '<button type="button" data-dot="' + i + '"' + (i === index ? ' class="is-on"' : "") + ' aria-label="Photo ' + (i + 1) + '"></button>';
+      }).join("");
+      scrim.querySelectorAll("[data-step]").forEach(function (btn) {
+        btn.hidden = photos.length < 2;
+      });
+    }
+    function close() {
+      scrim.classList.remove("is-in");
+      document.body.classList.remove("detail-open");
+      setTimeout(function () { scrim.remove(); }, 280);
+    }
+    scrim.addEventListener("click", function (e) {
+      if (e.target === scrim || e.target.closest(".detail-close")) close();
+      var step = e.target.closest("[data-step]");
+      if (step) {
+        index = (index + Number(step.getAttribute("data-step")) + photos.length) % photos.length;
+        paint();
+      }
+      var dot = e.target.closest("[data-dot]");
+      if (dot) {
+        index = Number(dot.getAttribute("data-dot"));
+        paint();
+      }
+    });
+    var likeBtn = scrim.querySelector("[data-sheet-like]");
+    function paintLike() {
+      var mine = likedBy(board, item.key).indexOf(voter()) >= 0;
+      likeBtn.classList.toggle("is-on", mine);
+      likeBtn.textContent = mine ? "I like this" : "I like this";
+    }
+    likeBtn.addEventListener("click", function () {
+      toggleLike(board, item.key, function () {
+        paintLike();
+        var cardBtn = document.querySelector('[data-like="' + item.key + '"]');
+        if (cardBtn) {
+          var count = likedBy(board, item.key).length;
+          cardBtn.classList.toggle("is-on", likedBy(board, item.key).indexOf(voter()) >= 0);
+          cardBtn.textContent = "I like this" + (count ? " · " + count : "");
+        }
+      });
+    });
+    paint();
+    paintLike();
+  }
+
+  function wireOpen(root, items, board) {
+    function find(key) {
+      return items.filter(function (it) { return it.key === key; })[0];
+    }
+    root.querySelectorAll("[data-open]").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        if (e.target.closest("button, a, input, label, textarea")) return;
+        var item = find(el.getAttribute("data-open"));
+        if (item) openProfile(item, board);
+      });
+    });
+    root.querySelectorAll("[data-details]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var item = find(btn.getAttribute("data-details"));
+        if (item) openProfile(item, board);
+      });
+    });
+  }
+
+  function toggleLike(board, key, done) {
+    var on = likedBy(board, key).indexOf(voter()) < 0;
+    if (!board.id) {
+      if (!board.likes) board.likes = {};
+      var list = likedBy(board, key).slice();
+      board.likes[key] = on ? list.concat([voter()]) : list.filter(function (v) { return v !== voter(); });
+      var builderEl = document.querySelector("[data-builder]");
+      if (!builderEl || builderEl.hidden) {
+        history.replaceState(null, "", location.pathname + "#" + pack(board));
+      }
+      if (done) done();
+      return;
+    }
+    fetch("/api/board/like", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ id: board.id, key: key, voter: voter(), on: on })
+    }).then(function (r) { return r.json(); }).then(function () {
+      return fetch("/api/board?id=" + encodeURIComponent(board.id)).then(function (r) { return r.json(); });
+    }).then(function (next) {
+      if (next && next.likes) board.likes = next.likes;
+      if (done) done();
+    }).catch(function () {
+      if (done) done(new Error("save"));
+    });
   }
 
   function renderClient(board) {
@@ -149,34 +273,22 @@
       '<header class="wrap page-hero">' +
       '<p class="kicker">A selection</p>' +
       "<h1>Picked for " + esc(board.name || "you") + "</h1>" +
-      '<p class="lede">' + esc(board.note || "These are the options we pulled. Tap I like this on the ones you want to see in the showroom.") + "</p>" +
+      '<p class="lede">' + esc(board.note || "The photos are here. Tap a tile if you want the size, price, and the rest.") + "</p>" +
       (board.id ? "" : '<p class="lede">Your picks stay in this page link. Send it back to AllStar when you are done.</p>') +
       "</header>" +
       '<section class="wrap shop-grid section">' + items.map(function (item) { return card(item, { client: true, board: board }); }).join("") + "</section>" +
       '<section class="wrap section"><a class="btn" href="/appointment">Book a showroom visit</a></section>';
     wireThumbs(client);
+    wireOpen(client, items, board);
     client.querySelectorAll("[data-like]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var key = btn.getAttribute("data-like");
-        var on = likedBy(board, key).indexOf(voter()) < 0;
-        if (!board.id) {
-          if (!board.likes) board.likes = {};
-          var list = likedBy(board, key).slice();
-          board.likes[key] = on ? list.concat([voter()]) : list.filter(function (v) { return v !== voter(); });
-          history.replaceState(null, "", location.pathname + "#" + pack(board));
+        toggleLike(board, key, function (err) {
+          if (err) {
+            btn.textContent = "Could not save. Try again.";
+            return;
+          }
           renderClient(board);
-          return;
-        }
-        fetch("/api/board/like", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ id: board.id, key: key, voter: voter(), on: on })
-        }).then(function (r) { return r.json(); }).then(function () {
-          return fetch("/api/board?id=" + encodeURIComponent(board.id)).then(function (r) { return r.json(); });
-        }).then(function (next) {
-          if (next && next.items) renderClient(next);
-        }).catch(function () {
-          btn.textContent = "Could not save. Try again.";
         });
       });
     });
@@ -236,6 +348,7 @@
       });
     });
     wireThumbs(builder);
+    wireOpen(builder, items, state);
     builder.querySelector("[data-pull]").addEventListener("click", function () {
       var input = builder.querySelector("[data-url]");
       var url = (input.value || "").trim();
