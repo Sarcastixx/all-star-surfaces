@@ -23,6 +23,28 @@
     return id;
   }
 
+
+  function pack(board) {
+    var bytes = new TextEncoder().encode(JSON.stringify({
+      name: board.name || "",
+      note: board.note || "",
+      items: board.items || [],
+      likes: board.likes || {}
+    }));
+    var bin = "";
+    bytes.forEach(function (b) { bin += String.fromCharCode(b); });
+    return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+
+  function unpack(hash) {
+    var b64 = hash.replace(/-/g, "+").replace(/_/g, "/");
+    while (b64.length % 4) b64 += "=";
+    var bin = atob(b64);
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }
+
   function esc(s) {
     return String(s || "").replace(/[&<>"']/g, function (c) {
       if (c === "&") return "&amp;";
@@ -68,6 +90,7 @@
       '<p class="kicker">A selection</p>' +
       "<h1>Picked for " + esc(board.name || "you") + "</h1>" +
       '<p class="lede">' + esc(board.note || "These are the options we pulled. Tap I like this on the ones you want to see in the showroom.") + "</p>" +
+      (board.id ? "" : '<p class="lede">Your picks stay in this page link. Send it back to AllStar when you are done.</p>') +
       "</header>" +
       '<section class="wrap shop-grid section">' + items.map(function (item) { return card(item, { client: true, board: board }); }).join("") + "</section>" +
       '<section class="wrap section"><a class="btn" href="/appointment">Book a showroom visit</a></section>';
@@ -75,6 +98,14 @@
       btn.addEventListener("click", function () {
         var key = btn.getAttribute("data-like");
         var on = likedBy(board, key).indexOf(voter()) < 0;
+        if (!board.id) {
+          if (!board.likes) board.likes = {};
+          var list = likedBy(board, key).slice();
+          board.likes[key] = on ? list.concat([voter()]) : list.filter(function (v) { return v !== voter(); });
+          history.replaceState(null, "", location.pathname + "#" + pack(board));
+          renderClient(board);
+          return;
+        }
         fetch("/api/board/like", {
           method: "POST",
           headers: { "content-type": "application/json" },
@@ -160,7 +191,12 @@
           msg.textContent = link;
         });
       }).catch(function () {
-        msg.textContent = "The list did not save. Try again in a minute.";
+        var link = location.origin + "/registry#" + pack(state);
+        navigator.clipboard.writeText(link).then(function () {
+          msg.textContent = "Link copied. Ask them to send the page back after they tap I like this.";
+        }, function () {
+          msg.textContent = link;
+        });
       });
     });
     builder.querySelector("[data-clear]").addEventListener("click", function () {
@@ -172,6 +208,11 @@
 
   var params = new URLSearchParams(location.search);
   var shared = params.get("b");
+  var hash = location.hash.replace(/^#/, "");
+  if (!shared && hash) {
+    try { renderClient(unpack(hash)); return; }
+    catch (e) { /* builder */ }
+  }
   if (shared) {
     client.hidden = false;
     client.innerHTML = '<p class="wrap lede">Loading their board…</p>';
