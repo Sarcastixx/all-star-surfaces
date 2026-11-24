@@ -355,48 +355,119 @@
   }
 
   function bar() {
-    if (document.querySelector("[data-studio-bar]")) return;
-    var el = document.createElement("div");
-    el.className = "studio-bar";
-    el.setAttribute("data-studio-bar", "");
-    var label = isFull() ? "Full edit" : "Update remnants & jobs";
+    if (document.querySelector("[data-staff-dock]")) return;
+    var el = document.createElement("aside");
+    el.className = "staff-dock";
+    el.setAttribute("data-staff-dock", "");
     el.innerHTML =
-      "<span>" + label + "</span>" +
-      '<span data-studio-toast hidden></span>' +
-      (isFull()
-        ? '<input data-sheet-url placeholder="Paste Google Web app URL" style="flex:1;min-width:180px;max-width:360px;min-height:40px;border-radius:999px;border:0;padding:0 14px">' +
-          '<button type="button" class="btn ghost" data-sheet-save>Save leads</button>'
-        : "") +
-      '<a class="btn ghost" href="/remnants">Remnants</a><a class="btn ghost" href="/portfolio">Jobs</a>' +
-      '<button type="button" class="btn ghost" data-studio-out>Done</button>';
+      '<p class="staff-dock-title">Staff</p>' +
+      '<a href="/#photos">Edit photos</a>' +
+      '<a href="/registry">Boards</a>' +
+      '<a href="/remnants">Remnants</a>' +
+      '<a href="/portfolio">Jobs</a>' +
+      (isFull() ? '<button type="button" data-leads>Leads sheet</button>' : "") +
+      '<button type="button" data-studio-out>Done</button>' +
+      '<p data-studio-toast hidden></p>';
     document.body.appendChild(el);
     el.querySelector("[data-studio-out]").addEventListener("click", function () {
       sessionStorage.removeItem(TOKEN);
       sessionStorage.removeItem(ROLE);
       sessionStorage.removeItem(ON);
-      window.location.reload();
+      window.location.href = "/";
     });
-    var sheetInput = el.querySelector("[data-sheet-url]");
-    var sheetSave = el.querySelector("[data-sheet-save]");
-    if (sheetInput) {
-      fetch("/api/catalog").then(function (r) { return r.json(); }).then(function (d) {
-        if (d && d.copy && d.copy.sheetWebhook) sheetInput.value = d.copy.sheetWebhook;
-      }).catch(function () {});
-    }
-    if (sheetSave && sheetInput) {
-      sheetSave.addEventListener("click", function () {
-        var url = sheetInput.value.trim();
-        saveOne("sheetWebhook", url).then(function () {
-          window.AS_SHEET_WEBHOOK = url;
-          toast("Leads sheet saved");
+    var leads = el.querySelector("[data-leads]");
+    if (leads) {
+      leads.addEventListener("click", function () {
+        fetch("/api/catalog").then(function (r) { return r.json(); }).then(function (d) {
+          var current = (d && d.copy && d.copy.sheetWebhook) || "";
+          var url = window.prompt("Google Web app URL for new leads", current);
+          if (url == null) return;
+          return saveOne("sheetWebhook", url.trim()).then(function () {
+            window.AS_SHEET_WEBHOOK = url.trim();
+            toast("Leads sheet saved");
+          });
         }).catch(function (err) { toast(err.message || "Could not save"); });
       });
     }
+    var photos = el.querySelector('a[href="/#photos"]');
+    photos.addEventListener("click", function (e) {
+      if (location.pathname !== "/") return;
+      e.preventDefault();
+      var hero = document.querySelector("[data-hero]");
+      if (hero) hero.scrollIntoView({ behavior: "smooth", block: "center" });
+      document.documentElement.classList.add("is-photo-edit");
+    });
+  }
+
+  function changeSlot(img) {
+    var slot = img && img.getAttribute("data-slot");
+    if (!slot) return;
+    var input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.className = "studio-file";
+    document.body.appendChild(input);
+    input.addEventListener("change", async function () {
+      var file = input.files && input.files[0];
+      input.remove();
+      if (!file) return;
+      try {
+        var photo = await readPhoto(file);
+        document.querySelectorAll('[data-slot="' + slot + '"]').forEach(function (node) {
+          node.classList.remove("is-cleared");
+          node.setAttribute("src", photo);
+        });
+        try { localStorage.setItem("as-photo-" + slot, photo); } catch (err) {}
+        await api("/api/photo", { token: token(), slot: slot, photo: photo });
+        toast("Photo saved");
+      } catch (ex) {
+        toast(ex.message || "Could not save photo");
+      }
+    });
+    input.click();
+  }
+
+  function heroPhoto() {
+    var frame = document.querySelector(".hero-frame");
+    if (!frame || frame.querySelector("[data-hero-change]")) return;
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "studio-photo-btn";
+    btn.setAttribute("data-hero-change", "");
+    btn.textContent = "Change this photo";
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      changeSlot(document.querySelector(".hero-slide.is-active"));
+    });
+    frame.appendChild(btn);
   }
 
   function enable() {
-    return;
+    if (!isStaff()) return;
+    sessionStorage.setItem(ON, "1");
+    document.documentElement.classList.add("is-studio");
+    document.documentElement.setAttribute("data-studio-role", role());
+    bar();
+    if (isFull()) {
+      markEditable();
+      heroPhoto();
+    }
+    remnantTools();
+    jobTools();
+    if (location.hash === "#photos") {
+      document.documentElement.classList.add("is-photo-edit");
+      var hero = document.querySelector("[data-hero]");
+      if (hero) hero.scrollIntoView({ block: "center" });
+    }
   }
+
+  document.addEventListener("as-catalog-ready", function () {
+    if (isOn() && isStaff()) {
+      remnantTools();
+      jobTools();
+    }
+  });
 
   if (isOn() && isStaff()) enable();
 })();

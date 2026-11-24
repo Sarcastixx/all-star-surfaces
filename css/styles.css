@@ -333,6 +333,14 @@ html { color-scheme: light dark; }
   top: auto;
   bottom: 0;
 }
+.hero-frame .hero-rotator .hero-slide[data-floor] {
+  top: auto;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  transform: scale(1.72);
+  transform-origin: center bottom;
+}
 .hero-frame .hero-rotator .hero-slide.is-active { opacity: 1; z-index: 1; }
 .hero-dots { position: absolute; left: 16px; bottom: 16px; z-index: 3; display: flex; gap: 8px; }
 .hero-dot { width: 10px; height: 10px; border: 0; border-radius: 999px; background: rgb(246 241 232 / 0.45); padding: 0; min-height: 10px; }
@@ -576,6 +584,11 @@ h1,h2,h3 { font-family: var(--serif); }
 .home-tiles img { display:block; width:100%; height:140px; object-fit:cover; object-position:center; border-radius:18px; }
 .home-tiles img.frame-high {
   object-position: center bottom;
+}
+.home-tiles img.frame-floor {
+  object-position: center bottom;
+  transform: scale(1.5);
+  transform-origin: center bottom;
 }
 .home-tiles span { display:block; padding:8px; font-size:14px; color:var(--ink-soft); }
 .vendor-marquee { overflow:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--cream); padding:18px 0; }
@@ -1084,6 +1097,54 @@ img.is-cleared:not([src]) {
 .studio-photo-btn.is-remove { background: #8a3b28; }
 .studio-add { margin: 12px 0; min-height: 48px; }
 html.is-studio { scroll-padding-top: 64px; }
+html.is-studio .hero-frame > .studio-photo-btn {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 4;
+}
+.staff-dock {
+  position: fixed;
+  z-index: 80;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 148px;
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 22px;
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: 0 18px 40px rgb(18 12 8 / 0.28);
+}
+.staff-dock-title {
+  margin: 0 0 2px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.staff-dock a,
+.staff-dock button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg) 12%, transparent);
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.staff-dock a:hover,
+.staff-dock button:hover { background: color-mix(in srgb, var(--bg) 22%, transparent); }
+.staff-dock [data-studio-toast] { margin: 0; font-size: 12px; }
+@media (max-width: 720px) {
+  .staff-dock { top: 72px; transform: none; width: 132px; }
+}
 @media (min-width: 720px) {
   .studio-modal { place-items: center; padding: 16px; }
   .studio-card { border-radius: 24px; }
