@@ -395,22 +395,8 @@
   }
 
   function enable() {
-    if (!isStaff()) return;
-    sessionStorage.setItem(ON, "1");
-    document.documentElement.classList.add("is-studio");
-    document.documentElement.setAttribute("data-studio-role", role());
-    bar();
-    if (isFull()) markEditable();
-    remnantTools();
-    jobTools();
+    return;
   }
-
-  document.addEventListener("as-catalog-ready", function () {
-    if (isOn() && isStaff()) {
-      remnantTools();
-      jobTools();
-    }
-  });
 
   if (isOn() && isStaff()) enable();
 })();

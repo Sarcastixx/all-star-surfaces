@@ -23,22 +23,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/styles.css" />
   <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.setAttribute("data-theme-pref",p);}catch(e){}})();</script>
-
-  <script>(function(){try{var t=localStorage.getItem("as-theme");var d=t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
-
-
-<style>
-body.studio-editing .edit-bubble { pointer-events: auto; z-index: 100; }
-.edit-bubble {
-  position: absolute; top: 8px; right: 8px; z-index: 10;
-  width: 32px; height: 32px; border-radius: 50%;
-  background: #2f2a24; color: #f6f1e8; border: 0;
-  font-size: 16px; cursor: pointer; display: none;
-  align-items: center; justify-content: center;
-}
-body.studio-editing .edit-bubble { display: flex; }
-.hero-frame, .home-tiles a, .sample-row { position: relative; }
-</style>
 </head>
 <body>
   <header class="site-header">
@@ -106,8 +90,8 @@ body.studio-editing .edit-bubble { display: flex; }
         <div class="hero-rotator" data-hero>
           <img class="hero-slide is-active" src="/images/jobs/curved-stair.jpg" alt="Curved oak staircase" />
           <img class="hero-slide" src="/images/jobs/tub-bath.jpg" alt="Freestanding tub bathroom" />
-          <img class="hero-slide" src="/images/jobs/smart-bath.jpg" alt="Modern primary bath" data-high />
-          <img class="hero-slide" src="/images/jobs/living-stairs.jpg" alt="Living space with stairs" data-high />
+          <img class="hero-slide" src="/images/jobs/smart-bath.jpg" alt="Modern primary bath" data-low />
+          <img class="hero-slide" src="/images/jobs/living-stairs.jpg" alt="Living space with stairs" data-low />
           <img class="hero-slide" src="/images/jobs/kitchen-view.jpg" alt="Kitchen with view" />
           <img class="hero-slide" src="/images/jobs/straight-stair.jpg" alt="Oak staircase" />
           <div class="hero-dots" data-hero-dots></div>
@@ -262,132 +246,5 @@ body.studio-editing .edit-bubble { display: flex; }
   <script src="/js/hero.js"></script>
   <script src="/js/catalog.js"></script>
   <script src="/js/detail.js"></script>
-
-
-
-
-
-
-
-<script>
-(function(){
-  var ON = "as-studio-on";
-  function isOn(){ return sessionStorage.getItem(ON) === "1"; }
-
-  function enable(){
-    if (!isOn()) return;
-    document.body.classList.add("studio-editing");
-    var hero = document.querySelector("[data-hero]");
-    if (hero) hero.setAttribute("data-paused", "1");
-
-    document.addEventListener("click", function(e){
-      if (!isOn()) return;
-      if (e.target.closest(".edit-bubble, .crop-modal, .nav, header")) return;
-      var a = e.target.closest("a");
-      if (a) { e.preventDefault(); e.stopPropagation(); }
-    }, true);
-
-    document.querySelectorAll(".hero-slide.is-active, .home-tiles img, .sample-row > img").forEach(function(img){
-      var parent = img.closest(".hero-frame, a, .sample-row") || img.parentNode;
-      if (parent.querySelector(".edit-bubble")) return;
-      parent.style.position = "relative";
-      var btn = document.createElement("button");
-      btn.className = "edit-bubble";
-      btn.type = "button";
-      btn.innerHTML = "✎";
-      btn.style.cssText = "position:absolute;top:8px;right:8px;z-index:50;width:36px;height:36px;border-radius:50%;background:#2f2a24;color:#fff;border:0;font-size:18px;cursor:pointer;";
-      btn.onclick = function(e){ e.preventDefault(); e.stopPropagation(); openCrop(img); };
-      parent.appendChild(btn);
-    });
-  }
-
-  function openCrop(img){
-    document.querySelectorAll(".crop-modal").forEach(function(m){ m.remove(); });
-    var modal = document.createElement("div");
-    modal.className = "crop-modal";
-    modal.innerHTML = 
-      '<div class="crop-stage">' +
-        '<img class="crop-img" src="' + img.src + '">' +
-        '<div class="crop-viewport desktop"><span>Desktop</span></div>' +
-        '<div class="crop-viewport mobile"><span>Mobile</span></div>' +
-      '</div>' +
-      '<div class="crop-bar">' +
-        '<span>Drag the photo to reposition</span>' +
-        '<button type="button" class="crop-save">Save</button>' +
-        '<button type="button" class="crop-cancel">Cancel</button>' +
-      '</div>';
-    document.body.appendChild(modal);
-
-    var stage = modal.querySelector(".crop-stage");
-    var cropImg = modal.querySelector(".crop-img");
-    var tx = 0, ty = 0, dragging = false, sx, sy;
-
-    function apply(){
-      cropImg.style.transform = "translate(" + tx + "px," + ty + "px)";
-    }
-
-    cropImg.onmousedown = function(e){
-      dragging = true;
-      sx = e.clientX - tx;
-      sy = e.clientY - ty;
-      e.preventDefault();
-    };
-    document.onmousemove = function(e){
-      if (!dragging) return;
-      tx = e.clientX - sx;
-      ty = e.clientY - sy;
-      apply();
-    };
-    document.onmouseup = function(){ dragging = false; };
-
-    modal.querySelector(".crop-save").onclick = function(){
-      var pos = (50 - tx/4) + "% " + (50 - ty/4) + "%";
-      img.style.objectPosition = pos;
-      try { localStorage.setItem("as-pos-" + img.src, pos); } catch(e){}
-      modal.remove();
-    };
-    modal.querySelector(".crop-cancel").onclick = function(){ modal.remove(); };
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", enable);
-  } else {
-    enable();
-  }
-})();
-</script>
-<style>
-.crop-modal {
-  position: fixed; inset: 0; z-index: 9999;
-  background: rgba(0,0,0,0.85);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-}
-.crop-stage {
-  position: relative; width: 80vw; max-width: 900px; height: 60vh;
-  overflow: hidden; background: #222; border-radius: 12px;
-}
-.crop-img {
-  position: absolute; width: 140%; height: 140%;
-  object-fit: cover; cursor: grab; user-select: none;
-}
-.crop-viewport {
-  position: absolute; border: 2px solid rgba(255,255,255,0.7);
-  pointer-events: none; display: flex; align-items: flex-end; justify-content: center;
-}
-.crop-viewport span { background: rgba(0,0,0,0.6); color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-bottom: 4px; }
-.crop-viewport.desktop { width: 70%; height: 50%; left: 15%; top: 25%; }
-.crop-viewport.mobile { width: 22%; height: 60%; left: 4%; top: 20%; }
-.crop-bar {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: rgba(47,42,36,0.95); color: #f6f1e8;
-  padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;
-}
-.crop-save, .crop-cancel {
-  padding: 8px 16px; border: 0; border-radius: 6px; cursor: pointer; font-size: 14px;
-}
-.crop-save { background: #3a5; color: #fff; margin-right: 8px; }
-.crop-cancel { background: #555; color: #fff; }
-</style>
 </body>
 </html>

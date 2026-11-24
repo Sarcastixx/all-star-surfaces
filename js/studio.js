@@ -75,6 +75,8 @@
 
   $("[data-out]").addEventListener("click", function () {
     sessionStorage.removeItem(TOKEN);
+    sessionStorage.removeItem("as-studio-role");
+    sessionStorage.removeItem("as-studio-on");
     token = "";
     login.hidden = false;
     desk.hidden = true;
@@ -170,12 +172,12 @@
         '<form data-copy-form class="card form" style="padding:24px;max-width:40rem">' +
           "<h2>Page text</h2>" +
           "<p class='lede'>Change headlines without editing code.</p>" +
-          field("Home headline", '<input name="homeHeadline" value="' + (copy.homeHeadline || "").replace(/"/g, """) + '">') +
+          field("Home headline", '<input name="homeHeadline" value="' + (copy.homeHeadline || "").replace(/"/g, "&quot;") + '">') +
           field("Home intro", '<textarea name="homeLede">' + (copy.homeLede || "") + "</textarea>") +
-          field("About title", '<input name="aboutTitle" value="' + (copy.aboutTitle || "").replace(/"/g, """) + '">') +
+          field("About title", '<input name="aboutTitle" value="' + (copy.aboutTitle || "").replace(/"/g, "&quot;") + '">') +
           field("About intro", '<textarea name="aboutLede">' + (copy.aboutLede || "") + "</textarea>") +
           field("Contact intro", '<textarea name="contactLede">' + (copy.contactLede || "") + "</textarea>") +
-          field("Google Sheet webhook (optional)", '<input name="sheetWebhook" placeholder="https://script.google.com/macros/s/…/exec" value="' + (copy.sheetWebhook || "").replace(/"/g, """) + '">') +
+          field("Google Sheet webhook (optional)", '<input name="sheetWebhook" placeholder="https://script.google.com/macros/s/…/exec" value="' + (copy.sheetWebhook || "").replace(/"/g, "&quot;") + '">') +
           '<p data-copy-msg class="lede" hidden></p>' +
           '<button class="btn" type="submit">Save text</button></form>';
     }

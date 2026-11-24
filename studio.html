@@ -5,68 +5,54 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Sign in</title>
+  <title>Studio</title>
   <link rel="icon" href="/images/tab-32.png" type="image/png" sizes="32x32" />
-  <link rel="icon" href="/images/tab-16.png" type="image/png" sizes="16x16" />
-  <link rel="icon" href="/images/tab-48.png" type="image/png" sizes="48x48" />
   <link rel="shortcut icon" href="/images/tab-logo.ico" />
-  <link rel="apple-touch-icon" href="/images/tab-48.png" />
   <link rel="stylesheet" href="/css/styles.css" />
   <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){}})();</script>
+  <style>
+    .studio-desk { padding: 28px 0 80px; }
+    .studio-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 22px; }
+    .studio-tabs button.is-on { background: var(--ink); color: var(--on-ink); }
+    .studio-desk .form label { display: grid; gap: 6px; font-size: 14px; }
+    .studio-desk .split { align-items: start; }
+  </style>
 </head>
 <body>
-  <main class="wrap" style="padding:96px 0;max-width:22rem">
-    <form class="form" data-gate>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="logo" href="/" aria-label="ALLSTAR Surfaces home">
+        <img class="logo-lockup logo-lockup-light" src="/images/logo-lockup-light.png" alt="ALLSTAR Surfaces" />
+        <img class="logo-lockup logo-lockup-dark" src="/images/logo-lockup-dark.png" alt="" />
+      </a>
+      <div class="nav-end"><a class="nav-item" href="/">Back to the site</a></div>
+    </div>
+  </header>
+  <main class="wrap studio-desk">
+    <form class="form" data-login style="max-width:22rem;padding-top:48px">
+      <p class="kicker">Studio</p>
+      <h1>Staff only.</h1>
       <label>Password<input type="password" name="pin" required autocomplete="current-password"></label>
-      <p class="lede" data-err hidden></p>
+      <p class="lede" data-login-error hidden></p>
       <button class="btn" type="submit">Enter</button>
     </form>
+    <div data-desk hidden>
+      <p class="kicker">Studio</p>
+      <h1>Everything in one place.</h1>
+      <p class="lede">Remnants, jobs, home photos, and page text. The public site stays clickable.</p>
+      <div class="studio-tabs">
+        <button class="btn ghost is-on" type="button" data-tab="remnants">Remnants</button>
+        <button class="btn ghost" type="button" data-tab="jobs">Jobs</button>
+        <button class="btn ghost" type="button" data-tab="photos">Home photos</button>
+        <button class="btn ghost" type="button" data-tab="copy">Page text</button>
+        <button class="btn ghost" type="button" data-out>Sign out</button>
+      </div>
+      <section data-pane="remnants"></section>
+      <section data-pane="jobs" hidden></section>
+      <section data-pane="photos" hidden></section>
+      <section data-pane="copy" hidden></section>
+    </div>
   </main>
-  <script>
-  (function () {
-    function roleFromPin(pin) {
-      var p = String(pin || "").trim().replace(/\s+/g, "");
-      if (p === "1976@llstar!") return "full";
-      if (p.toLowerCase() === "allstar.update!") return "update";
-      return null;
-    }
-    var form = document.querySelector("[data-gate]");
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      var err = document.querySelector("[data-err]");
-      err.hidden = true;
-      var pin = form.pin.value;
-      var role = null;
-      var token = "";
-      try {
-        var res = await fetch("/api/login", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ pin: pin })
-        });
-        var data = await res.json();
-        if (data.ok && data.token) {
-          token = data.token;
-          role = data.role || roleFromPin(pin);
-        }
-      } catch (ex) {}
-      if (!role) role = roleFromPin(pin);
-      if (!role) {
-        err.hidden = false;
-        err.textContent = "That password did not match.";
-        return;
-      }
-      if (!token) {
-        var canon = role === "update" ? "Allstar.update!" : "1976@llstar!";
-        var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("all-star-studio:" + canon));
-        token = [...new Uint8Array(buf)].map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
-      }
-      sessionStorage.setItem("as-studio-token", token);
-      sessionStorage.setItem("as-studio-role", role);
-      sessionStorage.setItem("as-studio-on", "1");
-      location.href = role === "update" ? "/remnants" : "/";
-    });
-  })();
-  </script>
+  <script src="/js/studio.js"></script>
 </body>
 </html>

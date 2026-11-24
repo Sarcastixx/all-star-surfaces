@@ -28,7 +28,7 @@
       return;
     }
     var distance = travel(slide);
-    var high = slide.hasAttribute("data-high");
+    var high = slide.hasAttribute("data-high") || slide.hasAttribute("data-low");
     slide.style.transition = "none";
     if (high) {
       slide.style.transform = "none";
