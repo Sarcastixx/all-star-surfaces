@@ -306,13 +306,14 @@
       '<header class="wrap page-hero">' +
       '<p class="kicker">For the client</p>' +
       "<h1>Their vision board.</h1>" +
-      '<p class="lede">Paste a product link, or open a vendor and tap Add this photo. The client sees every photo and the details, and can tap I like this.</p>' +
+      '<p class="lede">Each client gets their own board and their own link. Nothing is shared between them.</p>' +
       "</header>" +
+      '<section class="wrap board-list" data-boards></section>' +
       '<section class="wrap board-setup">' +
       '<label>Client name<input class="field" data-name value="' + esc(state.name) + '" placeholder="The Chen kitchen"></label>' +
       '<label>A note for them<textarea class="field" data-note rows="3" placeholder="A few directions for the main bath.">' + esc(state.note) + "</textarea></label>" +
       '<label>Paste a product link<input class="field" data-url placeholder="https://www.flooranddecor.com/..."></label>' +
-      '<div class="board-actions"><button type="button" class="btn" data-pull>Add that tile</button><button type="button" class="btn" data-share>Copy their link</button><a class="btn ghost" href="/vendors">Pick from vendors</a><button type="button" class="btn ghost" data-clear>Start over</button></div>' +
+      '<div class="board-actions"><button type="button" class="btn" data-pull>Add that tile</button><button type="button" class="btn" data-share>Copy their link</button><a class="btn ghost" href="/vendors">Pick from vendors</a><button type="button" class="btn ghost" data-new>New client</button></div>' +
       '<p class="lede" data-share-msg></p></section>' +
       '<section class="wrap section"><h2>On the board</h2>' +
       (items.length ? '<div class="shop-grid">' + items.map(function (item) { return card(item, { client: false, board: state }); }).join("") + "</div>" : '<p class="lede">Nothing yet. Open Vendors, pick Daltile or another line, and tap Add this photo.</p>') +
@@ -397,6 +398,7 @@
         if (!res || !res.id) throw new Error((res && res.error) || "Save failed");
         state.id = res.id;
         writeBoard(state);
+        loadClientList(state);
         var link = location.origin + "/registry?b=" + res.id;
         return navigator.clipboard.writeText(link).then(function () {
           msg.textContent = "Link copied. Send that. When they tap I like this, you will see it on this same link.";
@@ -412,11 +414,55 @@
         });
       });
     });
-    builder.querySelector("[data-clear]").addEventListener("click", function () {
+    builder.querySelector("[data-new]").addEventListener("click", function () {
       state = blank();
       writeBoard(state);
       renderBuilder(state);
     });
+    loadClientList(state);
+  }
+
+  function loadClientList(state) {
+    var box = builder.querySelector("[data-boards]");
+    if (!box) return;
+    box.innerHTML = '<p class="lede">Loading clients…</p>';
+    fetch("/api/boards", { headers: { "x-studio-token": staffToken() } })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var rows = (data && data.boards) || [];
+        box.innerHTML =
+          '<p class="kicker">Clients</p>' +
+          '<div class="board-actions">' +
+          '<button type="button" class="btn' + (state.id ? " ghost" : "") + '" data-new>New client</button>' +
+          rows.map(function (b) {
+            var mark = b.liked ? " · " + b.liked + " liked" : "";
+            return '<button type="button" class="btn ghost' + (b.id === state.id ? " is-on" : "") + '" data-open-board="' + esc(b.id) + '">' +
+              esc(b.name || "Untitled") + " · " + b.count + mark + "</button>";
+          }).join("") +
+          "</div>";
+        box.querySelector("[data-new]").addEventListener("click", function () {
+          state = blank();
+          writeBoard(state);
+          renderBuilder(state);
+        });
+        box.querySelectorAll("[data-open-board]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var id = btn.getAttribute("data-open-board");
+            fetch("/api/board?id=" + encodeURIComponent(id)).then(function (r) {
+              if (!r.ok) throw new Error("missing");
+              return r.json();
+            }).then(function (board) {
+              state = Object.assign(blank(), board);
+              writeBoard(state);
+              renderBuilder(state);
+            }).catch(function () {
+              box.insertAdjacentHTML("beforeend", '<p class="lede">That client did not open.</p>');
+            });
+          });
+        });
+      }).catch(function () {
+        box.innerHTML = '<p class="lede">Client list is not ready yet. Saving a link still keeps that client separate.</p>';
+      });
   }
 
   var params = new URLSearchParams(location.search);

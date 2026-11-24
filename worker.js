@@ -163,6 +163,32 @@ export class CatalogDO {
     );
   }
 
+  listBoards() {
+    const rows = this.sql().exec("select body from boards").toArray();
+    const boards = [];
+    for (const row of rows) {
+      let board;
+      try { board = JSON.parse(row.body); } catch { continue; }
+      if (!board || !board.id) continue;
+      const items = Array.isArray(board.items) ? board.items : [];
+      const real = items.some((item) => String(item.photo || "").startsWith("https://") || String(item.photo || "").startsWith("/images/"));
+      if (!real && !String(board.name || "").trim()) continue;
+      const likes = board.likes && typeof board.likes === "object" ? board.likes : {};
+      let liked = 0;
+      Object.keys(likes).forEach((key) => {
+        if (Array.isArray(likes[key]) && likes[key].length) liked += 1;
+      });
+      boards.push({
+        id: String(board.id),
+        name: String(board.name || "Untitled").slice(0, 80),
+        count: items.length,
+        liked,
+      });
+    }
+    boards.sort((a, b) => a.name.localeCompare(b.name));
+    return json({ boards });
+  }
+
   boardWrite(path, body) {
     if (path === "/api/board/like") {
       const id = String(body.id || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 24);
@@ -244,6 +270,11 @@ export class CatalogDO {
         photos: stored.photos || {},
         copy: copy,
       });
+    }
+    if (request.method === "GET" && path === "/api/boards") {
+      const role = await roleFromToken(request.headers.get("x-studio-token") || "");
+      if (!role) return json({ error: "Staff sign-in required" }, 401);
+      return this.listBoards();
     }
     if (request.method === "GET" && path === "/api/board") {
       const id = String(url.searchParams.get("id") || "").replace(/[^a-zA-Z0-9_-]/g, "");
