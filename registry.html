@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>if(location.protocol==="http:"&&/(^|\.)all-star-flooring\.com$/.test(location.hostname))location.replace("https:"+location.href.slice(5));</script>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/images/tab-32.png" type="image/png" sizes="32x32" />
+  <link rel="shortcut icon" href="/images/tab-logo.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ALLSTAR Surfaces · Client list</title>
+  <meta name="description" content="A short list of tiles picked for one client." />
+  <link rel="canonical" href="https://www.all-star-flooring.com/registry" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.setAttribute("data-theme-pref",p);}catch(e){}})();</script>
+  <style>
+    .board-setup { display: grid; gap: 12px; max-width: 640px; }
+    .board-setup label { display: grid; gap: 6px; font-size: 14px; }
+    .board-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .board-grid { display: grid; gap: 16px; }
+    @media (min-width: 700px) { .board-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1000px) { .board-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    .board-card { background: var(--cream); border-radius: 24px; overflow: hidden; }
+    .board-card img { width: 100%; height: 220px; object-fit: cover; }
+    .board-card-body { display: grid; gap: 8px; padding: 16px; }
+    .board-card-body h2 { margin: 0; font-size: 28px; }
+    .board-card-body .lede { margin: 0; }
+    .board-card-body label { display: grid; gap: 4px; font-size: 13px; }
+    .board-shelves { display: grid; gap: 28px; }
+    .board-line { display: grid; gap: 12px; }
+    .board-line h2 { margin: 0; font-size: 32px; }
+    .board-shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+    .board-shot { position: relative; padding: 0; border: 0; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
+    .board-shot img { width: 100%; height: 140px; object-fit: cover; }
+    .board-shot span { position: absolute; left: 8px; bottom: 8px; background: var(--surface); border-radius: 999px; padding: 4px 10px; font-size: 12px; }
+    .board-shot.is-on span { background: var(--ink); color: var(--on-ink); }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="logo" href="/" aria-label="ALLSTAR Surfaces home">
+        <img class="logo-lockup logo-lockup-light" src="/images/logo-lockup-light.png" alt="ALLSTAR Surfaces" />
+        <img class="logo-lockup logo-lockup-dark" src="/images/logo-lockup-dark.png" alt="" />
+      </a>
+      <ul class="nav-links">
+        <li><a class="nav-item" href="/">Home</a></li>
+        <li>
+          <div class="svc" data-svc>
+            <button class="nav-item is-on" type="button" data-svc-btn aria-haspopup="true" aria-expanded="false">Services ▾</button>
+            <div class="svc-menu"><div class="svc-panel">
+              <a href="/services">Process</a>
+              <a href="/vendors">Vendors</a>
+              <a href="/registry" class="is-active">Client list</a>
+              <a href="/portfolio">Portfolio</a>
+              <a href="/remnants">Remnants</a>
+            </div></div>
+          </div>
+        </li>
+        <li><a class="nav-item" href="/about">About Us</a></li>
+        <li><a class="nav-item" href="/contact">Contact</a></li>
+      </ul>
+      <div class="nav-end">
+        <button class="icon-btn menu" data-menu type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+    <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
+      <a href="/">Home</a>
+      <button type="button" class="mobile-link" data-mobile-svc aria-expanded="false">Services <span class="chev" aria-hidden="true">›</span></button>
+      <div class="mobile-svc" data-mobile-svc-panel>
+        <a href="/services">Process</a>
+        <a href="/vendors">Vendors</a>
+        <a href="/registry">Client list</a>
+        <a href="/portfolio">Portfolio</a>
+        <a href="/remnants">Remnants</a>
+      </div>
+      <a href="/about">About Us</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div data-builder></div>
+    <div data-client hidden></div>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div>
+        <p class="foot-brand"><img class="logo-lockup logo-lockup-light" src="/images/logo-lockup-light.png" alt="ALLSTAR Surfaces" /><img class="logo-lockup logo-lockup-dark" src="/images/logo-lockup-dark.png" alt="" /></p>
+        <p class="foot-place">Located in Lynnwood. Founded in 2007.</p>
+      </div>
+      <div>
+        <p class="kicker">Visit</p>
+        <a href="https://maps.google.com/?q=18000+Hwy+99+Lynnwood+WA+98037" target="_blank" rel="noreferrer">18000 Hwy 99, Lynnwood, WA 98037</a>
+        <a href="tel:+12067999881">(206) 799-9881</a>
+        <a href="mailto:info@all-star-flooring.com">info@all-star-flooring.com</a>
+      </div>
+    </div>
+  </footer>
+  <script src="/js/theme.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/registry.js"></script>
+</body>
+</html>
