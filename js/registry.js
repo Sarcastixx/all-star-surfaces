@@ -55,6 +55,15 @@
     });
   }
 
+  function wireThumbs(root) {
+    root.querySelectorAll(".board-thumb").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var img = btn.closest(".shop-card").querySelector("[data-main]");
+        if (img) img.src = btn.getAttribute("data-swap");
+      });
+    });
+  }
+
   function likedBy(board, key) {
     var list = board.likes && board.likes[key];
     return Array.isArray(list) ? list : [];
@@ -69,15 +78,27 @@
       like = '<button type="button" class="like-bubble' + (mine ? " is-on" : "") + '" data-like="' + esc(item.key) + '">' +
         (mine ? "I like this" : "I like this") + (likes.length ? " · " + likes.length : "") + "</button>";
     }
+    var photos = (item.photos && item.photos.length) ? item.photos : [item.photo];
+    var thumbs = photos.length > 1
+      ? '<div class="board-thumbs">' + photos.map(function (src) {
+          return '<button type="button" class="board-thumb" data-swap="' + esc(src) + '"><img src="' + esc(src) + '" alt=""></button>';
+        }).join("") + "</div>"
+      : "";
+    var facts = (item.facts || []).map(function (line) { return "<li>" + esc(line) + "</li>"; }).join("");
+    var info = (facts ? '<ul class="board-facts">' + facts + "</ul>" : "") +
+      (item.detail ? '<p class="lede">' + esc(item.detail) + "</p>" : "") +
+      (item.link ? '<a href="' + esc(item.link) + '" target="_blank" rel="noreferrer">Product page</a>' : "");
     var fields = opts.client
-      ? '<p class="shop-meta">' + esc(item.vendor || "Tile") + room + "</p><h2>" + esc(item.title || item.vendor || "Tile") + "</h2>"
+      ? '<p class="shop-meta">' + esc(item.vendor || "Tile") + room + "</p><h2>" + esc(item.title || item.vendor || "Tile") + "</h2>" + info
       : '<p class="shop-meta">' + esc(item.vendor || "Tile") + "</p>" +
         '<label>Name<input class="field" data-title="' + esc(item.key) + '" value="' + esc(item.title) + '"></label>' +
         '<label>Where it goes<input class="field" data-room="' + esc(item.key) + '" value="' + esc(item.room) + '" placeholder="Main bath, kitchen…"></label>' +
+        info +
         '<button type="button" class="btn ghost" data-remove="' + esc(item.key) + '">Remove</button>';
     return '<article class="shop-card">' +
-      '<div class="shop-media"><img src="' + esc(item.photo) + '" alt="' + esc(item.title || item.vendor) + '">' +
+      '<div class="shop-media"><img data-main src="' + esc(photos[0]) + '" alt="' + esc(item.title || item.vendor) + '">' +
       '<span class="shop-badge">' + esc(item.vendor || "Tile") + "</span>" + like + "</div>" +
+      thumbs +
       '<div class="shop-body">' + fields + "</div></article>";
   }
 
@@ -94,6 +115,7 @@
       "</header>" +
       '<section class="wrap shop-grid section">' + items.map(function (item) { return card(item, { client: true, board: board }); }).join("") + "</section>" +
       '<section class="wrap section"><a class="btn" href="/appointment">Book a showroom visit</a></section>';
+    wireThumbs(client);
     client.querySelectorAll("[data-like]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var key = btn.getAttribute("data-like");
@@ -129,12 +151,13 @@
       '<header class="wrap page-hero">' +
       '<p class="kicker">For the client</p>' +
       "<h1>Their vision board.</h1>" +
-      '<p class="lede">Open a vendor, like Daltile, and tap Add this photo. Come back here, name the client, then copy the link. They see a rack like the remnants page and can tap I like this.</p>' +
+      '<p class="lede">Paste a product link, or open a vendor and tap Add this photo. The client sees every photo and the details, and can tap I like this.</p>' +
       "</header>" +
       '<section class="wrap board-setup">' +
       '<label>Client name<input class="field" data-name value="' + esc(state.name) + '" placeholder="The Chen kitchen"></label>' +
       '<label>A note for them<textarea class="field" data-note rows="3" placeholder="A few directions for the main bath.">' + esc(state.note) + "</textarea></label>" +
-      '<div class="board-actions"><button type="button" class="btn" data-share>Copy their link</button><a class="btn ghost" href="/vendors">Pick from vendors</a><button type="button" class="btn ghost" data-clear>Start over</button></div>' +
+      '<label>Paste a product link<input class="field" data-url placeholder="https://www.flooranddecor.com/..."></label>' +
+      '<div class="board-actions"><button type="button" class="btn" data-pull>Add that tile</button><button type="button" class="btn" data-share>Copy their link</button><a class="btn ghost" href="/vendors">Pick from vendors</a><button type="button" class="btn ghost" data-clear>Start over</button></div>' +
       '<p class="lede" data-share-msg></p></section>' +
       '<section class="wrap section"><h2>On the board</h2>' +
       (items.length ? '<div class="shop-grid">' + items.map(function (item) { return card(item, { client: false, board: state }); }).join("") + "</div>" : '<p class="lede">Nothing yet. Open Vendors, pick Daltile or another line, and tap Add this photo.</p>') +
@@ -167,6 +190,36 @@
         state.items = state.items.filter(function (it) { return it.key !== btn.getAttribute("data-remove"); });
         writeBoard(state);
         renderBuilder(state);
+      });
+    });
+    wireThumbs(builder);
+    builder.querySelector("[data-pull]").addEventListener("click", function () {
+      var input = builder.querySelector("[data-url]");
+      var url = (input.value || "").trim();
+      var msg = builder.querySelector("[data-share-msg]");
+      if (!/^https:\/\//.test(url)) {
+        msg.textContent = "Paste a full https link.";
+        return;
+      }
+      msg.textContent = "Reading that page…";
+      fetch("/api/product?url=" + encodeURIComponent(url)).then(function (r) { return r.json(); }).then(function (tile) {
+        if (!tile || !tile.photo) throw new Error((tile && tile.error) || "No photos on that page");
+        state.items.push({
+          key: "link-" + Date.now(),
+          vendor: tile.vendor || "Tile",
+          title: tile.title || "Tile",
+          room: "",
+          photo: tile.photo,
+          photos: tile.photos || [tile.photo],
+          facts: tile.facts || [],
+          detail: tile.detail || "",
+          link: tile.link || url
+        });
+        writeBoard(state);
+        renderBuilder(state);
+      }).catch(function (err) {
+        var box = document.querySelector("[data-share-msg]");
+        if (box) box.textContent = (err && err.message) || "Could not read that page.";
       });
     });
     builder.querySelector("[data-share]").addEventListener("click", function () {

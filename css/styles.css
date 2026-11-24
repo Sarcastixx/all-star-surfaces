@@ -1759,3 +1759,6 @@ html.lenis, html.lenis body { height: auto; }
   color: var(--on-ink);
   font-size: 14px;
 }
+
+.vendor-mark img { width: 78%; height: auto; object-fit: contain; }
+.board-facts { margin: 0; padding-left: 18px; }

@@ -1,3 +1,80 @@
+function vendorName(host) {
+  const known = {
+    "flooranddecor.com": "Floor & Decor",
+    "daltile.com": "Daltile",
+    "msisurfaces.com": "MSI",
+    "bedrosians.com": "Bedrosians",
+    "floridatile.com": "Florida Tile",
+    "emser.com": "Emser",
+    "arizonatile.com": "Arizona Tile",
+    "shawfloors.com": "Shaw",
+    "mohawkflooring.com": "Mohawk",
+  };
+  return known[host] || host.replace(/\.(com|net|org)$/, "");
+}
+
+function readProduct(html, pageUrl, host) {
+  let product = null;
+  const blocks = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/gi) || [];
+  for (const block of blocks) {
+    const raw = block.replace(/^<script[^>]*>/i, "").replace(/<\/script>$/i, "");
+    try {
+      const data = JSON.parse(raw);
+      const list = Array.isArray(data) ? data : [data];
+      const found = list.find((entry) => entry && (entry["@type"] === "Product" || (Array.isArray(entry["@type"]) && entry["@type"].includes("Product"))));
+      if (found) product = found;
+    } catch {
+      /* ignore broken blocks */
+    }
+  }
+  const facts = [];
+  const want = ["Size", "Finish", "Material", "Color", "Brand", "Installation Options", "Coverage (sqft/pc)", "Product Thickness", "Shower Surface", "Placement Location", "Look", "Edge"];
+  const spec = /b-pdp_specifications-name">\s*([^<]+?)\s*<\/span>[\s\S]{0,500}?b-pdp_specifications-number">\s*([^<]+?)\s*<\/span>/g;
+  let match;
+  while ((match = spec.exec(html))) {
+    const name = match[1].replace(/\s+/g, " ").trim();
+    const value = match[2].replace(/\s+/g, " ").trim();
+    const line = name + ": " + value;
+    if (want.includes(name) && value && !facts.includes(line)) facts.push(line);
+  }
+  let images = [];
+  if (product && Array.isArray(product.image)) images = product.image;
+  else if (product && typeof product.image === "string") images = [product.image];
+  images = [...new Set(images.map((src) => String(src).replace(/&/g, "&")))].filter((src) => src.startsWith("https://")).slice(0, 8);
+  const brand = product && product.brand && (product.brand.name || product.brand);
+  const add = (label, value) => {
+    if (!value) return;
+    const line = label + ": " + String(value).replace(/\s+/g, " ").trim();
+    if (!facts.some((fact) => fact.startsWith(label + ":"))) facts.unshift(line);
+  };
+  if (product) {
+    add("Color", product.color);
+    add("Material", product.material);
+    add("Size", product.size);
+    add("Brand", typeof brand === "string" ? brand : "");
+    const price = product.offers && product.offers.price;
+    if (price) facts.unshift("Price: $" + price + (html.includes("/ piece") ? " / piece" : ""));
+  }
+  const title = (product && product.name) || metaContent(html, "og:title") || "";
+  const detail = String((product && product.description) || "").replace(/\s+/g, " ").trim().slice(0, 320);
+  return {
+    title: String(title).slice(0, 120),
+    vendor: vendorName(host),
+    photo: images[0] || "",
+    photos: images,
+    facts: facts.slice(0, 12),
+    detail,
+    link: pageUrl,
+  };
+}
+
+function metaContent(html, prop) {
+  const one = new RegExp("<meta[^>]+(?:property|name)=[\"']" + prop + "[\"'][^>]+content=[\"']([^\"']+)[\"']", "i");
+  const two = new RegExp("<meta[^>]+content=[\"']([^\"']+)[\"'][^>]+(?:property|name)=[\"']" + prop + "[\"']", "i");
+  const found = html.match(one) || html.match(two);
+  return found ? found[1] : "";
+}
+
 const FULL_PIN = "1976@llstar!";
 const UPDATE_PIN = "Allstar.update!";
 
@@ -106,6 +183,10 @@ export class CatalogDO {
       title: String((item && item.title) || "").slice(0, 120),
       room: String((item && item.room) || "").slice(0, 80),
       photo: String((item && item.photo) || "").slice(0, 500000),
+      photos: (Array.isArray(item && item.photos) ? item.photos : []).slice(0, 8).map((src) => String(src).slice(0, 400)).filter((src) => src.startsWith("https://") || src.startsWith("/")),
+      facts: (Array.isArray(item && item.facts) ? item.facts : []).slice(0, 12).map((line) => String(line).slice(0, 120)),
+      detail: String((item && item.detail) || "").slice(0, 500),
+      link: String((item && item.link) || "").slice(0, 400),
     })).filter((item) => item.photo);
     if (!items.length) return json({ error: "Add a photo first" }, 400);
     let id = String(body.id || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 24);
@@ -122,6 +203,34 @@ export class CatalogDO {
     return json({ ok: true, id });
   }
 
+  async product(raw) {
+    let page;
+    try {
+      page = new URL(String(raw || "").trim());
+    } catch {
+      return json({ error: "Paste a full product link" }, 400);
+    }
+    if (page.protocol !== "https:") return json({ error: "Use an https link" }, 400);
+    const host = page.hostname.replace(/^www\./, "");
+    if (!host.includes(".") || /^(localhost|127\.|10\.|192\.168\.|169\.254\.)/.test(host)) {
+      return json({ error: "That link is not allowed" }, 400);
+    }
+    let html = "";
+    try {
+      const res = await fetch(page.toString(), {
+        headers: { "user-agent": "Mozilla/5.0", accept: "text/html" },
+        redirect: "follow",
+      });
+      if (!res.ok) return json({ error: "That page did not open" }, 400);
+      html = (await res.text()).slice(0, 1600000);
+    } catch {
+      return json({ error: "That page did not open" }, 400);
+    }
+    const parsed = readProduct(html, page.toString(), host);
+    if (!parsed.title || !parsed.photo) return json({ error: "No tile photos on that page" }, 400);
+    return json(parsed);
+  }
+
   async fetch(request) {
     const url = new URL(request.url);
     const path = url.pathname;
@@ -135,6 +244,9 @@ export class CatalogDO {
         photos: stored.photos || {},
         copy: copy,
       });
+    }
+    if (request.method === "GET" && path === "/api/product") {
+      return this.product(url.searchParams.get("url") || "");
     }
     if (request.method === "GET" && path === "/api/board") {
       const id = String(url.searchParams.get("id") || "").replace(/[^a-zA-Z0-9_-]/g, "");

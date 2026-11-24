@@ -43,6 +43,12 @@
       placeLabel: "Seattle showroom", place: "540 S Front St, Seattle, WA 98108",
       photos: shots("daltile", 3)
     },
+    "https://www.flooranddecor.com": {
+      id: "floordecor", title: "Floor & Decor",
+      brief: "Floor & Decor is a tile retailer. Paste a product link on a client board and the photos, size, and price come with it. We order it through the Lynnwood studio.",
+      placeLabel: "How to get it",
+      place: "Ordered through the Lynnwood studio."
+    },
     "https://www.mohawkflooring.com": {
       id: "mohawk", title: "Mohawk",
       brief: "Mohawk is a major flooring manufacturer with carpet, hardwood, luxury vinyl, tile, and laminate, including waterproof vinyl for kitchens and basements.",
