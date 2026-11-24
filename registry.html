@@ -16,25 +16,19 @@
   <script>(function(){try{var p=localStorage.getItem("as-theme")||"auto";if(p!=="light"&&p!=="dark")p="auto";var d=p==="dark"||(p!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");document.documentElement.setAttribute("data-theme-pref",p);}catch(e){}})();</script>
   <style>
     .board-setup { display: grid; gap: 12px; max-width: 640px; }
-    .board-setup label { display: grid; gap: 6px; font-size: 14px; }
+    .board-setup label, .shop-body label { display: grid; gap: 6px; font-size: 14px; }
     .board-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-    .board-grid { display: grid; gap: 16px; }
-    @media (min-width: 700px) { .board-grid { grid-template-columns: 1fr 1fr; } }
-    @media (min-width: 1000px) { .board-grid { grid-template-columns: 1fr 1fr 1fr; } }
-    .board-card { background: var(--cream); border-radius: 24px; overflow: hidden; }
-    .board-card img { width: 100%; height: 220px; object-fit: cover; }
-    .board-card-body { display: grid; gap: 8px; padding: 16px; }
-    .board-card-body h2 { margin: 0; font-size: 28px; }
-    .board-card-body .lede { margin: 0; }
-    .board-card-body label { display: grid; gap: 4px; font-size: 13px; }
-    .board-shelves { display: grid; gap: 28px; }
-    .board-line { display: grid; gap: 12px; }
-    .board-line h2 { margin: 0; font-size: 32px; }
-    .board-shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
-    .board-shot { position: relative; padding: 0; border: 0; border-radius: 18px; overflow: hidden; background: var(--cream-2); }
-    .board-shot img { width: 100%; height: 140px; object-fit: cover; }
-    .board-shot span { position: absolute; left: 8px; bottom: 8px; background: var(--surface); border-radius: 999px; padding: 4px 10px; font-size: 12px; }
-    .board-shot.is-on span { background: var(--ink); color: var(--on-ink); }
+    .like-bubble {
+      position: absolute; left: 10px; bottom: 10px;
+      border: 1px solid rgb(255 255 255 / 0.55);
+      background: color-mix(in srgb, white 42%, transparent);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      backdrop-filter: blur(16px);
+    }
+    .like-bubble.is-on { background: var(--ink); color: var(--on-ink); }
   </style>
 </head>
 <body>

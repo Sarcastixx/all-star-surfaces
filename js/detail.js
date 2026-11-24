@@ -2,6 +2,34 @@
   var STUDIO = "ALLSTAR studio, 18000 Hwy 99, Lynnwood, WA 98037";
   var STUDIO_HOURS = "Mon–Fri 9 AM–4 PM. After hours by appointment.";
 
+  function readBoard() {
+    try { return JSON.parse(localStorage.getItem("as-board")) || { name: "", note: "", id: "", items: [] }; }
+    catch (e) { return { name: "", note: "", id: "", items: [] }; }
+  }
+
+  function writeBoard(board) {
+    try { localStorage.setItem("as-board", JSON.stringify(board)); }
+    catch (e) { return false; }
+    return true;
+  }
+
+  function boardChip() {
+    var n = ((readBoard().items) || []).length;
+    var chip = document.querySelector("[data-board-chip]");
+    if (!n) {
+      if (chip) chip.remove();
+      return;
+    }
+    if (!chip) {
+      chip = document.createElement("a");
+      chip.className = "board-chip";
+      chip.href = "/registry";
+      chip.setAttribute("data-board-chip", "");
+      document.body.appendChild(chip);
+    }
+    chip.textContent = "Board · " + n;
+  }
+
   function shots(id, n) {
     var list = [];
     for (var i = 1; i <= n; i++) list.push("/images/vendors/shots/" + id + "-" + i + ".jpg");
@@ -308,6 +336,38 @@
       }
       actions.appendChild(link);
     }
+    var addBtn = null;
+    if (item.kind === "Vendor") {
+      addBtn = document.createElement("button");
+      addBtn.type = "button";
+      addBtn.className = "btn ghost";
+      addBtn.textContent = "Add this photo";
+      actions.appendChild(addBtn);
+      addBtn.addEventListener("click", function () {
+        if (!photos[index]) return;
+        var key = (item.copyKey || item.title) + "-" + index;
+        var board = readBoard();
+        var on = (board.items || []).some(function (it) { return it.key === key; });
+        if (on) board.items = board.items.filter(function (it) { return it.key !== key; });
+        else {
+          board.items = board.items || [];
+          board.items.push({ key: key, vendor: item.title, title: item.title, room: "", photo: photos[index] });
+        }
+        if (!writeBoard(board)) {
+          addBtn.textContent = "Photo is too large";
+          return;
+        }
+        boardChip();
+        syncAdd();
+      });
+    }
+    function syncAdd() {
+      if (!addBtn) return;
+      var key = (item.copyKey || item.title) + "-" + index;
+      var on = photos[index] && (readBoard().items || []).some(function (it) { return it.key === key; });
+      addBtn.hidden = !photos[index];
+      addBtn.textContent = on ? "On the board" : "Add this photo";
+    }
     var place = scrim.querySelector(".detail-place");
     if (item.place) {
       var label = document.createElement("span");
@@ -427,6 +487,7 @@
         });
       }
       dots.innerHTML = "";
+      syncAdd();
       var prev = scrim.querySelector(".is-prev");
       var next = scrim.querySelector(".is-next");
       if (prev) prev.hidden = total < 2;
@@ -556,4 +617,5 @@
   });
 
   window.ASDetail = { open: open, close: close };
+  boardChip();
 })();

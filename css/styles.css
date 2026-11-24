@@ -1744,3 +1744,18 @@ html.lenis, html.lenis body { height: auto; }
   font-size: 14px;
   color: var(--ink);
 }
+
+.board-chip {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--on-ink);
+  font-size: 14px;
+}

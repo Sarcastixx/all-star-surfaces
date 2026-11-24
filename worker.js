@@ -47,6 +47,7 @@ export class CatalogDO {
   sql() {
     const sql = this.ctx.storage.sql;
     sql.exec("create table if not exists catalog (id integer primary key, body text)");
+    sql.exec("create table if not exists boards (id text primary key, body text)");
     return sql;
   }
 
@@ -67,6 +68,60 @@ export class CatalogDO {
     );
   }
 
+  readBoard(id) {
+    const rows = this.sql().exec("select body from boards where id = ?", id).toArray();
+    if (!rows.length || !rows[0].body) return null;
+    try {
+      return JSON.parse(rows[0].body);
+    } catch {
+      return null;
+    }
+  }
+
+  saveBoard(board) {
+    this.sql().exec(
+      "insert into boards (id, body) values (?, ?) on conflict(id) do update set body = excluded.body",
+      board.id,
+      JSON.stringify(board),
+    );
+  }
+
+  boardWrite(path, body) {
+    if (path === "/api/board/like") {
+      const id = String(body.id || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 24);
+      const key = String(body.key || "").slice(0, 80);
+      const voter = String(body.voter || "").replace(/[^a-zA-Z0-9]/g, "").slice(0, 32);
+      const board = this.readBoard(id);
+      if (!board || !voter || !key) return json({ error: "Not found" }, 404);
+      if (!board.likes || typeof board.likes !== "object") board.likes = {};
+      const list = Array.isArray(board.likes[key]) ? board.likes[key] : [];
+      const next = body.on === false ? list.filter((v) => v !== voter) : list.concat(list.indexOf(voter) >= 0 ? [] : [voter]);
+      board.likes[key] = next.slice(0, 40);
+      this.saveBoard(board);
+      return json({ ok: true, count: board.likes[key].length });
+    }
+    const items = (Array.isArray(body.items) ? body.items : []).slice(0, 24).map((item, i) => ({
+      key: String((item && item.key) || ("i" + i)).slice(0, 80),
+      vendor: String((item && item.vendor) || "").slice(0, 80),
+      title: String((item && item.title) || "").slice(0, 120),
+      room: String((item && item.room) || "").slice(0, 80),
+      photo: String((item && item.photo) || "").slice(0, 500000),
+    })).filter((item) => item.photo);
+    if (!items.length) return json({ error: "Add a photo first" }, 400);
+    let id = String(body.id || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 24);
+    const existing = id ? this.readBoard(id) : null;
+    if (!id || !existing) id = "b" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    const board = {
+      id,
+      name: String(body.name || "").slice(0, 80),
+      note: String(body.note || "").slice(0, 400),
+      items,
+      likes: (existing && existing.likes) || {},
+    };
+    this.saveBoard(board);
+    return json({ ok: true, id });
+  }
+
   async fetch(request) {
     const url = new URL(request.url);
     const path = url.pathname;
@@ -80,6 +135,16 @@ export class CatalogDO {
         photos: stored.photos || {},
         copy: copy,
       });
+    }
+    if (request.method === "GET" && path === "/api/board") {
+      const id = String(url.searchParams.get("id") || "").replace(/[^a-zA-Z0-9_-]/g, "");
+      const rows = this.sql().exec("select body from boards where id = ?", id).toArray();
+      if (!rows.length || !rows[0].body) return json({ error: "Not found" }, 404);
+      try {
+        return json(JSON.parse(rows[0].body));
+      } catch {
+        return json({ error: "Not found" }, 404);
+      }
     }
     if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
     let body = {};
@@ -130,6 +195,9 @@ export class CatalogDO {
         else await job;
       }
       return json({ ok: true });
+    }
+    if (path === "/api/board" || path === "/api/board/like") {
+      return this.boardWrite(path, body);
     }
     const role = await roleFromToken(body.token);
     if (!role) return json({ error: "Studio login required" }, 401);
